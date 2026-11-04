@@ -253,6 +253,10 @@
                   <label class="field-wide">Un message ? <span class="optional">(facultatif)</span><textarea name="message" rows="3" placeholder="Allergies, occasion, inspiration…"></textarea></label>
                   <label class="hp" aria-hidden="true">Ne pas remplir<input name="_gotcha" tabindex="-1" autocomplete="off"></label>
                 </div>
+                <div class="reglement" role="radiogroup" aria-labelledby="reglement-titre">
+                  <p class="reglement-titre" id="reglement-titre">Comment souhaitez-vous régler ?</p>
+                  <div id="reglement-options"></div>
+                </div>
                 <p class="privacy">Vos coordonnées servent uniquement à traiter votre demande. <a href="mentions-legales.html#donnees">Données personnelles</a></p>
                 <p class="error" data-error="3" role="alert"></p>
                 <div class="step-actions"><button type="button" class="btn-back" data-back>Retour</button><button type="submit" class="btn btn-gold">Envoyer ma demande</button></div>
@@ -262,8 +266,8 @@
                 <svg class="rune-done" aria-hidden="true"><use href="#rune"/></svg>
                 <h3 id="done-title" tabindex="-1"></h3>
                 <p id="done-text"></p>
-                <a class="btn btn-gold" id="payer-acompte" href="#" hidden></a>
-                <p class="privacy" id="acompte-note" hidden>Si le créneau n'est pas disponible, je vous propose une autre date ou je vous rembourse intégralement l'acompte.</p>
+                <a class="btn btn-gold" id="payer-lien" href="#" hidden></a>
+                <p class="privacy" id="payer-note" hidden>Si le créneau n'est pas disponible, je vous propose une autre date ou je vous rembourse intégralement votre paiement.</p>
                 <button type="button" class="btn-back" id="restart">Faire une autre demande</button>
               </div>
             </form>
@@ -275,7 +279,7 @@
               <dt>Prestation</dt><dd id="recap-service">–</dd>
               <dt>Durée</dt><dd id="recap-duree">–</dd>
               <dt>Tarif</dt><dd id="recap-prix">–</dd>
-              <dt id="recap-acompte-titre" hidden>Acompte</dt><dd id="recap-acompte" hidden></dd>
+              <dt id="recap-reglement-titre" hidden>Règlement</dt><dd id="recap-reglement" hidden></dd>
               <dt>Date</dt><dd id="recap-date">–</dd>
             </dl>
           </aside>
@@ -304,11 +308,11 @@
           </details>
           <details class="fold">
             <summary>Faut-il verser un acompte&nbsp;?</summary>
-            <p>Oui, un acompte de 30&nbsp;% est demandé pour les cours d'auto-maquillage et pour la Formule Mariée. Pour un cours, vous le réglez en ligne juste après votre demande. Pour un mariage, je vous envoie un lien de paiement une fois la date confirmée. L'acompte est remboursé en cas d'annulation jusqu'à 48&nbsp;h avant le rendez-vous, ou si le créneau n'est pas disponible.</p>
+            <p>Oui, un acompte de 30&nbsp;% est demandé pour les cours d'auto-maquillage et pour la Formule Mariée. Pour un cours, vous le réglez en ligne juste après votre demande, sauf si vous payez tout le cours en ligne. Pour un mariage, je vous envoie un lien de paiement une fois la date confirmée. L'acompte est remboursé en cas d'annulation jusqu'à 48&nbsp;h avant le rendez-vous, ou si le créneau n'est pas disponible.</p>
           </details>
           <details class="fold">
-            <summary>Comment puis-je régler sur place&nbsp;?</summary>
-            <p>Par carte bancaire ou en espèces.</p>
+            <summary>Comment puis-je régler&nbsp;?</summary>
+            <p>Vous choisissez au moment de votre demande : en ligne par carte bancaire, ou sur place par carte bancaire ou en espèces. Pour un cours d'auto-maquillage réglé sur place, l'acompte reste à payer en ligne.</p>
           </details>
           <details class="fold">
             <summary>Vous déplacez-vous pour les mariages&nbsp;?</summary>

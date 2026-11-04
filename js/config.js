@@ -19,7 +19,8 @@ window.FREYAGE = {
   // Liens de paiement Stripe.
   paiement: {
     carteCadeau: "https://buy.stripe.com/3cIcN7c533LGfvsarRgjC00",
-    acompte: "https://buy.stripe.com/7sY6oJgljdmggzw57xgjC01"
+    acompte: "https://buy.stripe.com/7sY6oJgljdmggzw57xgjC01",
+    prestation: "https://buy.stripe.com/eVqfZj3yx3LG3MKfMbgjC02"
   },
 
   // Plages d'ouverture : 0 = dimanche, 1 = lundi… 6 = samedi. [] = fermé.
@@ -52,7 +53,7 @@ window.FREYAGE = {
 
   /*
    * duree en minutes ; prix affiché tel quel ; description facultative.
-   * acompte : montant en euros à régler en ligne après la demande de rendez-vous.
+   * acompte : montant en euros à régler en ligne si la cliente paie le reste sur place.
    * lien : la prestation n'est pas réservable en ligne et renvoie vers cette section.
    * note : texte affiché à la place de la liste quand une catégorie n'a pas encore de prestations.
    */
