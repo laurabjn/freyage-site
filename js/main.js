@@ -30,10 +30,9 @@
 
   // ---- Static content from config
   if (C.demo) {
-    $("#demo-banner").innerHTML = '<p class="demo">Aperçu : les horaires, le téléphone et l\'e-mail affichés sont des exemples.</p>';
+    $("#demo-banner").innerHTML = '<p class="demo">Aperçu : les horaires affichés sont des exemples.</p>';
   }
   $("#year").textContent = new Date().getFullYear();
-  $("#devis-link").href = "mailto:" + C.contact.email + "?subject=" + encodeURIComponent("Demande de devis : formule mariée");
 
   var services = [];
   $("#carte").innerHTML = C.prestations.map(function (cat) {
@@ -46,7 +45,7 @@
         attrs = 'href="#rdv" data-book="' + i + '" aria-label="Réserver : ' + esc(it.nom) + '"';
       }
       return "<li><a " + attrs + '><span class="carte-nom">' + esc(it.nom) + (it.description ? '<small>' + esc(it.description) + "</small>" : "") + '</span><span class="carte-duree">' + fmtDuree(it.duree) + '</span><span class="carte-prix">' + esc(it.prix) + "</span></a></li>";
-    }).join("") + "</ul>" : '<p class="carte-note">' + esc(cat.note || "") + "</p>";
+    }).join("") + "</ul>" : '<p class="carte-note">' + esc(cat.note || "") + (cat.noteLien ? ' <a href="' + esc(cat.noteLien) + '">Me contacter</a>' : "") + "</p>";
     return '<article class="carte-cat"><div class="carte-intro"><h3>' + esc(cat.categorie) + "</h3><p>" + esc(cat.description) + "</p></div>" + liste + "</article>";
   }).join("");
 
@@ -68,17 +67,11 @@
     }).join("");
   }
 
-  var ct = C.contact;
-  $("#contact").innerHTML =
-    "<li><span>Adresse</span>" + esc(ct.adresse) + "</li>" +
-    '<li><span>Téléphone</span><a href="tel:' + esc(ct.telephone.replace(/\s/g, "")) + '">' + esc(ct.telephone) + "</a></li>" +
-    '<li><span>E-mail</span><a href="mailto:' + esc(ct.email) + '">' + esc(ct.email) + "</a></li>" +
-    (ct.instagram ? '<li><span>Instagram</span><a href="' + esc(ct.instagram) + '" rel="noopener">Voir le compte</a></li>' : "");
-
   var JOURS = [[1, "Lundi"], [2, "Mardi"], [3, "Mercredi"], [4, "Jeudi"], [5, "Vendredi"], [6, "Samedi"], [0, "Dimanche"]];
   $("#horaires").innerHTML = JOURS.map(function (j) {
     var r = C.horaires[j[0]] || [];
     var txt = r.length ? r.map(function (p) { return fmtHeure(p[0]) + " – " + fmtHeure(p[1]); }).join("<br>") : "Fermé";
+    if (j[0] === 6 && r.length) txt = "Un samedi sur deux<br>" + txt;
     return "<div><dt>" + j[1] + "</dt><dd" + (r.length ? "" : ' class="closed"') + ">" + txt + "</dd></div>";
   }).join("");
 
@@ -90,14 +83,22 @@
   var lastDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + C.rdv.horizonJours);
   var view = new Date(now.getFullYear(), now.getMonth(), 1);
 
+  // Every other Saturday, counted from the reference date (UTC so clock changes don't shift the count).
+  function samediOuvert(d) {
+    var p = C.rdv.samediTravaille.split("-");
+    var semaines = Math.round((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(+p[0], +p[1] - 1, +p[2])) / (7 * 86400000));
+    return semaines % 2 === 0;
+  }
+
   // Slots that fit the selected service within opening hours and the notice period.
   function slotsFor(d, duree) {
     var ranges = C.horaires[d.getDay()] || [];
     if (C.rdv.fermetures.indexOf(dateKey(d)) !== -1) return [];
     if (d > lastDay) return [];
+    if (d.getDay() === 6 && !samediOuvert(d)) return [];
     var out = [];
     ranges.forEach(function (r) {
-      for (var m = toMin(r[0]); m + duree <= toMin(r[1]); m += C.rdv.pasMinutes) {
+      for (var m = toMin(r[0]); m + duree <= toMin(r[1]); m += duree + C.rdv.tamponMinutes) {
         var t = new Date(d.getFullYear(), d.getMonth(), d.getDate(), Math.floor(m / 60), m % 60);
         if (t >= earliest) out.push(toHHMM(m));
       }

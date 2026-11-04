@@ -209,6 +209,10 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 .contact { list-style: none; padding: 0; margin: 24px 0 0; }
 .contact li { padding: 10px 0; border-top: 1px solid var(--line); }
 .contact span { display: block; font-size: .875rem; color: var(--muted); }
+.reseaux { display: flex; gap: 12px; margin-top: 16px; }
+.reseaux a { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: var(--forest); color: var(--gold); transition: background .2s, color .2s; }
+.reseaux a:hover { background: var(--gold); color: var(--forest); }
+.reseaux svg { width: 22px; height: 22px; }
 .horaires { margin: 0; }
 .horaires div { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid var(--line); }
 .horaires dt { font-weight: 500; }
@@ -217,6 +221,23 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 
 .site-footer { background: var(--sage-deep); color: #fff; padding: 22px 0; font-size: .95rem; }
 .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+/* Contact page */
+.contact-page { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 72px); align-items: start; }
+.contact-page h1 { font-size: clamp(2rem, 4vw, 2.75rem); }
+.contact-side { background: var(--sand); padding: 28px; }
+.contact-side h2 { font-size: 1.3rem; }
+.contact-side .contact { margin-top: 14px; }
+.site-header nav a[aria-current] { border-bottom-color: var(--gold-text); }
+.contact-form .fields input, .contact-form .fields textarea, .contact-form .fields select { display: block; width: 100%; margin-top: 6px; padding: 11px 12px; background: #fff; border: 1px solid #a9a18f; border-radius: 2px; color: var(--ink); font: 400 1rem var(--sans); }
+.contact-form .optional { color: var(--muted); }
+.contact-form .privacy { color: var(--muted); }
+.contact-form .error { color: #a12c12; }
+.contact-form .btn { margin-top: 20px; }
+.contact-done { padding: 28px 0; }
+.contact-done h2 { font-size: 1.5rem; margin: 14px 0 10px; }
+.contact-done h2:focus { outline: none; }
+.contact-done .rune-done { color: var(--gold-text); }
 
 /* Legal page */
 .legal { max-width: 760px; margin: 0 auto; padding: 48px clamp(16px, 4vw, 40px) 80px; }
@@ -230,7 +251,7 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
   .hero .eyebrow { justify-content: center; }
   .hero-actions { justify-content: center; }
   .lead { margin-inline: auto; }
-  .carte-cat, .apropos, .infos, .booking, .calendar-layout, .mariee, .cours { grid-template-columns: minmax(0, 1fr); }
+  .carte-cat, .apropos, .infos, .booking, .calendar-layout, .mariee, .cours, .contact-page { grid-template-columns: minmax(0, 1fr); }
   .mariee-photo { position: static; max-height: 420px; object-position: 50% 15%; }
   .cours-side img { max-height: 380px; object-fit: cover; object-position: top; }
   .cours-side { order: 2; }

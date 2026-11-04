@@ -1,16 +1,19 @@
 /*
  * FREYAGE : tout ce que vous avez à modifier se trouve dans ce fichier.
- * Les horaires, le téléphone et l'e-mail sont encore des EXEMPLES. Une fois vos
- * vraies informations saisies, passez `demo` à false pour retirer le bandeau d'aperçu.
+ * `demo: true` affiche un bandeau « Aperçu » en haut de l'accueil.
  */
 window.FREYAGE = {
-  demo: true,
+  demo: false,
 
   contact: {
-    telephone: "06 00 00 00 00",
-    email: "contact@exemple.fr",
-    adresse: "Bordeaux",
-    instagram: "" // ex. "https://www.instagram.com/votre_compte" (vide = masqué)
+    telephone: "06 99 11 78 38",
+    email: "contact@freyage.fr",
+    adresse: "6 rue du Plantey, 33700 Mérignac",
+    reseaux: [
+      { nom: "Instagram", compte: "@freyage_beauty", url: "https://www.instagram.com/freyage_beauty" },
+      { nom: "TikTok", compte: "@freyage1", url: "https://www.tiktok.com/@freyage1" },
+      { nom: "Facebook", compte: "freyage", url: "https://www.facebook.com/freyage" }
+    ]
   },
 
   // Plages d'ouverture : 0 = dimanche, 1 = lundi… 6 = samedi. [] = fermé.
@@ -20,17 +23,18 @@ window.FREYAGE = {
     3: [["09:00", "12:30"], ["14:00", "18:30"]],
     4: [["09:00", "12:30"], ["14:00", "18:30"]],
     5: [["09:00", "12:30"], ["14:00", "18:30"]],
-    6: [["09:00", "16:00"]],
+    6: [["14:00", "18:30"]],
     0: []
   },
 
   rdv: {
-    // Adresse du service qui reçoit les demandes (ex. https://formspree.io/f/xxxxxxx).
+    // Adresse du service qui reçoit les demandes de rendez-vous et de contact (ex. https://formspree.io/f/xxxxxxx).
     // Vide : la demande s'ouvre dans la messagerie du visiteur, vers contact.email.
-    endpoint: "",
+    endpoint: "https://formspree.io/f/myeeogyb",
     delaiMinHeures: 24,  // délai minimum avant un rendez-vous
     horizonJours: 60,    // réservation possible jusqu'à X jours à l'avance
-    pasMinutes: 30,      // intervalle entre deux créneaux proposés
+    tamponMinutes: 35,   // temps libre entre la fin d'un créneau proposé et le début du suivant
+    samediTravaille: "2026-11-07", // un samedi travaillé : les samedis ouverts sont ensuite un sur deux à partir de cette date
     fermetures: []       // jours de fermeture, ex. ["2026-12-25", "2027-01-01"]
   },
 
@@ -42,7 +46,7 @@ window.FREYAGE = {
   prestations: [
     {
       categorie: "Maquillage",
-      description: "Du maquillage de jour au shooting photo, adapté à votre visage et à l'occasion.",
+      description: "Une prestation personnalisée selon vos envies, votre style et l'occasion : événement, soirée, cérémonie, séance photo ou autre projet.",
       items: [
         { nom: "Maquillage jour", duree: 45, prix: "55 €" },
         { nom: "Maquillage soir", duree: 60, prix: "70 €" },
@@ -56,8 +60,14 @@ window.FREYAGE = {
       categorie: "Cours & ateliers",
       description: "Apprenez à révéler votre beauté, simplement.",
       items: [
-        { nom: "Cours d'auto-maquillage, formule 1", duree: 90, prix: "85 €" },
-        { nom: "Cours d'auto-maquillage, formule 2", duree: 150, prix: "105 €" }
+        {
+          nom: "Cours d'auto-maquillage, formule 1", duree: 90, prix: "85 €",
+          description: "Apprenez les gestes adaptés à votre visage pour reproduire facilement votre maquillage au quotidien."
+        },
+        {
+          nom: "Cours d'auto-maquillage, formule 2", duree: 150, prix: "105 €",
+          description: "Une formule plus complète pour approfondir votre routine, découvrir de nouvelles techniques et pratiquer à votre rythme."
+        }
       ]
     },
     {
@@ -78,7 +88,7 @@ window.FREYAGE = {
       categorie: "Ongles",
       description: "Des mains soignées, jusqu'au bout des ongles.",
       items: [],
-      note: "Prestations et tarifs sur demande : contactez-moi."
+      note: "Bientôt disponible."
     }
   ],
 
