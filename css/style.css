@@ -42,6 +42,11 @@ legend:focus, h3:focus { outline: none; }
 .site-header nav { display: flex; gap: 24px; margin-left: auto; }
 .site-header nav a { text-decoration: none; font-weight: 500; padding: 6px 0; border-bottom: 1px solid transparent; }
 .site-header nav a:hover { border-bottom-color: var(--gold-text); }
+.site-header nav a { white-space: nowrap; }
+@media (max-width: 1000px) {
+  .site-header { flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; }
+  .site-header nav { order: 3; width: 100%; margin: 0; justify-content: flex-start; flex-wrap: wrap; gap: 0 24px; }
+}
 
 /* Buttons */
 .btn { display: inline-block; border: 0; border-radius: 2px; padding: 13px 26px; font: 500 1rem var(--sans); text-decoration: none; cursor: pointer; background: var(--forest); color: var(--ivory); transition: background .2s, transform .2s; }
@@ -280,6 +285,19 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 /* Keeps the footer link clear of the button where they would overlap. */
 @media (max-width: 1280px) { .footer-inner { padding-right: 76px; } }
 
+/* Access page */
+.adresse { font: 400 1.4rem/1.4 var(--serif); font-style: normal; }
+.acces-titre { font-size: 1.3rem; margin: 32px 0 14px; }
+.itineraires { display: flex; flex-wrap: wrap; gap: 10px; }
+.acces-infos { margin: 0; }
+.acces-infos div { padding: 12px 0; border-top: 1px solid var(--line); }
+.acces-infos div:last-child { border-bottom: 1px solid var(--line); }
+.acces-infos dt { font-weight: 500; }
+.acces-infos dd { margin: 0; }
+.acces-horaires { margin: 18px 0 0; font-weight: 500; }
+.acces-lien { margin: 20px 0 0; }
+.footer-liens { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+
 /* Legal page */
 .legal { max-width: 760px; margin: 0 auto; padding: 48px clamp(16px, 4vw, 40px) 80px; }
 .legal h1 { font-size: 2rem; margin-bottom: 24px; }
@@ -300,7 +318,7 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 }
 @media (max-width: 640px) {
   .site-header { position: static; flex-wrap: wrap; gap: 6px 12px; justify-content: space-between; }
-  .site-header nav { order: 3; width: 100%; margin: 0; flex-wrap: wrap; justify-content: space-between; gap: 0 8px; }
+  .site-header nav { gap: 0 18px; }
   .brand img { width: 36px; }
   .btn-small { padding: 8px 12px; font-size: .9rem; }
   html { scroll-padding-top: 0; }
