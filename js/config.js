@@ -12,7 +12,7 @@ window.FREYAGE = {
     reseaux: [
       { nom: "Instagram", compte: "@freyage_beauty", url: "https://www.instagram.com/freyage_beauty" },
       { nom: "TikTok", compte: "@freyage1", url: "https://www.tiktok.com/@freyage1" },
-      { nom: "Facebook", compte: "freyage", url: "https://www.facebook.com/freyage" }
+      { nom: "Facebook", compte: "FreyAge", url: "https://www.facebook.com/profile.php?id=61594013965412" }
     ]
   },
 
