@@ -24,6 +24,9 @@
   function dateKey(d) {
     return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
   }
+  function fmtEuros(n) {
+    return n.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+  }
   function fmtDate(d) {
     return d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
   }
@@ -41,7 +44,7 @@
       if (it.lien) {
         attrs = 'href="' + esc(it.lien) + '"';
       } else {
-        var i = services.push({ nom: it.nom, duree: it.duree, prix: it.prix, categorie: cat.categorie }) - 1;
+        var i = services.push({ nom: it.nom, duree: it.duree, prix: it.prix, acompte: it.acompte, categorie: cat.categorie }) - 1;
         attrs = 'href="#rdv" data-book="' + i + '" aria-label="Réserver : ' + esc(it.nom) + '"';
       }
       return "<li><a " + attrs + '><span class="carte-nom">' + esc(it.nom) + (it.description ? '<small>' + esc(it.description) + "</small>" : "") + '</span><span class="carte-duree">' + fmtDuree(it.duree) + '</span><span class="carte-prix">' + esc(it.prix) + "</span></a></li>";
@@ -189,6 +192,9 @@
     $("#recap-service").textContent = s ? s.nom : "–";
     $("#recap-duree").textContent = s ? fmtDuree(s.duree) : "–";
     $("#recap-prix").textContent = s ? s.prix : "–";
+    var acompte = !!(s && s.acompte);
+    $("#recap-acompte-titre").hidden = $("#recap-acompte").hidden = !acompte;
+    $("#recap-acompte").textContent = acompte ? fmtEuros(s.acompte) + " à régler après votre demande" : "";
     $("#recap-date").textContent = state.date && state.slot ? fmtDate(state.date) + " à " + fmtHeure(state.slot) : "–";
   }
 
@@ -271,6 +277,7 @@
       prestation: s.nom,
       duree: fmtDuree(s.duree),
       tarif: s.prix,
+      acompte: s.acompte ? fmtEuros(s.acompte) : "",
       date: fmtDate(state.date),
       heure: fmtHeure(state.slot),
       nom: f.nom.value.trim(),
@@ -313,7 +320,17 @@
       body: JSON.stringify(req)
     }).then(function (r) {
       if (!r.ok) throw new Error("HTTP " + r.status);
-      showDone("Votre demande est bien envoyée", "Demande pour le " + quand + ". Ce créneau sera réservé une fois confirmé : je vous réponds par téléphone ou par e-mail.");
+      var s = services[state.service];
+      if (s.acompte) {
+        var lien = $("#payer-acompte");
+        lien.href = C.paiement.acompte + "?prefilled_amount=" + Math.round(s.acompte * 100) + "&prefilled_email=" + encodeURIComponent(req.email);
+        lien.textContent = "Payer l'acompte de " + fmtEuros(s.acompte);
+        lien.hidden = false;
+        $("#acompte-note").hidden = false;
+        showDone("Dernière étape : l'acompte", "Votre demande pour le " + quand + " est bien envoyée. Réglez maintenant votre acompte en ligne, puis je vous confirme le rendez-vous par téléphone ou par e-mail.");
+      } else {
+        showDone("Votre demande est bien envoyée", "Demande pour le " + quand + ". Ce créneau sera réservé une fois confirmé : je vous réponds par téléphone ou par e-mail.");
+      }
     }).catch(function () {
       $('[data-error="3"]').textContent = "L'envoi a échoué. Réessayez, ou contactez-moi au " + C.contact.telephone + ".";
     }).finally(function () {
@@ -324,6 +341,8 @@
 
   $("#restart").addEventListener("click", function () {
     form.reset();
+    $("#payer-acompte").hidden = true;
+    $("#acompte-note").hidden = true;
     state.service = state.date = state.slot = null;
     renderRecap();
     goTo(1);

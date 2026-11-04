@@ -16,6 +16,12 @@ window.FREYAGE = {
     ]
   },
 
+  // Liens de paiement Stripe.
+  paiement: {
+    carteCadeau: "https://buy.stripe.com/3cIcN7c533LGfvsarRgjC00",
+    acompte: "https://buy.stripe.com/7sY6oJgljdmggzw57xgjC01"
+  },
+
   // Plages d'ouverture : 0 = dimanche, 1 = lundi… 6 = samedi. [] = fermé.
   horaires: {
     1: [],
@@ -46,6 +52,7 @@ window.FREYAGE = {
 
   /*
    * duree en minutes ; prix affiché tel quel ; description facultative.
+   * acompte : montant en euros à régler en ligne après la demande de rendez-vous.
    * lien : la prestation n'est pas réservable en ligne et renvoie vers cette section.
    * note : texte affiché à la place de la liste quand une catégorie n'a pas encore de prestations.
    */
@@ -67,11 +74,11 @@ window.FREYAGE = {
       description: "Apprenez à révéler votre beauté, simplement.",
       items: [
         {
-          nom: "Cours d'auto-maquillage, formule 1", duree: 90, prix: "85 €",
+          nom: "Cours d'auto-maquillage, formule 1", duree: 90, prix: "85 €", acompte: 25.5,
           description: "Apprenez les gestes adaptés à votre visage pour reproduire facilement votre maquillage au quotidien."
         },
         {
-          nom: "Cours d'auto-maquillage, formule 2", duree: 150, prix: "105 €",
+          nom: "Cours d'auto-maquillage, formule 2", duree: 150, prix: "105 €", acompte: 31.5,
           description: "Une formule plus complète pour approfondir votre routine, découvrir de nouvelles techniques et pratiquer à votre rythme."
         }
       ]

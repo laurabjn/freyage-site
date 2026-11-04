@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carte cadeau | FreyAge, Mérignac près de Bordeaux</title>
+  <meta name="description" content="Offrez une carte cadeau FreyAge au montant de votre choix, valable 6 mois, à Mérignac près de Bordeaux.">
+  <meta name="theme-color" content="#566A4D">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="rune" viewBox="0 0 420 800">
+      <path d="M20 16V784M20 264 340 32M20 404 396 164" fill="none" stroke="currentColor" stroke-width="48" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="FreyAge, accueil">
+      <img src="assets/logo-mark.png" alt="" width="64" height="62">
+      <span>FreyAge</span>
+    </a>
+    <nav aria-label="Navigation principale">
+      <a href="index.html#prestations">Prestations</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="index.html#mariee">Mariée</a>
+      <a href="index.html#cours">Cours</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a class="btn btn-small" href="index.html#rdv">Prendre rendez-vous</a>
+  </header>
+
+  <main id="contenu" class="section">
+    <div class="wrap contact-page">
+      <div>
+        <header class="section-head">
+          <p class="eyebrow"><svg class="rune-icon"><use href="#rune"/></svg>À offrir</p>
+          <h1 class="page-title">Carte cadeau</h1>
+          <p class="section-note">Offrez un moment de beauté, pour un anniversaire, Noël ou un mariage. Remplissez ce formulaire, réglez en ligne, et je vous envoie votre code par e-mail.</p>
+        </header>
+
+        <form id="cadeau-form" class="contact-form" novalidate>
+          <div class="fields">
+            <label class="field-wide">Montant de la carte (€)<input name="montant" type="number" min="1" inputmode="numeric" required></label>
+            <label class="field-wide">Pour qui ? <span class="optional">(prénom, facultatif)</span><input name="beneficiaire" autocomplete="off"></label>
+            <label>Votre nom et prénom<input name="nom" autocomplete="name" required></label>
+            <label>Votre téléphone<input name="telephone" type="tel" autocomplete="tel" required></label>
+            <label class="field-wide">Votre e-mail<input name="email" type="email" autocomplete="email" required></label>
+            <label class="field-wide">Un message ? <span class="optional">(facultatif)</span><textarea name="message" rows="4"></textarea></label>
+            <label class="hp" aria-hidden="true">Ne pas remplir<input name="_gotcha" tabindex="-1" autocomplete="off"></label>
+          </div>
+          <p class="privacy">Vos coordonnées servent uniquement à traiter votre demande. <a href="mentions-legales.html#donnees">Données personnelles</a></p>
+          <p class="error" id="cadeau-error" role="alert"></p>
+          <button type="submit" class="btn">Demander ma carte cadeau</button>
+        </form>
+
+        <div class="contact-done" id="cadeau-done" hidden>
+          <svg class="rune-done" aria-hidden="true"><use href="#rune"/></svg>
+          <h2 id="cadeau-done-title" tabindex="-1">Dernière étape : le paiement</h2>
+          <p>Votre demande est bien envoyée. Réglez votre carte cadeau en ligne : dès réception du paiement, je vous envoie votre code par e-mail.</p>
+          <a class="btn" id="cadeau-payer" href="#">Payer ma carte cadeau</a>
+        </div>
+      </div>
+
+      <aside class="contact-side" aria-label="Conditions de la carte cadeau">
+        <h2>Bon à savoir</h2>
+        <ul class="formule-list cadeau-list">
+          <li>Montant personnalisable</li>
+          <li>Règlement en ligne par carte bancaire</li>
+          <li>Code envoyé par e-mail après le paiement</li>
+          <li>Valable 6 mois à compter de l'achat</li>
+        </ul>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <span>© FreyAge</span>
+      <a href="mentions-legales.html">Mentions légales</a>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/cadeau.js"></script>
+  <script src="js/haut.js"></script>
+</body>
+</html>

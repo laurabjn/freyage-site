@@ -220,6 +220,8 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 .step-done { text-align: center; padding: 28px 8px; }
 .rune-done { width: 26px; height: 50px; color: var(--gold); }
 .step-done h3 { font-size: 1.5rem; margin: 14px 0 10px; }
+.step-done .btn { margin-top: 8px; }
+.step-done .privacy { margin-bottom: 12px; }
 
 .recap { position: sticky; top: 90px; border: 1px solid rgba(218, 176, 106, .35); padding: 24px; }
 .recap h3 { font-size: 1.15rem; margin-bottom: 14px; color: var(--gold); }
@@ -264,6 +266,20 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 .contact-done h2:focus { outline: none; }
 .contact-done .rune-done { color: var(--gold-text); }
 
+/* Questions and gift card */
+.questions, .cadeau { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 16px clamp(28px, 5vw, 64px); align-items: start; }
+.questions .section-head, .cadeau .section-head { margin: 0; }
+.questions .fold p { margin: 0 0 18px; }
+.cadeau-list { grid-template-columns: 1fr; margin-bottom: 24px; }
+.contact-side .cadeau-list { margin: 14px 0 0; }
+
+/* Back to top */
+.haut-page { position: fixed; right: clamp(12px, 3vw, 28px); bottom: clamp(12px, 3vw, 28px); z-index: 15; display: grid; place-items: center; width: 48px; height: 48px; padding: 0; background: var(--forest); border: 1px solid var(--gold); border-radius: 50%; color: var(--gold); cursor: pointer; box-shadow: 0 2px 10px rgba(0, 0, 0, .25); transition: background .2s, color .2s; }
+.haut-page:hover { background: var(--gold); color: var(--forest); }
+.haut-page svg { width: 22px; height: 22px; }
+/* Keeps the footer link clear of the button where they would overlap. */
+@media (max-width: 1280px) { .footer-inner { padding-right: 76px; } }
+
 /* Legal page */
 .legal { max-width: 760px; margin: 0 auto; padding: 48px clamp(16px, 4vw, 40px) 80px; }
 .legal h1 { font-size: 2rem; margin-bottom: 24px; }
@@ -276,7 +292,7 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
   .hero .eyebrow { justify-content: center; }
   .hero-actions { justify-content: center; }
   .lead { margin-inline: auto; }
-  .carte-cat, .apropos, .infos, .booking, .calendar-layout, .mariee, .cours, .contact-page { grid-template-columns: minmax(0, 1fr); }
+  .carte-cat, .apropos, .infos, .booking, .calendar-layout, .mariee, .cours, .contact-page, .questions, .cadeau { grid-template-columns: minmax(0, 1fr); }
   .mariee-photo { position: static; max-height: 420px; object-position: 50% 15%; }
   .cours-side img { max-height: 380px; object-fit: cover; object-position: top; }
   .cours-side { order: 2; }
