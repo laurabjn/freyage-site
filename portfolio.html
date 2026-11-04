@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio | FreyAge, maquillage à Mérignac, près de Bordeaux</title>
+  <meta name="description" content="Découvrez les réalisations de FreyAge : maquillages de mariée, de soirée, naturels et artistiques, à Mérignac près de Bordeaux.">
+  <meta name="theme-color" content="#566A4D">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="rune" viewBox="0 0 420 800">
+      <path d="M20 16V784M20 264 340 32M20 404 396 164" fill="none" stroke="currentColor" stroke-width="48" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="FreyAge, accueil">
+      <img src="assets/logo-mark.png" alt="" width="64" height="62">
+      <span>FreyAge</span>
+    </a>
+    <nav aria-label="Navigation principale">
+      <a href="index.html#prestations">Prestations</a>
+      <a href="portfolio.html" aria-current="page">Portfolio</a>
+      <a href="index.html#mariee">Mariée</a>
+      <a href="index.html#cours">Cours</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a class="btn btn-small" href="index.html#rdv">Prendre rendez-vous</a>
+  </header>
+
+  <main id="contenu" class="section">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="eyebrow"><svg class="rune-icon"><use href="#rune"/></svg>En images</p>
+        <h1 class="page-title">Portfolio</h1>
+      </header>
+      <div id="filtres" class="filtres" role="group" aria-label="Filtrer les photos par style"></div>
+      <div id="galerie" class="galerie"></div>
+      <nav id="pagination" class="pagination" aria-label="Pages du portfolio"></nav>
+      <noscript><p>Activez JavaScript pour afficher les photos.</p></noscript>
+      <p class="portfolio-cta"><a class="btn" href="index.html#rdv">Prendre rendez-vous</a></p>
+    </div>
+
+    <dialog id="visionneuse" class="visionneuse" aria-label="Photo agrandie">
+      <button type="button" id="visionneuse-fermer" class="v-btn v-fermer" aria-label="Fermer">×</button>
+      <button type="button" id="visionneuse-prec" class="v-btn v-prec" aria-label="Photo précédente">‹</button>
+      <figure>
+        <img id="visionneuse-img" src="data:," alt="">
+        <figcaption id="visionneuse-pos"></figcaption>
+      </figure>
+      <button type="button" id="visionneuse-suiv" class="v-btn v-suiv" aria-label="Photo suivante">›</button>
+    </dialog>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <span>© FreyAge</span>
+      <a href="mentions-legales.html">Mentions légales</a>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/portfolio.js"></script>
+</body>
+</html>

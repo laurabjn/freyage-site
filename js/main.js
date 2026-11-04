@@ -60,12 +60,6 @@
     }).join("") + "</div>";
   }).join("");
 
-  if (C.realisations && C.realisations.length) {
-    $("#realisations").hidden = false;
-    $("#galerie").innerHTML = C.realisations.map(function (p) {
-      return '<img src="' + esc(p.src) + '" alt="' + esc(p.alt || "") + '" loading="lazy">';
-    }).join("");
-  }
 
   var JOURS = [[1, "Lundi"], [2, "Mardi"], [3, "Mercredi"], [4, "Jeudi"], [5, "Vendredi"], [6, "Samedi"], [0, "Dimanche"]];
   $("#horaires").innerHTML = JOURS.map(function (j) {

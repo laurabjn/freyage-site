@@ -98,7 +98,27 @@ window.FREYAGE = {
     }
   ],
 
-  // Photos de VOS réalisations, ex. { src: "assets/photos/mariee.jpg", alt: "Maquillage de mariée" }.
-  // Tant que la liste est vide, la section reste masquée.
-  realisations: []
+  // Portfolio : fichiers dans assets/portfolio (nom.jpg et nom-mini.jpg).
+  realisations: [
+    { nom: "mariee-1", categorie: "Mariée", alt: "Maquillage de mariée lumineux avec trait d'eye-liner, diadème et collier en cristal" },
+    { nom: "soiree-1", categorie: "Soirée", alt: "Smoky eyes marron et lèvres nude, de trois quarts" },
+    { nom: "naturel-1", categorie: "Naturel", alt: "Maquillage cuivré aux lèvres terracotta, de trois quarts" },
+    { nom: "avant-apres-1", categorie: "Avant / Après", largeur: 900, alt: "Avant et après : visage sans maquillage, puis maquillage de mariée doré sous plusieurs angles" },
+    { nom: "artistique-1", categorie: "Artistique", alt: "Maquillage féerique rose et blanc, oreilles d'elfe et couronne de fleurs" },
+    { nom: "soiree-4", categorie: "Soirée", alt: "Regard doré, trait d'eye-liner et teint sculpté, de profil" },
+    { nom: "mariee-3", categorie: "Mariée", alt: "Maquillage bohème aux tons cuivrés avec couronne de fleurs séchées" },
+    { nom: "naturel-3", categorie: "Naturel", alt: "Maquillage doux aux tons dorés et lèvres rosées, de face" },
+    { nom: "soiree-5", categorie: "Soirée", alt: "Eye-liner graphique, fard orangé et lèvres rouges, de face" },
+    { nom: "avant-apres-3", categorie: "Avant / Après", largeur: 1200, alt: "Avant et après : visage sans maquillage, puis maquillage cuivré aux lèvres terracotta" },
+    { nom: "mariee-2", categorie: "Mariée", alt: "Maquillage de mariée au teint lumineux et lèvres nude, avec diadème" },
+    { nom: "soiree-3", categorie: "Soirée", alt: "Paupières dorées et trait d'eye-liner, yeux fermés" },
+    { nom: "naturel-5", categorie: "Naturel", alt: "Paupières dorées et vertes, longs cils et lèvres nude, yeux fermés" },
+    { nom: "artistique-2", categorie: "Artistique", alt: "Paupières roses et blanches irisées, yeux fermés, maquillage féerique" },
+    { nom: "soiree-2", categorie: "Soirée", alt: "Smoky eyes intense et lèvres pêche, de trois quarts" },
+    { nom: "avant-apres-2", categorie: "Avant / Après", largeur: 900, alt: "Avant et après : visage sans maquillage, puis maquillage doré aux lèvres nude" },
+    { nom: "naturel-2", categorie: "Naturel", alt: "Maquillage cuivré aux lèvres terracotta, de face" },
+    { nom: "mariee-4", categorie: "Mariée", alt: "Maquillage bohème aux tons cuivrés, couronne de fleurs et main près du visage" },
+    { nom: "soiree-6", categorie: "Soirée", alt: "Eye-liner graphique et lèvres rouges, de trois quarts" },
+    { nom: "naturel-4", categorie: "Naturel", alt: "Regard doré souligné de longs cils et lèvres nude, de face" }
+  ]
 };
