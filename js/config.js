@@ -33,7 +33,13 @@ window.FREYAGE = {
     endpoint: "https://formspree.io/f/myeeogyb",
     delaiMinHeures: 24,  // délai minimum avant un rendez-vous
     horizonJours: 60,    // réservation possible jusqu'à X jours à l'avance
-    tamponMinutes: 35,   // temps libre entre la fin d'un créneau proposé et le début du suivant
+    // Agenda Google lu par le site : ses plages occupées retirent les créneaux correspondants.
+    // La clé est publique par nature : elle est limitée à freyage.fr dans Google Cloud.
+    agenda: {
+      id: "44e31da757e71b9a7b295971c2e1ae1d1b0d3d7b61e09cced3e622dc2ccc9aa8@group.calendar.google.com",
+      cle: "AIzaSyBLkOuSARwqDIfJ9WhAiTO9m9rsdVpYNfs"
+    },
+    tamponMinutes: 35,   // pause minimale entre deux rendez-vous
     samediTravaille: "2026-11-07", // un samedi travaillé : les samedis ouverts sont ensuite un sur deux à partir de cette date
     fermetures: []       // jours de fermeture, ex. ["2026-12-25", "2027-01-01"]
   },

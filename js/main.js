@@ -82,6 +82,7 @@
   var earliest = new Date(now.getTime() + C.rdv.delaiMinHeures * 3600000);
   var lastDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + C.rdv.horizonJours);
   var view = new Date(now.getFullYear(), now.getMonth(), 1);
+  var occupe = []; // plages occupées de l'agenda Google
 
   // Every other Saturday, counted from the reference date (UTC so clock changes don't shift the count).
   function samediOuvert(d) {
@@ -97,13 +98,53 @@
     if (d > lastDay) return [];
     if (d.getDay() === 6 && !samediOuvert(d)) return [];
     var out = [];
+    var pause = C.rdv.tamponMinutes;
     ranges.forEach(function (r) {
-      for (var m = toMin(r[0]); m + duree <= toMin(r[1]); m += duree + C.rdv.tamponMinutes) {
+      var m = toMin(r[0]);
+      while (m + duree <= toMin(r[1])) {
         var t = new Date(d.getFullYear(), d.getMonth(), d.getDate(), Math.floor(m / 60), m % 60);
+        var conflit = conflitAgenda(t, duree, pause);
+        if (conflit) {
+          // Reprend après ce rendez-vous et sa pause, arrondi aux 5 minutes suivantes.
+          var reprise = (conflit.end.getTime() + pause * 60000 - new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime()) / 60000;
+          m = Math.max(m + 5, Math.ceil(reprise / 5) * 5);
+          continue;
+        }
         if (t >= earliest) out.push(toHHMM(m));
+        m += duree + pause;
       }
     });
     return out;
+  }
+
+  // Le rendez-vous de l'agenda qui empêche ce créneau, en comptant la pause avant et après.
+  function conflitAgenda(debut, duree, pause) {
+    var a = debut.getTime() - pause * 60000;
+    var b = debut.getTime() + (duree + pause) * 60000;
+    return occupe.filter(function (o) { return o.start.getTime() < b && o.end.getTime() > a; })[0];
+  }
+
+  // Si l'agenda ne répond pas, les créneaux restent proposés : la demande est de toute façon confirmée à la main.
+  function chargerAgenda() {
+    var ag = C.rdv.agenda;
+    if (!ag) return;
+    fetch("https://www.googleapis.com/calendar/v3/freeBusy?key=" + encodeURIComponent(ag.cle), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        timeMin: new Date().toISOString(),
+        timeMax: new Date(lastDay.getTime() + 2 * 86400000).toISOString(),
+        items: [{ id: ag.id }]
+      })
+    }).then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    }).then(function (data) {
+      occupe = data.calendars[ag.id].busy.map(function (o) {
+        return { start: new Date(o.start), end: new Date(o.end) };
+      });
+      if (state.step === 2) { renderCalendar(); renderSlots(); renderRecap(); }
+    }).catch(function () {});
   }
 
   function renderCalendar() {
@@ -136,6 +177,12 @@
       return;
     }
     var list = slotsFor(state.date, services[state.service].duree);
+    if (state.slot && list.indexOf(state.slot) === -1) state.slot = null; // pris entre-temps
+    if (!list.length) {
+      title.textContent = "Plus aucun créneau ce jour-là, choisissez une autre date.";
+      box.innerHTML = "";
+      return;
+    }
     title.textContent = "Créneaux du " + state.date.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
     box.innerHTML = list.map(function (s) {
       var sel = s === state.slot;
@@ -159,7 +206,7 @@
       el.classList.toggle("is-done", +el.dataset.stepDot < step);
     });
     $$(".error").forEach(function (e) { e.textContent = ""; });
-    if (step === 2) { renderCalendar(); renderSlots(); }
+    if (step === 2) { renderCalendar(); renderSlots(); renderRecap(); chargerAgenda(); }
     if (focus !== false) {
       var target = $('[data-step="' + step + '"] legend') || $("#done-title");
       if (target) target.focus({ preventScroll: true });
