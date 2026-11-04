@@ -39,30 +39,17 @@
         <header class="section-head">
           <p class="eyebrow"><svg class="rune-icon"><use href="#rune"/></svg>À offrir</p>
           <h1 class="page-title">Carte cadeau</h1>
-          <p class="section-note">Offrez un moment de beauté, pour un anniversaire, Noël ou un mariage. Remplissez ce formulaire, réglez en ligne, et je vous envoie votre code par e-mail.</p>
+          <p class="section-note">Offrez un moment de beauté, pour un anniversaire, Noël ou un mariage. Choisissez le montant, réglez en ligne, et je vous envoie votre code par e-mail.</p>
         </header>
 
         <form id="cadeau-form" class="contact-form" novalidate>
           <div class="fields">
-            <label class="field-wide">Montant de la carte (€)<input name="montant" type="number" min="1" inputmode="numeric" required></label>
-            <label class="field-wide">Pour qui ? <span class="optional">(prénom, facultatif)</span><input name="beneficiaire" autocomplete="off"></label>
-            <label>Votre nom et prénom<input name="nom" autocomplete="name" required></label>
-            <label>Votre téléphone<input name="telephone" type="tel" autocomplete="tel" required></label>
-            <label class="field-wide">Votre e-mail<input name="email" type="email" autocomplete="email" required></label>
-            <label class="field-wide">Un message ? <span class="optional">(facultatif)</span><textarea name="message" rows="4"></textarea></label>
-            <label class="hp" aria-hidden="true">Ne pas remplir<input name="_gotcha" tabindex="-1" autocomplete="off"></label>
+            <label class="field-wide">Montant de la carte (€)<input name="montant" type="number" min="1" step="1" inputmode="numeric" required></label>
           </div>
-          <p class="privacy">Vos coordonnées servent uniquement à traiter votre demande. <a href="mentions-legales.html#donnees">Données personnelles</a></p>
           <p class="error" id="cadeau-error" role="alert"></p>
-          <button type="submit" class="btn">Demander ma carte cadeau</button>
+          <button type="submit" class="btn">Payer ma carte cadeau</button>
+          <p class="privacy">Paiement sécurisé par Stripe, où vous indiquerez votre nom et votre e-mail. Pour indiquer le prénom de la personne qui reçoit la carte, répondez simplement à l'e-mail contenant votre code. <a href="mentions-legales.html#donnees">Données personnelles</a></p>
         </form>
-
-        <div class="contact-done" id="cadeau-done" hidden>
-          <svg class="rune-done" aria-hidden="true"><use href="#rune"/></svg>
-          <h2 id="cadeau-done-title" tabindex="-1">Dernière étape : le paiement</h2>
-          <p>Votre demande est bien envoyée. Réglez votre carte cadeau en ligne : dès réception du paiement, je vous envoie votre code par e-mail.</p>
-          <a class="btn" id="cadeau-payer" href="#">Payer ma carte cadeau</a>
-        </div>
       </div>
 
       <aside class="contact-side" aria-label="Conditions de la carte cadeau">
