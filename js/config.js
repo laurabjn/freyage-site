@@ -38,7 +38,7 @@ window.FREYAGE = {
     // Adresse du service qui reçoit les demandes de rendez-vous et de contact (ex. https://formspree.io/f/xxxxxxx).
     // Vide : la demande s'ouvre dans la messagerie du visiteur, vers contact.email.
     endpoint: "https://formspree.io/f/myeeogyb",
-    delaiMinHeures: 24,  // délai minimum avant un rendez-vous
+    delaiMinHeures: 48,  // délai minimum avant un rendez-vous
     horizonJours: 60,    // réservation possible jusqu'à X jours à l'avance
     // Agenda Google lu par le site : ses plages occupées retirent les créneaux correspondants.
     // La clé est publique par nature : elle est limitée à freyage.fr dans Google Cloud.
@@ -67,7 +67,7 @@ window.FREYAGE = {
         { nom: "Maquillage sophistiqué", duree: 90, prix: "85 €" },
         { nom: "Maquillage invitée", duree: 60, prix: "75 €" },
         { nom: "Maquillage shooting photo", duree: 90, prix: "95 €" },
-        { nom: "Maquillage mariée + essai", duree: 90, prix: "Sur devis", lien: "#mariee" }
+        { nom: "Maquillage mariée + essai", duree: 90, prix: "Dès 480 €", lien: "#mariee" }
       ]
     },
     {

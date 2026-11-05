@@ -43,7 +43,8 @@ legend:focus, h3:focus { outline: none; }
 .site-header nav a { text-decoration: none; font-weight: 500; padding: 6px 0; border-bottom: 1px solid transparent; }
 .site-header nav a:hover { border-bottom-color: var(--gold-text); }
 .site-header nav a { white-space: nowrap; }
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
+  html { scroll-padding-top: 160px; }
   .site-header { flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; }
   .site-header nav { order: 3; width: 100%; margin: 0; justify-content: flex-start; flex-wrap: wrap; gap: 0 24px; }
 }
@@ -89,7 +90,7 @@ legend:focus, h3:focus { outline: none; }
 .carte-intro h3 { font-size: 1.5rem; margin-bottom: 8px; }
 .carte-intro p { margin: 0; color: var(--muted); }
 .carte-list { list-style: none; margin: 0; padding: 0; }
-.carte-list a { display: grid; grid-template-columns: 1fr auto 5em; gap: 16px; align-items: baseline; padding: 11px 8px; margin: 0 -8px; text-decoration: none; transition: background .15s; }
+.carte-list a { display: grid; grid-template-columns: 1fr auto 5.75em; gap: 16px; align-items: baseline; padding: 11px 8px; margin: 0 -8px; text-decoration: none; transition: background .15s; }
 .carte-list a:hover { background: var(--sand); }
 .carte-list li + li { border-top: 1px dotted var(--line); }
 .carte-nom { font-weight: 500; }
@@ -225,6 +226,7 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 .reglement-titre { margin: 0 0 8px; font-weight: 500; font-size: .95rem; }
 .reglement .service-option { grid-template-columns: auto 1fr; }
 .reglement .service-option:last-child { border-bottom: 1px solid rgba(255, 255, 255, .12); }
+.reglement-code { margin-top: 16px; }
 .privacy { font-size: .9rem; color: #d3d8cd; margin: 16px 0 0; }
 .step-done { text-align: center; padding: 28px 8px; }
 .rune-done { width: 26px; height: 50px; color: var(--gold); }
@@ -289,6 +291,8 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 /* Keeps the footer link clear of the button where they would overlap. */
 @media (max-width: 1280px) { .footer-inner { padding-right: 76px; } }
 
+.rdv-mobile { display: none; }
+
 /* Access page */
 .adresse { font: 400 1.4rem/1.4 var(--serif); font-style: normal; }
 .acces-titre { font-size: 1.3rem; margin: 32px 0 14px; }
@@ -307,6 +311,9 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 .legal h1 { font-size: 2rem; margin-bottom: 24px; }
 .legal h2 { font-size: 1.25rem; margin: 32px 0 8px; }
 
+@media (max-width: 1100px) {
+  .recap, .mariee-photo { top: 124px; }
+}
 @media (max-width: 860px) {
   .hero-inner { grid-template-columns: 1fr; }
   .hero-logo { grid-row: 1; width: 220px; }
@@ -342,6 +349,9 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
   .service-option { grid-template-columns: auto 1fr; }
   .service-meta { grid-column: 2; }
   .steps { font-size: .85rem; }
+  .rdv-mobile { display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: 15; border-radius: 0; text-align: center; padding-bottom: calc(13px + env(safe-area-inset-bottom)); box-shadow: 0 -2px 10px rgba(0, 0, 0, .2); }
+  body:has(.rdv-mobile:not([hidden])) .haut-page { bottom: calc(60px + env(safe-area-inset-bottom)); }
+  body:has(.rdv-mobile) .site-footer { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

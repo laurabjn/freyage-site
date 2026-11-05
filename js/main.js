@@ -190,24 +190,32 @@
   // Les deux façons de régler une prestation. « montant » = à payer en ligne (0 = rien en ligne).
   function choixReglement(s) {
     var prix = parseFloat(s.prix);
+    var cadeau = { libelle: "Avec une carte cadeau", court: "Carte cadeau, solde éventuel sur place", montant: 0, cadeau: true };
     var ligne = { libelle: "En ligne, après ma demande (" + fmtEuros(prix) + ")", court: fmtEuros(prix) + " en ligne", montant: prix, lien: C.paiement.prestation };
     if (s.acompte) {
       return {
         ligne: ligne,
-        place: { libelle: "Acompte en ligne (" + fmtEuros(s.acompte) + "), puis le reste sur place par carte ou en espèces", court: fmtEuros(s.acompte) + " en ligne, le reste sur place", montant: s.acompte, lien: C.paiement.acompte, acompte: true }
+        place: { libelle: "Acompte en ligne (" + fmtEuros(s.acompte) + "), puis le reste sur place par carte ou en espèces", court: fmtEuros(s.acompte) + " en ligne, le reste sur place", montant: s.acompte, lien: C.paiement.acompte, acompte: true },
+        cadeau: cadeau
       };
     }
     return {
       ligne: ligne,
-      place: { libelle: "Sur place, par carte ou en espèces", court: "Sur place, par carte ou en espèces", montant: 0 }
+      place: { libelle: "Sur place, par carte ou en espèces", court: "Sur place, par carte ou en espèces", montant: 0 },
+      cadeau: cadeau
     };
   }
 
   function renderReglement() {
     var options = choixReglement(services[state.service]);
-    $("#reglement-options").innerHTML = ["ligne", "place"].map(function (cle) {
+    $("#reglement-options").innerHTML = ["ligne", "place", "cadeau"].map(function (cle) {
       return '<label class="service-option"><input type="radio" name="reglement" value="' + cle + '"' + (state.reglement === cle ? " checked" : "") + '><span class="service-name">' + esc(options[cle].libelle) + "</span></label>";
     }).join("");
+    afficherCodeCadeau();
+  }
+
+  function afficherCodeCadeau() {
+    $("#cadeau-code").hidden = state.reglement !== "cadeau";
   }
 
   function renderRecap() {
@@ -260,6 +268,10 @@
         msg = "Veuillez choisir comment régler.";
         $('input[name="reglement"]').focus();
       }
+      if (!bad && state.reglement === "cadeau" && !form.elements.codeCadeau.value.trim()) {
+        msg = "Veuillez indiquer le code de votre carte cadeau.";
+        form.elements.codeCadeau.focus();
+      }
     }
     $('[data-error="' + step + '"]').textContent = msg;
     return !msg;
@@ -277,6 +289,7 @@
   });
   $("#reglement-options").addEventListener("change", function (e) {
     state.reglement = e.target.value;
+    afficherCodeCadeau();
     renderRecap();
   });
   $$("[data-next]").forEach(function (b) {
@@ -305,11 +318,12 @@
 
   function buildRequest() {
     var s = services[state.service], f = form.elements;
+    var code = state.reglement === "cadeau" ? " (code : " + f.codeCadeau.value.trim() + ")" : "";
     return {
       prestation: s.nom,
       duree: fmtDuree(s.duree),
       tarif: s.prix,
-      reglement: choixReglement(s)[state.reglement].court,
+      reglement: choixReglement(s)[state.reglement].court + code,
       date: fmtDate(state.date),
       heure: fmtHeure(state.slot),
       nom: f.nom.value.trim(),
@@ -361,6 +375,8 @@
         lien.hidden = false;
         $("#payer-note").hidden = false;
         showDone(choix.acompte ? "Dernière étape : l'acompte" : "Dernière étape : le paiement", "Votre demande pour le " + quand + " est bien envoyée. Réglez maintenant en ligne, puis je vous confirme le rendez-vous par téléphone ou par e-mail.");
+      } else if (choix.cadeau) {
+        showDone("Votre demande est bien envoyée", "Demande pour le " + quand + ". Je vérifie votre carte cadeau et je vous réponds par téléphone ou par e-mail. Si elle ne couvre pas toute la prestation, le solde se règle sur place, par carte ou en espèces.");
       } else {
         showDone("Votre demande est bien envoyée", "Demande pour le " + quand + ". Ce créneau sera réservé une fois confirmé : je vous réponds par téléphone ou par e-mail. Vous réglerez sur place, par carte ou en espèces.");
       }
@@ -377,6 +393,7 @@
     $("#payer-lien").hidden = true;
     $("#payer-note").hidden = true;
     state.service = state.date = state.slot = state.reglement = null;
+    afficherCodeCadeau();
     renderRecap();
     goTo(1);
   });

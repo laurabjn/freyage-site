@@ -16,6 +16,15 @@
   window.addEventListener("scroll", actualiser, { passive: true });
   actualiser();
 
+  // Sur l'accueil, le bouton fixe de rendez-vous s'efface quand le formulaire est à l'écran.
+  var barreRdv = document.querySelector(".rdv-mobile");
+  var sectionRdv = document.getElementById("rdv");
+  if (barreRdv && sectionRdv && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (entrees) {
+      barreRdv.hidden = entrees[0].isIntersecting;
+    }).observe(sectionRdv);
+  }
+
   bouton.addEventListener("click", function () {
     window.scrollTo({ top: 0 });
     // Le clavier repart aussi du haut de la page.
