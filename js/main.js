@@ -73,7 +73,7 @@
   }).join("");
 
   // ---- Booking state
-  var state = { step: 1, service: null, date: null, slot: null, reglement: null };
+  var state = { step: 1, service: null, date: null, moment: null, reglement: null };
   var form = $("#booking-form");
   var now = new Date();
   var earliest = new Date(now.getTime() + C.rdv.delaiMinHeures * 3600000);
@@ -114,6 +114,24 @@
     return out;
   }
 
+  // Les moments proposés ce jour-là : seulement ceux où la prestation peut encore tenir.
+  // La cliente indique une préférence : le jour et l'heure sont décidés ensuite, à la main.
+  function momentsFor(d, duree) {
+    var libres = slotsFor(d, duree);
+    var out = (C.horaires[d.getDay()] || []).filter(function (r) {
+      return libres.some(function (s) { return toMin(s) >= toMin(r[0]) && toMin(s) < toMin(r[1]); });
+    }).map(function (r) {
+      var matin = toMin(r[0]) < 12 * 60;
+      return {
+        cle: matin ? "matin" : "apres-midi",
+        libelle: (matin ? "Le matin" : "L'après-midi") + " (" + fmtHeure(r[0]) + " – " + fmtHeure(r[1]) + ")",
+        court: matin ? "le matin" : "l'après-midi"
+      };
+    });
+    if (out.length > 1) out.push({ cle: "indifferent", libelle: "Peu importe", court: "heure indifférente" });
+    return out;
+  }
+
   // Le rendez-vous de l'agenda qui empêche ce créneau, en comptant la pause avant et après.
   function conflitAgenda(debut, duree, pause) {
     var a = debut.getTime() - pause * 60000;
@@ -121,7 +139,7 @@
     return occupe.filter(function (o) { return o.start.getTime() < b && o.end.getTime() > a; })[0];
   }
 
-  // Si l'agenda ne répond pas, les créneaux restent proposés : la demande est de toute façon confirmée à la main.
+  // Si l'agenda ne répond pas, les jours restent proposés : la demande est de toute façon confirmée à la main.
   function chargerAgenda() {
     var ag = C.rdv.agenda;
     if (!ag) return;
@@ -169,29 +187,29 @@
   function renderSlots() {
     var box = $("#slots"), title = $("#slots-title");
     if (!state.date) {
-      title.textContent = "Choisissez d'abord une date.";
+      title.textContent = "Choisissez d'abord un jour.";
       box.innerHTML = "";
       return;
     }
-    var list = slotsFor(state.date, services[state.service].duree);
-    if (state.slot && list.indexOf(state.slot) === -1) state.slot = null; // pris entre-temps
+    var list = momentsFor(state.date, services[state.service].duree);
+    if (state.moment && !list.some(function (m) { return m.cle === state.moment.cle; })) state.moment = null; // plus disponible
     if (!list.length) {
-      title.textContent = "Plus aucun créneau ce jour-là, choisissez une autre date.";
+      title.textContent = "Plus de disponibilité ce jour-là, choisissez un autre jour.";
       box.innerHTML = "";
       return;
     }
-    title.textContent = "Créneaux du " + state.date.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
-    box.innerHTML = list.map(function (s) {
-      var sel = s === state.slot;
-      return '<button type="button" class="slot' + (sel ? " is-selected" : "") + '" data-slot="' + s + '" aria-pressed="' + sel + '">' + fmtHeure(s) + "</button>";
+    title.textContent = "Quel moment préférez-vous le " + state.date.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }) + " ?";
+    box.innerHTML = list.map(function (m) {
+      var sel = !!state.moment && m.cle === state.moment.cle;
+      return '<button type="button" class="slot' + (sel ? " is-selected" : "") + '" data-moment="' + m.cle + '" aria-pressed="' + sel + '">' + esc(m.libelle) + "</button>";
     }).join("");
   }
 
-  // Les deux façons de régler une prestation. « montant » = à payer en ligne (0 = rien en ligne).
+  // Les façons de régler une prestation. « montant » = à payer en ligne (0 = rien en ligne).
   function choixReglement(s) {
     var prix = parseFloat(s.prix);
     var cadeau = { libelle: "Avec une carte cadeau", court: "Carte cadeau, solde éventuel sur place", montant: 0, cadeau: true };
-    var ligne = { libelle: "En ligne, après ma demande (" + fmtEuros(prix) + ")", court: fmtEuros(prix) + " en ligne", montant: prix, lien: C.paiement.prestation };
+    var ligne = { libelle: "En ligne, après ma confirmation (" + fmtEuros(prix) + ")", court: fmtEuros(prix) + " en ligne", montant: prix, lien: C.paiement.prestation };
     if (s.acompte) {
       return {
         ligne: ligne,
@@ -226,7 +244,7 @@
     var choix = s && state.reglement ? choixReglement(s)[state.reglement] : null;
     $("#recap-reglement-titre").hidden = $("#recap-reglement").hidden = !choix;
     $("#recap-reglement").textContent = choix ? choix.court : "";
-    $("#recap-date").textContent = state.date && state.slot ? fmtDate(state.date) + " à " + fmtHeure(state.slot) : "–";
+    $("#recap-date").textContent = state.date && state.moment ? fmtDate(state.date) + ", " + state.moment.court : "–";
   }
 
   function goTo(step, focus) {
@@ -246,7 +264,7 @@
   }
 
   function selectService(i) {
-    if (state.service !== i) { state.date = null; state.slot = null; state.reglement = null; }
+    if (state.service !== i) { state.date = null; state.moment = null; state.reglement = null; }
     state.service = i;
     var radio = $('input[name="prestation"][value="' + i + '"]');
     if (radio) radio.checked = true;
@@ -256,7 +274,7 @@
   function validateStep(step) {
     var msg = "";
     if (step === 1 && state.service === null) msg = "Veuillez choisir une prestation.";
-    if (step === 2 && !(state.date && state.slot)) msg = "Veuillez choisir une date et un créneau.";
+    if (step === 2 && !(state.date && state.moment)) msg = "Veuillez choisir un jour et un moment.";
     if (step === 3) {
       var nom = form.elements.nom, tel = form.elements.telephone, mail = form.elements.email;
       var bad = !nom.value.trim() ? nom : tel.value.replace(/\D/g, "").length < 10 ? tel : !mail.checkValidity() || !mail.value ? mail : null;
@@ -306,31 +324,37 @@
     var b = e.target.closest("[data-day]");
     if (!b) return;
     state.date = new Date(view.getFullYear(), view.getMonth(), +b.dataset.day);
-    state.slot = null;
+    state.moment = null;
     renderCalendar(); renderSlots(); renderRecap();
   });
   $("#slots").addEventListener("click", function (e) {
-    var b = e.target.closest("[data-slot]");
+    var b = e.target.closest("[data-moment]");
     if (!b) return;
-    state.slot = b.dataset.slot;
+    state.moment = momentsFor(state.date, services[state.service].duree).filter(function (m) { return m.cle === b.dataset.moment; })[0];
     renderSlots(); renderRecap();
   });
 
   function buildRequest() {
     var s = services[state.service], f = form.elements;
+    var choix = choixReglement(s)[state.reglement];
     var code = state.reglement === "cadeau" ? " (code : " + f.codeCadeau.value.trim() + ")" : "";
-    return {
+    var req = {
       prestation: s.nom,
       duree: fmtDuree(s.duree),
       tarif: s.prix,
-      reglement: choixReglement(s)[state.reglement].court + code,
-      date: fmtDate(state.date),
-      heure: fmtHeure(state.slot),
+      reglement: choix.court + code,
+      jourSouhaite: fmtDate(state.date),
+      momentSouhaite: state.moment.libelle,
       nom: f.nom.value.trim(),
       telephone: f.telephone.value.trim(),
       email: f.email.value.trim(),
       message: f.message.value.trim()
     };
+    // Lien à copier dans la confirmation envoyée à la cliente.
+    if (choix.montant) {
+      req.lienPaiement = choix.lien + "?prefilled_amount=" + Math.round(choix.montant * 100) + "&prefilled_email=" + encodeURIComponent(req.email);
+    }
+    return req;
   }
 
   function showDone(title, text) {
@@ -345,13 +369,13 @@
     if (!validateStep(3)) return;
     if (form.elements._gotcha.value) return; // spam bot
     var req = buildRequest();
-    var quand = req.date + " à " + req.heure;
+    var quand = req.jourSouhaite + ", " + state.moment.court;
 
     if (!C.rdv.endpoint) {
       var body = "Bonjour,\n\nJe souhaite demander un rendez-vous :\n\n" +
         "Prestation : " + req.prestation + " (" + req.duree + ", " + req.tarif + ")\n" +
         "Règlement : " + req.reglement + "\n" +
-        "Date : " + quand + "\n\nNom : " + req.nom + "\nTéléphone : " + req.telephone + "\nE-mail : " + req.email +
+        "Souhait : " + quand + "\n\nNom : " + req.nom + "\nTéléphone : " + req.telephone + "\nE-mail : " + req.email +
         (req.message ? "\n\nMessage : " + req.message : "");
       window.location.href = "mailto:" + C.contact.email + "?subject=" + encodeURIComponent("Demande de rendez-vous : " + req.prestation) + "&body=" + encodeURIComponent(body);
       showDone("Il reste à envoyer votre e-mail", "Votre messagerie vient de s'ouvrir avec votre demande pour le " + quand + ". Envoyez ce message pour la transmettre. Si rien ne s'est ouvert, contactez-moi au " + C.contact.telephone + ".");
@@ -369,16 +393,11 @@
       if (!r.ok) throw new Error("HTTP " + r.status);
       var choix = choixReglement(services[state.service])[state.reglement];
       if (choix.montant) {
-        var lien = $("#payer-lien");
-        lien.href = choix.lien + "?prefilled_amount=" + Math.round(choix.montant * 100) + "&prefilled_email=" + encodeURIComponent(req.email);
-        lien.textContent = (choix.acompte ? "Payer l'acompte de " : "Payer ") + fmtEuros(choix.montant);
-        lien.hidden = false;
-        $("#payer-note").hidden = false;
-        showDone(choix.acompte ? "Dernière étape : l'acompte" : "Dernière étape : le paiement", "Votre demande pour le " + quand + " est bien envoyée. Réglez maintenant en ligne, puis je vous confirme le rendez-vous par téléphone ou par e-mail.");
+        showDone("Votre demande est bien envoyée", "Votre souhait : " + quand + ". Je vous confirme le jour et l'heure par téléphone ou par e-mail, ou je vous propose une autre date. Je vous enverrai alors le lien pour régler " + (choix.acompte ? "l'acompte de " : "") + fmtEuros(choix.montant) + " en ligne. Votre rendez-vous est définitif une fois confirmé.");
       } else if (choix.cadeau) {
-        showDone("Votre demande est bien envoyée", "Demande pour le " + quand + ". Je vérifie votre carte cadeau et je vous réponds par téléphone ou par e-mail. Si elle ne couvre pas toute la prestation, le solde se règle sur place, par carte ou en espèces.");
+        showDone("Votre demande est bien envoyée", "Votre souhait : " + quand + ". Je vérifie votre carte cadeau et je vous confirme le jour et l'heure par téléphone ou par e-mail, ou je vous propose une autre date. Si la carte ne couvre pas toute la prestation, le solde se règle sur place, par carte ou en espèces.");
       } else {
-        showDone("Votre demande est bien envoyée", "Demande pour le " + quand + ". Ce créneau sera réservé une fois confirmé : je vous réponds par téléphone ou par e-mail. Vous réglerez sur place, par carte ou en espèces.");
+        showDone("Votre demande est bien envoyée", "Votre souhait : " + quand + ". Je vous confirme le jour et l'heure par téléphone ou par e-mail, ou je vous propose une autre date. Votre rendez-vous est définitif une fois confirmé. Vous réglerez sur place, par carte ou en espèces.");
       }
     }).catch(function () {
       $('[data-error="3"]').textContent = "L'envoi a échoué. Réessayez, ou contactez-moi au " + C.contact.telephone + ".";
@@ -390,9 +409,7 @@
 
   $("#restart").addEventListener("click", function () {
     form.reset();
-    $("#payer-lien").hidden = true;
-    $("#payer-note").hidden = true;
-    state.service = state.date = state.slot = state.reglement = null;
+    state.service = state.date = state.moment = state.reglement = null;
     afficherCodeCadeau();
     renderRecap();
     goTo(1);

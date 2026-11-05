@@ -212,8 +212,8 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 .cal-day.is-selected, .slot.is-selected { background: var(--gold); color: var(--forest); font-weight: 500; }
 .slots-title { margin: 8px 0 14px; font-weight: 500; }
 .slots-title::first-letter { text-transform: uppercase; }
-.slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 6px; max-height: 300px; overflow-y: auto; }
-.slot { padding: 9px 4px; background: none; border: 1px solid rgba(255, 255, 255, .3); color: #fff; font: 400 .95rem var(--sans); cursor: pointer; }
+.slots-grid { display: grid; gap: 6px; }
+.slot { padding: 11px 12px; background: none; border: 1px solid rgba(255, 255, 255, .3); color: #fff; font: 400 .95rem var(--sans); cursor: pointer; }
 .slot:hover { border-color: var(--gold); }
 
 .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -231,8 +231,6 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 .step-done { text-align: center; padding: 28px 8px; }
 .rune-done { width: 26px; height: 50px; color: var(--gold); }
 .step-done h3 { font-size: 1.5rem; margin: 14px 0 10px; }
-.step-done .btn { margin-top: 8px; }
-.step-done .privacy { margin-bottom: 12px; }
 
 .recap { position: sticky; top: 90px; border: 1px solid rgba(218, 176, 106, .35); padding: 24px; }
 .recap h3 { font-size: 1.15rem; margin-bottom: 14px; color: var(--gold); }

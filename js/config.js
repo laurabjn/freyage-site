@@ -40,7 +40,7 @@ window.FREYAGE = {
     endpoint: "https://formspree.io/f/myeeogyb",
     delaiMinHeures: 48,  // délai minimum avant un rendez-vous
     horizonJours: 60,    // réservation possible jusqu'à X jours à l'avance
-    // Agenda Google lu par le site : ses plages occupées retirent les créneaux correspondants.
+    // Agenda Google lu par le site : ses plages occupées retirent les jours et les moments où la prestation ne tient plus.
     // La clé est publique par nature : elle est limitée à freyage.fr dans Google Cloud.
     agenda: {
       id: "44e31da757e71b9a7b295971c2e1ae1d1b0d3d7b61e09cced3e622dc2ccc9aa8@group.calendar.google.com",

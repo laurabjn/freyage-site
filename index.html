@@ -268,14 +268,14 @@
         <header class="section-head">
           <p class="eyebrow eyebrow-light"><svg class="rune-icon"><use href="#rune"/></svg>Rendez-vous</p>
           <h2>Demander un rendez-vous</h2>
-          <p class="section-note">Choisissez une prestation et un créneau. Votre rendez-vous sera définitif après confirmation de ma part. Pour un mariage, demandez plutôt un <a href="contact.html?objet=mariee">devis</a>.</p>
+          <p class="section-note">Indiquez la prestation, le jour et le moment que vous préférez. Je vous confirme ensuite le jour et l'heure de votre rendez-vous, ou je vous propose une autre date. Pour un mariage, demandez plutôt un <a href="contact.html?objet=mariee">devis</a>.</p>
         </header>
 
         <div class="booking">
           <div class="booking-main">
             <ol class="steps" aria-hidden="true">
               <li data-step-dot="1">Prestation</li>
-              <li data-step-dot="2">Date</li>
+              <li data-step-dot="2">Souhait</li>
               <li data-step-dot="3">Coordonnées</li>
             </ol>
 
@@ -288,7 +288,7 @@
               </fieldset>
 
               <fieldset class="step" data-step="2" hidden>
-                <legend tabindex="-1">Quand souhaitez-vous venir&nbsp;?</legend>
+                <legend tabindex="-1">Quel jour et quel moment préférez-vous&nbsp;?</legend>
                 <div class="calendar-layout">
                   <div class="calendar">
                     <div class="cal-head">
@@ -300,7 +300,7 @@
                     <div class="cal-grid" id="cal-grid"></div>
                   </div>
                   <div class="slots">
-                    <p id="slots-title" class="slots-title" aria-live="polite">Choisissez d'abord une date.</p>
+                    <p id="slots-title" class="slots-title" aria-live="polite">Choisissez d'abord un jour.</p>
                     <div id="slots" class="slots-grid"></div>
                   </div>
                 </div>
@@ -333,21 +333,19 @@
                 <svg class="rune-done" aria-hidden="true"><use href="#rune"/></svg>
                 <h3 id="done-title" tabindex="-1"></h3>
                 <p id="done-text"></p>
-                <a class="btn btn-gold" id="payer-lien" href="#" hidden></a>
-                <p class="privacy" id="payer-note" hidden>Si le créneau n'est pas disponible, je vous propose une autre date ou je vous rembourse intégralement votre paiement.</p>
                 <button type="button" class="btn-back" id="restart">Faire une autre demande</button>
               </div>
             </form>
           </div>
 
           <aside class="recap" aria-label="Récapitulatif">
-            <h3>Votre rendez-vous</h3>
+            <h3>Votre demande</h3>
             <dl>
               <dt>Prestation</dt><dd id="recap-service">–</dd>
               <dt>Durée</dt><dd id="recap-duree">–</dd>
               <dt>Tarif</dt><dd id="recap-prix">–</dd>
               <dt id="recap-reglement-titre" hidden>Règlement</dt><dd id="recap-reglement" hidden></dd>
-              <dt>Date</dt><dd id="recap-date">–</dd>
+              <dt>Souhait</dt><dd id="recap-date">–</dd>
             </dl>
           </aside>
         </div>
@@ -363,7 +361,7 @@
         <div>
           <details class="fold">
             <summary>Comment prendre rendez-vous&nbsp;?</summary>
-            <p>Choisissez une prestation et un créneau dans le <a href="#rdv">formulaire de rendez-vous</a>. Votre rendez-vous est définitif une fois confirmé de ma part, par téléphone ou par e-mail.</p>
+            <p>Indiquez la prestation, le jour et le moment que vous préférez dans le <a href="#rdv">formulaire de rendez-vous</a>. Je vous confirme ensuite le jour et l'heure, par téléphone ou par e-mail, ou je vous propose une autre date. Votre rendez-vous est définitif une fois confirmé.</p>
           </details>
           <details class="fold">
             <summary>Puis-je annuler ou déplacer mon rendez-vous&nbsp;?</summary>
@@ -375,11 +373,11 @@
           </details>
           <details class="fold">
             <summary>Faut-il verser un acompte&nbsp;?</summary>
-            <p>Oui, un acompte de 30&nbsp;% est demandé pour les cours d'auto-maquillage et pour la Formule Mariée. Pour un cours, vous le réglez en ligne juste après votre demande, sauf si vous payez tout le cours en ligne ou avec une carte cadeau. Pour un mariage, je vous envoie un lien de paiement une fois la date confirmée. L'acompte est remboursé en cas d'annulation jusqu'à 48&nbsp;h avant le rendez-vous, ou si le créneau n'est pas disponible.</p>
+            <p>Oui, un acompte de 30&nbsp;% est demandé pour les cours d'auto-maquillage et pour la Formule Mariée. Je vous envoie le lien de paiement une fois la date confirmée. Si vous payez tout le cours en ligne ou avec une carte cadeau, il n'y a pas d'acompte en plus. L'acompte est remboursé en cas d'annulation jusqu'à 48&nbsp;h avant le rendez-vous.</p>
           </details>
           <details class="fold">
             <summary>Comment puis-je régler&nbsp;?</summary>
-            <p>Vous choisissez au moment de votre demande : en ligne par carte bancaire, sur place par carte bancaire ou en espèces, ou avec une carte cadeau. Pour un cours d'auto-maquillage réglé sur place, l'acompte reste à payer en ligne.</p>
+            <p>Vous choisissez au moment de votre demande : en ligne par carte bancaire, sur place par carte bancaire ou en espèces, ou avec une carte cadeau. Pour payer en ligne, je vous envoie le lien avec ma confirmation. Pour un cours d'auto-maquillage réglé sur place, l'acompte reste à payer en ligne.</p>
           </details>
           <details class="fold">
             <summary>Comment utiliser ma carte cadeau&nbsp;?</summary>
