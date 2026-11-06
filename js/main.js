@@ -34,18 +34,21 @@
   $("#year").textContent = new Date().getFullYear();
 
   var services = [];
-  $("#carte").innerHTML = C.prestations.map(function (cat) {
-    var liste = cat.items.length ? '<ul class="carte-list">' + cat.items.map(function (it) {
-      var attrs;
-      if (it.lien) {
-        attrs = 'href="' + esc(it.lien) + '"';
-      } else {
-        var i = services.push({ nom: it.nom, duree: it.duree, prix: it.prix, acompte: it.acompte, categorie: cat.categorie, lieu: C.lieux[cat.lieu] }) - 1;
-        attrs = 'href="#rdv" data-book="' + i + '" aria-label="Réserver : ' + esc(it.nom) + '"';
-      }
-      return "<li><a " + attrs + '><span class="carte-nom">' + esc(it.nom) + (it.description ? '<small>' + esc(it.description) + "</small>" : "") + '</span><span class="carte-duree">' + fmtDuree(it.duree) + '</span><span class="carte-prix">' + esc(it.prix) + "</span></a></li>";
-    }).join("") + "</ul>" : '<p class="carte-note">' + esc(cat.note || "") + (cat.noteLien ? ' <a href="' + esc(cat.noteLien) + '">Me contacter</a>' : "") + "</p>";
-    return '<article class="carte-cat"><div class="carte-intro"><h3>' + esc(cat.categorie) + "</h3>" + (cat.lieu ? '<p class="carte-lieu"><a href="acces.html">À ' + esc(C.lieux[cat.lieu].ville) + "</a></p>" : "") + "<p>" + esc(cat.description) + "</p></div>" + liste + "</article>";
+  C.prestations.forEach(function (cat) {
+    cat.items.forEach(function (it) {
+      if (!it.lien) services.push({ nom: it.nom, duree: it.duree, prix: it.prix, acompte: it.acompte, categorie: cat.categorie, lieu: C.lieux[cat.lieu] });
+    });
+  });
+
+  // Aperçu des catégories ; la carte complète est sur la page Prestations.
+  $("#apercu").innerHTML = C.prestations.map(function (cat) {
+    var prix = cat.items.map(function (it) { return parseFloat(it.prix); }).filter(function (p) { return !isNaN(p); });
+    var detail = cat.items.length
+      ? "Dès " + Math.min.apply(null, prix) + " € · " + cat.items.length + " prestations"
+      : esc(cat.note || "");
+    return '<article class="apercu-cat carte-intro"><h3><a href="prestations.html#' + esc(cat.id) + '">' + esc(cat.categorie) + "</a></h3>" +
+      (cat.lieu ? '<p class="carte-lieu">À ' + esc(C.lieux[cat.lieu].ville) + "</p>" : "") +
+      "<p>" + esc(cat.description) + '</p><p class="apercu-detail">' + detail + "</p></article>";
   }).join("");
 
   // Only services bookable online appear in the booking form.
@@ -53,10 +56,14 @@
   $("#service-options").innerHTML = C.prestations.map(function (cat) {
     var items = cat.items.filter(function (it) { return !it.lien; });
     if (!items.length) return "";
-    return '<div class="service-group"><h4>' + esc(cat.categorie) + " · à " + esc(C.lieux[cat.lieu].ville) + "</h4>" + items.map(function (it) {
+    var options = items.map(function (it) {
       var i = si++;
-      return '<label class="service-option"><input type="radio" name="prestation" value="' + i + '"><span class="service-name">' + esc(it.nom) + '</span><span class="service-meta">' + fmtDuree(it.duree) + " · " + esc(it.prix) + "</span></label>";
-    }).join("") + "</div>";
+      return '<label class="service-option"><input type="radio" name="prestation" value="' + i + '"><span class="service-name">' + esc(it.nom.replace(cat.categorie + " : ", "")) + '</span><span class="service-meta">' + fmtDuree(it.duree) + " · " + esc(it.prix) + "</span></label>";
+    }).join("");
+    var titre = "<h4>" + esc(cat.categorie) + " · à " + esc(C.lieux[cat.lieu].ville) + "</h4>";
+    return cat.plie
+      ? '<details class="service-group service-plie"><summary>' + titre + "</summary>" + options + "</details>"
+      : '<div class="service-group">' + titre + options + "</div>";
   }).join("");
 
 
@@ -270,7 +277,11 @@
     if (state.service !== i) { state.jours = []; state.reglement = null; }
     state.service = i;
     var radio = $('input[name="prestation"][value="' + i + '"]');
-    if (radio) radio.checked = true;
+    if (radio) {
+      radio.checked = true;
+      var plie = radio.closest("details");
+      if (plie) plie.open = true;
+    }
     renderRecap();
   }
 
@@ -300,12 +311,6 @@
   }
 
   // ---- Events
-  $("#carte").addEventListener("click", function (e) {
-    var a = e.target.closest("[data-book]");
-    if (!a) return;
-    selectService(+a.dataset.book);
-    goTo(2, false);
-  });
   $("#service-options").addEventListener("change", function (e) {
     if (e.target.name === "prestation") selectService(+e.target.value);
   });
@@ -443,5 +448,13 @@
     goTo(1);
   });
 
-  goTo(1, false);
+  // Lien depuis la page Prestations, ex. index.html?prestation=Rituel%20repulpant#rdv
+  var demandee = new URLSearchParams(window.location.search).get("prestation");
+  var iDemandee = services.map(function (s) { return s.nom; }).indexOf(demandee);
+  if (iDemandee !== -1) {
+    selectService(iDemandee);
+    goTo(2, false);
+  } else {
+    goTo(1, false);
+  }
 })();

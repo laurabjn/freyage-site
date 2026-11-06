@@ -18,7 +18,7 @@ window.FREYAGE = {
   // Adresses, rattachées aux catégories de prestations par leur clé (lieu: "merignac").
   lieux: {
     merignac: { ville: "Mérignac", adresse: "6 rue du Plantey, 33700 Mérignac", prestations: "Maquillage et cours" },
-    bruges: { ville: "Bruges", adresse: "39 rue du Réduit, 33520 Bruges", prestations: "Soins du visage" }
+    bruges: { ville: "Bruges", adresse: "39 rue du Réduit, 33520 Bruges", prestations: "Soins du visage et plasma froid" }
   },
 
   // Liens de paiement Stripe.
@@ -62,9 +62,12 @@ window.FREYAGE = {
    * lien : la prestation n'est pas réservable en ligne et renvoie vers cette section.
    * note : texte affiché à la place de la liste quand une catégorie n'a pas encore de prestations.
    * lieu : adresse de la catégorie, voir « lieux » plus haut.
+   * id : ancre de la catégorie sur la page Prestations. mention : précision affichée sous sa description.
+   * plie : dans le formulaire, la catégorie est repliée car elle est longue.
    */
   prestations: [
     {
+      id: "maquillage",
       categorie: "Maquillage",
       lieu: "merignac",
       description: "Une prestation personnalisée selon vos envies, votre style et l'occasion : événement, soirée, cérémonie, séance photo ou autre projet.",
@@ -78,6 +81,7 @@ window.FREYAGE = {
       ]
     },
     {
+      id: "cours-ateliers",
       categorie: "Cours & ateliers",
       lieu: "merignac",
       description: "Apprenez à révéler votre beauté, simplement.",
@@ -93,6 +97,7 @@ window.FREYAGE = {
       ]
     },
     {
+      id: "soins",
       categorie: "Soins du visage",
       lieu: "bruges",
       description: "Des soins personnalisés pour une peau sublimée.",
@@ -108,6 +113,48 @@ window.FREYAGE = {
       ]
     },
     {
+      id: "plasma-froid",
+      categorie: "Plasma froid",
+      lieu: "bruges",
+      description: "Des séances par zone, après un diagnostic personnalisé.",
+      mention: "Contre-indications : grossesse, allaitement, troubles mentaux en stade aigu, cancers. Une évaluation personnalisée est faite avant chaque séance.",
+      plie: true,
+      items: [
+        { nom: "Plasma froid : Visage entier", duree: 60, prix: "200 €" },
+        { nom: "Plasma froid : Contour des yeux", duree: 60, prix: "400 €" },
+        { nom: "Plasma froid : Front", duree: 30, prix: "100 €" },
+        { nom: "Plasma froid : Oreilles", duree: 45, prix: "120 €" },
+        { nom: "Plasma froid : Pavillon de l'oreille", duree: 30, prix: "90 €" },
+        { nom: "Plasma froid : Pattes-d'oie", duree: 60, prix: "200 €" },
+        { nom: "Plasma froid : Sillon", duree: 30, prix: "100 €" },
+        { nom: "Plasma froid : Nez", duree: 30, prix: "110 €" },
+        { nom: "Plasma froid : Lèvres", duree: 45, prix: "90 €" },
+        { nom: "Plasma froid : Contour de la bouche", duree: 45, prix: "120 €" },
+        { nom: "Plasma froid : Cou", duree: 30, prix: "100 €" },
+        { nom: "Plasma froid : Décolleté", duree: 30, prix: "120 €" },
+        { nom: "Plasma froid : Bosse de bison", duree: 30, prix: "150 €" },
+        { nom: "Plasma froid : Aisselles", duree: 30, prix: "100 €" },
+        { nom: "Plasma froid : Mains", duree: 30, prix: "120 €" },
+        { nom: "Plasma froid : Cheveux", duree: 30, prix: "120 €" },
+        { nom: "Plasma froid : Bras", duree: 30, prix: "300 €" },
+        { nom: "Plasma froid : Taches brunes", duree: 30, prix: "50 €" },
+        { nom: "Plasma froid : Excroissances", duree: 30, prix: "20 €" },
+        { nom: "Plasma froid : Culotte de cheval", duree: 30, prix: "300 €" },
+        { nom: "Plasma froid : Cuisses intérieur", duree: 30, prix: "300 €" },
+        { nom: "Plasma froid : Cuisses extérieur", duree: 30, prix: "300 €" },
+        { nom: "Plasma froid : Cuisses avant ou arrière", duree: 30, prix: "200 €" },
+        { nom: "Plasma froid : Dos", duree: 30, prix: "300 €" },
+        { nom: "Plasma froid : Fesses", duree: 30, prix: "300 €" },
+        { nom: "Plasma froid : Genoux", duree: 30, prix: "100 €" },
+        { nom: "Plasma froid : Acné", duree: 30, prix: "50 €" },
+        { nom: "Plasma froid : Vergetures", duree: 30, prix: "50 €" },
+        { nom: "Plasma froid : Cicatrices", duree: 30, prix: "50 €" },
+        { nom: "Plasma froid : Ventre", duree: 30, prix: "300 €" },
+        { nom: "Plasma froid : Coudes", duree: 30, prix: "100 €" }
+      ]
+    },
+    {
+      id: "ongles",
       categorie: "Ongles",
       description: "Des mains soignées, jusqu'au bout des ongles.",
       items: [],
