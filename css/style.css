@@ -43,10 +43,22 @@ legend:focus, h3:focus { outline: none; }
 .site-header nav a { text-decoration: none; font-weight: 500; padding: 6px 0; border-bottom: 1px solid transparent; }
 .site-header nav a:hover { border-bottom-color: var(--gold-text); }
 .site-header nav a { white-space: nowrap; }
-@media (max-width: 1100px) {
-  html { scroll-padding-top: 160px; }
-  .site-header { flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; }
-  .site-header nav { order: 3; width: 100%; margin: 0; justify-content: flex-start; flex-wrap: wrap; gap: 0 24px; }
+.menu-bouton, .nav-rdv { display: none; }
+@media (max-width: 1140px) {
+  /* Avec JavaScript : un bouton Menu ouvre les liens sous l'en-tête. */
+  .js .menu-bouton { display: inline-flex; align-items: center; gap: 8px; order: 3; min-height: 44px; padding: 8px 12px; background: none; border: 1px solid var(--forest); border-radius: 2px; color: var(--forest); font: 500 .95rem var(--sans); cursor: pointer; }
+  .js .menu-bouton svg { width: 20px; height: 20px; }
+  .js .site-header { gap: 12px; }
+  .js .site-header .btn-small { order: 2; margin-left: auto; }
+  .js .site-header nav { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; margin: 0; padding: 4px clamp(16px, 4vw, 40px) 12px; max-height: calc(100vh - 70px); max-height: calc(100dvh - 70px); overflow-y: auto; background: var(--ivory); border-bottom: 1px solid var(--line); box-shadow: 0 8px 16px rgba(0, 0, 0, .12); }
+  .js .site-header.menu-ouvert nav { display: flex; }
+  .js .site-header nav a { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .js .site-header nav a:last-of-type { border-bottom: 0; }
+  .js .site-header nav a[aria-current] { color: var(--gold-text); border-bottom-color: var(--line); }
+  /* Sans JavaScript : tous les liens restent affichés. */
+  html:not(.js) { scroll-padding-top: 160px; }
+  html:not(.js) .site-header { flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; }
+  html:not(.js) .site-header nav { order: 3; width: 100%; margin: 0; justify-content: flex-start; flex-wrap: wrap; gap: 0 24px; }
 }
 
 /* Buttons */
@@ -341,9 +353,6 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 .legal-formulaire p { margin: 0 0 10px; }
 .legal-formulaire p:last-child { margin: 0; }
 
-@media (max-width: 1100px) {
-  .recap, .mariee-photo { top: 124px; }
-}
 @media (max-width: 860px) {
   .hero-inner { grid-template-columns: 1fr; }
   .hero-logo { grid-row: 1; width: 220px; }
@@ -358,11 +367,14 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
   .recap { position: static; }
 }
 @media (max-width: 640px) {
-  .site-header { position: static; flex-wrap: wrap; gap: 6px 12px; justify-content: space-between; }
-  .site-header nav { gap: 0 18px; }
+  .js .site-header .btn-small { display: none; }
+  .js .menu-bouton { margin-left: auto; }
+  .js .nav-rdv { display: block; font-weight: 500; }
+  html:not(.js) .site-header { position: static; }
+  html:not(.js) .site-header nav { gap: 0 18px; }
+  html:not(.js) { scroll-padding-top: 0; }
   .brand img { width: 36px; }
   .btn-small { padding: 8px 12px; font-size: .9rem; }
-  html { scroll-padding-top: 0; }
   .fields, .formule-list { grid-template-columns: 1fr; }
   .mini-galerie { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pagination { gap: 6px; }

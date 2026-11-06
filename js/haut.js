@@ -1,6 +1,34 @@
 // Bouton « Haut de page », affiché une fois la page défilée.
 (function () {
   "use strict";
+  // Menu compact sur téléphone et tablette.
+  var entete = document.querySelector(".site-header");
+  var boutonMenu = document.querySelector(".menu-bouton");
+  if (entete && boutonMenu) {
+    var libelle = boutonMenu.querySelector("span");
+    var regler = function (ouvert) {
+      entete.classList.toggle("menu-ouvert", ouvert);
+      boutonMenu.setAttribute("aria-expanded", String(ouvert));
+      libelle.textContent = ouvert ? "Fermer" : "Menu";
+    };
+    boutonMenu.addEventListener("click", function () {
+      regler(!entete.classList.contains("menu-ouvert"));
+    });
+    // Se ferme après un choix, par la touche Échap, ou en touchant ailleurs.
+    entete.querySelector("nav").addEventListener("click", function (e) {
+      if (e.target.closest("a")) regler(false);
+    });
+    document.addEventListener("click", function (e) {
+      if (!entete.contains(e.target)) regler(false);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && entete.classList.contains("menu-ouvert")) {
+        regler(false);
+        boutonMenu.focus();
+      }
+    });
+  }
+
   var bouton = document.createElement("button");
   bouton.type = "button";
   bouton.className = "haut-page";
