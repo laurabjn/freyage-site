@@ -91,7 +91,7 @@ legend:focus, h3:focus { outline: none; }
 .carte-intro p { margin: 0; color: var(--muted); }
 .carte-intro .carte-lieu { margin-bottom: 8px; font-weight: 500; color: var(--gold-text); text-underline-offset: 3px; }
 .carte-list { list-style: none; margin: 0; padding: 0; }
-.carte-list a { display: grid; grid-template-columns: 1fr auto 5.75em; gap: 16px; align-items: baseline; padding: 11px 8px; margin: 0 -8px; text-decoration: none; transition: background .15s; }
+.carte-list a { display: grid; grid-template-columns: 1fr auto minmax(5.75em, auto); gap: 16px; align-items: baseline; padding: 11px 8px; margin: 0 -8px; text-decoration: none; transition: background .15s; }
 .carte-list a:hover { background: var(--sand); }
 .carte-list li + li { border-top: 1px dotted var(--line); }
 .carte-nom { font-weight: 500; }

@@ -58,6 +58,7 @@ window.FREYAGE = {
 
   /*
    * duree en minutes ; prix affiché tel quel ; description facultative.
+   * Un prix qui ne commence pas par un chiffre (« de 50 € à 150 € », « Sur devis ») ne se règle pas en ligne : sur place ou par carte cadeau.
    * acompte : montant en euros à régler en ligne si la cliente paie le reste sur place.
    * lien : la prestation n'est pas réservable en ligne et renvoie vers cette section.
    * note : texte affiché à la place de la liste quand une catégorie n'a pas encore de prestations.
@@ -147,9 +148,10 @@ window.FREYAGE = {
         { nom: "Plasma froid : Fesses", duree: 30, prix: "300 €" },
         { nom: "Plasma froid : Genoux", duree: 30, prix: "100 €" },
         { nom: "Plasma froid : Acné", duree: 30, prix: "50 €" },
-        { nom: "Plasma froid : Vergetures", duree: 30, prix: "50 €" },
-        { nom: "Plasma froid : Cicatrices", duree: 30, prix: "50 €" },
-        { nom: "Plasma froid : Ventre", duree: 30, prix: "300 €" },
+        { nom: "Plasma froid : Acné dos", duree: 20, prix: "de 50 € à 300 €" },
+        { nom: "Plasma froid : Vergetures", duree: 30, prix: "de 50 € à 150 €" },
+        { nom: "Plasma froid : Cicatrices", duree: 30, prix: "Sur devis" },
+        { nom: "Plasma froid : Amincissement ventre", duree: 75, prix: "de 300 € à 400 €" },
         { nom: "Plasma froid : Coudes", duree: 30, prix: "100 €" }
       ]
     },

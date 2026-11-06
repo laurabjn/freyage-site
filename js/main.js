@@ -214,10 +214,18 @@
   }
 
   // Les façons de régler une prestation. « montant » = à payer en ligne (0 = rien en ligne).
+  function prixFixe(s) { return /^[0-9]/.test(s.prix); }
+
   function choixReglement(s) {
     var prix = parseFloat(s.prix);
     var cadeau = { libelle: "Avec une carte cadeau", court: "Carte cadeau, solde éventuel sur place", montant: 0, cadeau: true };
     var ligne = { libelle: "En ligne, après ma confirmation (" + fmtEuros(prix) + ")", court: fmtEuros(prix) + " en ligne", montant: prix, lien: C.paiement.prestation };
+    if (!prixFixe(s)) {
+      return {
+        place: { libelle: "Sur place, par carte ou en espèces", court: "Sur place, par carte ou en espèces", montant: 0 },
+        cadeau: cadeau
+      };
+    }
     if (s.acompte) {
       return {
         ligne: ligne,
@@ -234,7 +242,7 @@
 
   function renderReglement() {
     var options = choixReglement(services[state.service]);
-    $("#reglement-options").innerHTML = ["ligne", "place", "cadeau"].map(function (cle) {
+    $("#reglement-options").innerHTML = Object.keys(options).map(function (cle) {
       return '<label class="service-option"><input type="radio" name="reglement" value="' + cle + '"' + (state.reglement === cle ? " checked" : "") + '><span class="service-name">' + esc(options[cle].libelle) + "</span></label>";
     }).join("");
     afficherCodeCadeau();
@@ -427,9 +435,9 @@
       if (choix.montant) {
         showDone("Votre demande est bien envoyée", souhait + ". Je vous confirme le jour et l'heure par téléphone ou par e-mail, ou je vous propose une autre date. Je vous enverrai alors le lien pour régler " + (choix.acompte ? "l'acompte de " : "") + fmtEuros(choix.montant) + " en ligne. Votre rendez-vous est définitif une fois confirmé.");
       } else if (choix.cadeau) {
-        showDone("Votre demande est bien envoyée", souhait + ". Je vérifie votre carte cadeau et je vous confirme le jour et l'heure par téléphone ou par e-mail, ou je vous propose une autre date. Si la carte ne couvre pas toute la prestation, le solde se règle sur place, par carte ou en espèces.");
+        showDone("Votre demande est bien envoyée", souhait + ". Je vérifie votre carte cadeau et je vous confirme le jour et l'heure par téléphone ou par e-mail, ou je vous propose une autre date. Si la carte ne couvre pas toute la prestation, le solde se règle sur place, par carte ou en espèces." + (prixFixe(services[state.service]) ? "" : " Je vous indiquerai le montant exact avant la séance."));
       } else {
-        showDone("Votre demande est bien envoyée", souhait + ". Je vous confirme le jour et l'heure par téléphone ou par e-mail, ou je vous propose une autre date. Votre rendez-vous est définitif une fois confirmé. Vous réglerez sur place, par carte ou en espèces.");
+        showDone("Votre demande est bien envoyée", souhait + ". Je vous confirme le jour et l'heure par téléphone ou par e-mail, ou je vous propose une autre date. Votre rendez-vous est définitif une fois confirmé. Vous réglerez sur place, par carte ou en espèces." + (prixFixe(services[state.service]) ? "" : " Je vous indiquerai le montant exact avant la séance."));
       }
     }).catch(function () {
       $('[data-error="3"]').textContent = "L'envoi a échoué. Réessayez, ou contactez-moi au " + C.contact.telephone + ".";
