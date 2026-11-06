@@ -40,17 +40,6 @@
     });
   });
 
-  // Aperçu des catégories ; la carte complète est sur la page Prestations.
-  $("#apercu").innerHTML = C.prestations.map(function (cat) {
-    var prix = cat.items.map(function (it) { return parseFloat(it.prix); }).filter(function (p) { return !isNaN(p); });
-    var detail = cat.items.length
-      ? "Dès " + Math.min.apply(null, prix) + " € · " + cat.items.length + " prestations"
-      : esc(cat.note || "");
-    return '<article class="apercu-cat carte-intro"><h3><a href="prestations.html#' + esc(cat.id) + '">' + esc(cat.categorie) + "</a></h3>" +
-      (cat.lieu ? '<p class="carte-lieu">À ' + esc(C.lieux[cat.lieu].ville) + "</p>" : "") +
-      "<p>" + esc(cat.description) + '</p><p class="apercu-detail">' + detail + "</p></article>";
-  }).join("");
-
   // Only services bookable online appear in the booking form.
   var si = 0;
   $("#service-options").innerHTML = C.prestations.map(function (cat) {

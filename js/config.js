@@ -1,6 +1,7 @@
 /*
  * FREYAGE : tout ce que vous avez à modifier se trouve dans ce fichier.
  * `demo: true` affiche un bandeau « Aperçu » en haut de l'accueil.
+ * Après un changement de prestations, de tarifs ou de coordonnées : node _outils/generer-html.js
  */
 window.FREYAGE = {
   demo: false,
