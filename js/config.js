@@ -77,7 +77,7 @@ window.FREYAGE = {
         { nom: "Maquillage sophistiqué", duree: 90, prix: "85 €" },
         { nom: "Maquillage invitée", duree: 60, prix: "75 €" },
         { nom: "Maquillage shooting photo", duree: 90, prix: "95 €" },
-        { nom: "Maquillage mariée + essai", duree: 90, prix: "Dès 480 €", lien: "#mariee" }
+        { nom: "Maquillage mariée + essai", duree: 90, prix: "Dès 480 €", lien: "mariage.html" }
       ]
     },
     {
@@ -98,6 +98,7 @@ window.FREYAGE = {
     },
     {
       id: "soins",
+      page: "soins-visage-bruges.html",
       categorie: "Soins du visage",
       lieu: "bruges",
       description: "Des soins personnalisés pour une peau sublimée.",
@@ -114,6 +115,7 @@ window.FREYAGE = {
     },
     {
       id: "plasma-froid",
+      page: "plasma-froid.html",
       categorie: "Plasma froid",
       lieu: "bruges",
       description: "Des séances par zone, après un diagnostic personnalisé.",

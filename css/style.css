@@ -107,6 +107,15 @@ legend:focus, h3:focus { outline: none; }
 .prestations-lien { margin: 28px 0 0; }
 .carte-intro .carte-mention { margin-top: 10px; font-size: .95rem; }
 .categories { margin-bottom: 8px; }
+.carte-intro .carte-plus { margin-top: 10px; font-weight: 500; color: var(--ink); text-underline-offset: 3px; }
+.page-dediee { max-width: 920px; }
+.page-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin: 24px 0 0; font-weight: 500; text-underline-offset: 4px; }
+.mini-galerie { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.mini-galerie img { width: 100%; }
+.bloc { margin-top: clamp(40px, 6vw, 64px); }
+.bloc h2 { margin-bottom: 16px; }
+.bloc .acces-infos { margin-top: 18px; }
+.page-dediee .carte-cat { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
 .categories .filtre { text-decoration: none; }
 .carte-nom small { display: block; margin-top: 4px; font-weight: 400; font-size: .95rem; line-height: 1.5; color: var(--muted); }
 .carte-note { margin: 0; align-self: center; }
@@ -341,7 +350,7 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
   .hero .eyebrow { justify-content: center; }
   .hero-actions { justify-content: center; }
   .lead { margin-inline: auto; }
-  .carte-cat, .apropos, .booking, .calendar-layout, .mariee, .cours, .contact-page, .questions, .cadeau { grid-template-columns: minmax(0, 1fr); }
+  .page-dediee .carte-cat, .carte-cat, .apropos, .booking, .calendar-layout, .mariee, .cours, .contact-page, .questions, .cadeau { grid-template-columns: minmax(0, 1fr); }
   .mariee-photo { position: static; max-height: 420px; object-position: 50% 15%; }
   .cours-side img { max-height: 380px; object-fit: cover; object-position: top; }
   .cours-side { order: 2; }
@@ -354,6 +363,7 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
   .btn-small { padding: 8px 12px; font-size: .9rem; }
   html { scroll-padding-top: 0; }
   .fields, .formule-list { grid-template-columns: 1fr; }
+  .mini-galerie { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pagination { gap: 6px; }
   .pagination .filtre { padding: 8px 10px; }
   .galerie { columns: 2; column-gap: 8px; }
