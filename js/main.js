@@ -61,9 +61,7 @@
       return '<label class="service-option"><input type="radio" name="prestation" value="' + i + '"><span class="service-name">' + esc(it.nom.replace(cat.categorie + " : ", "")) + '</span><span class="service-meta">' + fmtDuree(it.duree) + " · " + esc(it.prix) + "</span></label>";
     }).join("");
     var titre = "<h4>" + esc(cat.categorie) + " · à " + esc(C.lieux[cat.lieu].ville) + "</h4>";
-    return cat.plie
-      ? '<details class="service-group service-plie"><summary>' + titre + "</summary>" + options + "</details>"
-      : '<div class="service-group">' + titre + options + "</div>";
+    return '<details class="service-group service-plie"><summary>' + titre + "</summary>" + options + "</details>";
   }).join("");
 
 

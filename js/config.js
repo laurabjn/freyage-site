@@ -64,7 +64,6 @@ window.FREYAGE = {
    * note : texte affiché à la place de la liste quand une catégorie n'a pas encore de prestations.
    * lieu : adresse de la catégorie, voir « lieux » plus haut.
    * id : ancre de la catégorie sur la page Prestations. mention : précision affichée sous sa description.
-   * plie : dans le formulaire, la catégorie est repliée car elle est longue.
    */
   prestations: [
     {
@@ -119,7 +118,6 @@ window.FREYAGE = {
       lieu: "bruges",
       description: "Des séances par zone, après un diagnostic personnalisé.",
       mention: "Contre-indications : grossesse, allaitement, troubles mentaux en stade aigu, cancers. Une évaluation personnalisée est faite avant chaque séance.",
-      plie: true,
       items: [
         { nom: "Plasma froid : Visage entier", duree: 60, prix: "200 €" },
         { nom: "Plasma froid : Contour des yeux", duree: 60, prix: "400 €" },
