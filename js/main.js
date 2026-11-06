@@ -311,6 +311,10 @@
         msg = "Veuillez indiquer le code de votre carte cadeau.";
         form.elements.codeCadeau.focus();
       }
+      if (!msg && !form.elements.cgv.checked) {
+        msg = "Veuillez accepter les conditions générales de vente.";
+        form.elements.cgv.focus();
+      }
     }
     $('[data-error="' + step + '"]').textContent = msg;
     return !msg;

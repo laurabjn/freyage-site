@@ -158,7 +158,7 @@
               <li>Essai + jour J</li>
               <li>Kit retouche</li>
               <li>Déplacement possible le jour J</li>
-              <li>Acompte : 30 %</li>
+              <li>Acompte : 30 %, remboursé en cas d'annulation plus de 3 mois avant le mariage</li>
               <li>Déplacement : 0,60 €/km aller-retour</li>
             </ul>
           </div>
@@ -322,7 +322,7 @@
                   <label>Nom et prénom<input name="nom" autocomplete="name" required></label>
                   <label>Téléphone<input name="telephone" type="tel" autocomplete="tel" required></label>
                   <label class="field-wide">E-mail<input name="email" type="email" autocomplete="email" required></label>
-                  <label class="field-wide">Un message ? <span class="optional">(facultatif)</span><textarea name="message" rows="3" placeholder="Allergies, occasion, inspiration…"></textarea></label>
+                  <label class="field-wide">Un message ? <span class="optional">(facultatif)</span><textarea name="message" rows="3" placeholder="Occasion, inspiration…"></textarea></label>
                   <label class="hp" aria-hidden="true">Ne pas remplir<input name="_gotcha" tabindex="-1" autocomplete="off"></label>
                 </div>
                 <div class="reglement" role="radiogroup" aria-labelledby="reglement-titre">
@@ -332,6 +332,7 @@
                 <div class="fields reglement-code" id="cadeau-code" hidden>
                   <label class="field-wide">Code de la carte cadeau<input name="codeCadeau" autocomplete="off"></label>
                 </div>
+                <label class="accept-cgv"><input type="checkbox" name="cgv" required> <span>J'ai lu et j'accepte les <a href="cgv.html" target="_blank" rel="noopener">conditions générales de vente</a>.</span></label>
                 <p class="privacy">Vos coordonnées servent uniquement à traiter votre demande. <a href="mentions-legales.html#donnees">Données personnelles</a></p>
                 <p class="error" data-error="3" role="alert"></p>
                 <div class="step-actions"><button type="button" class="btn-back" data-back>Retour</button><button type="submit" class="btn btn-gold">Envoyer ma demande</button></div>
@@ -378,7 +379,7 @@
           </details>
           <details class="fold">
             <summary>Puis-je annuler ou déplacer mon rendez-vous&nbsp;?</summary>
-            <p>Oui, sans frais, jusqu'à 48&nbsp;h avant le rendez-vous. Passé ce délai, si vous avez déjà payé en ligne, je conserve 30&nbsp;% du prix de la prestation et je vous rembourse le reste.</p>
+            <p>Oui, sans frais, jusqu'à 48&nbsp;h avant le rendez-vous. Passé ce délai, si vous avez déjà payé en ligne, je conserve 30&nbsp;% du prix de la prestation et je vous rembourse le reste. Pour la Formule Mariée, les règles sont précisées dans la question sur l'acompte.</p>
           </details>
           <details class="fold">
             <summary>Et si j'ai du retard&nbsp;?</summary>
@@ -386,11 +387,11 @@
           </details>
           <details class="fold">
             <summary>Faut-il verser un acompte&nbsp;?</summary>
-            <p>Oui, un acompte de 30&nbsp;% est demandé pour les cours d'auto-maquillage et pour la Formule Mariée. Je vous envoie le lien de paiement une fois la date confirmée. Si vous payez tout le cours en ligne ou avec une carte cadeau, il n'y a pas d'acompte en plus. L'acompte est remboursé en cas d'annulation jusqu'à 48&nbsp;h avant le rendez-vous.</p>
+            <p>Oui, un acompte de 30&nbsp;% est demandé pour les cours d'auto-maquillage et pour la Formule Mariée. Je vous envoie le lien de paiement une fois la date confirmée, à régler sous 48&nbsp;h, ou sous 24&nbsp;h si le rendez-vous a lieu dans les 7&nbsp;jours. Si vous payez tout le cours en ligne ou avec une carte cadeau, il n'y a pas d'acompte en plus. Pour un cours, l'acompte est remboursé en cas d'annulation jusqu'à 48&nbsp;h avant le rendez-vous. Pour un mariage, il est remboursé en cas d'annulation plus de 3&nbsp;mois avant la date et conservé ensuite ; si la date change, il est reporté si je suis disponible.</p>
           </details>
           <details class="fold">
             <summary>Comment puis-je régler&nbsp;?</summary>
-            <p>Vous choisissez au moment de votre demande : en ligne par carte bancaire, sur place par carte bancaire ou en espèces, ou avec une carte cadeau. Pour payer en ligne, je vous envoie le lien avec ma confirmation. Pour un cours d'auto-maquillage réglé sur place, l'acompte reste à payer en ligne.</p>
+            <p>Vous choisissez au moment de votre demande : en ligne par carte bancaire, sur place par carte bancaire ou en espèces, ou avec une carte cadeau. Pour payer en ligne, je vous envoie le lien avec ma confirmation, à régler dans les mêmes délais que l'acompte. Pour un cours d'auto-maquillage réglé sur place, l'acompte reste à payer en ligne.</p>
           </details>
           <details class="fold">
             <summary>Comment utiliser ma carte cadeau&nbsp;?</summary>
@@ -444,7 +445,7 @@
   <footer class="site-footer">
     <div class="wrap footer-inner">
       <span>© <span id="year"></span> FreyAge</span>
-      <span class="footer-liens"><a href="acces.html">Accès</a><a href="mentions-legales.html">Mentions légales</a></span>
+      <span class="footer-liens"><a href="acces.html">Accès</a><a href="mentions-legales.html">Mentions légales</a><a href="cgv.html">CGV</a></span>
     </div>
   </footer>
 
