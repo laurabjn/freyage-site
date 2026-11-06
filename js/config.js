@@ -22,6 +22,15 @@ window.FREYAGE = {
     bruges: { ville: "Bruges", adresse: "39 rue du Réduit, 33520 Bruges", prestations: "Soins du visage et plasma froid" }
   },
 
+  // Carte cadeau : montant minimum, et date jusqu'à laquelle l'accueil la met en avant (bandeau et section remontée).
+  // Pour une autre période, changez simplement la date ; supprimez-la pour tout arrêter.
+  carteCadeau: {
+    minimum: 20,
+    enAvantJusquau: "2026-12-24",
+    // Prestations dont le prix est proposé en un clic sur la page Carte cadeau.
+    suggestions: ["Maquillage jour", "Soin du visage personnalisé", "Cours d'auto-maquillage, formule 1"]
+  },
+
   // Liens de paiement Stripe.
   paiement: {
     carteCadeau: "https://buy.stripe.com/3cIcN7c533LGfvsarRgjC00",

@@ -33,6 +33,16 @@
   }
   $("#year").textContent = new Date().getFullYear();
 
+  // Jusqu'à la date prévue : bandeau affiché et section Carte cadeau remontée après les prestations.
+  var finAvant = C.carteCadeau && C.carteCadeau.enAvantJusquau;
+  if (finAvant && dateKey(new Date()) <= finAvant) {
+    $("#bandeau-cadeau").hidden = false;
+    var sectionCadeau = $("#carte-cadeau");
+    sectionCadeau.classList.remove("section-tint");
+    sectionCadeau.classList.add("cadeau-en-avant");
+    $("#mariee").parentNode.insertBefore(sectionCadeau, $("#mariee"));
+  }
+
   var services = [];
   C.prestations.forEach(function (cat) {
     cat.items.forEach(function (it) {
