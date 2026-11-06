@@ -33,7 +33,7 @@ window.FREYAGE = {
 
   // Liens de paiement Stripe.
   paiement: {
-    carteCadeau: "https://buy.stripe.com/3cIcN7c533LGfvsarRgjC00",
+    carteCadeau: "https://buy.stripe.com/28EaEZ1qpgys5USdE3gjC03",
     acompte: "https://buy.stripe.com/7sY6oJgljdmggzw57xgjC01",
     prestation: "https://buy.stripe.com/eVqfZj3yx3LG3MKfMbgjC02"
   },
