@@ -8,12 +8,17 @@ window.FREYAGE = {
   contact: {
     telephone: "06 99 11 78 38",
     email: "contact@freyage.fr",
-    adresse: "6 rue du Plantey, 33700 Mérignac",
     reseaux: [
       { nom: "Instagram", compte: "@freyage_beauty", url: "https://www.instagram.com/freyage_beauty" },
       { nom: "TikTok", compte: "@freyage1", url: "https://www.tiktok.com/@freyage1" },
       { nom: "Facebook", compte: "FreyAge", url: "https://www.facebook.com/profile.php?id=61594013965412" }
     ]
+  },
+
+  // Adresses, rattachées aux catégories de prestations par leur clé (lieu: "merignac").
+  lieux: {
+    merignac: { ville: "Mérignac", adresse: "6 rue du Plantey, 33700 Mérignac", prestations: "Maquillage et cours" },
+    bruges: { ville: "Bruges", adresse: "39 rue du Réduit, 33520 Bruges", prestations: "Soins du visage" }
   },
 
   // Liens de paiement Stripe.
@@ -23,7 +28,8 @@ window.FREYAGE = {
     prestation: "https://buy.stripe.com/eVqfZj3yx3LG3MKfMbgjC02"
   },
 
-  // Plages d'ouverture : 0 = dimanche, 1 = lundi… 6 = samedi. [] = fermé.
+  // Plages d'ouverture, non affichées : elles déterminent les jours et les moments proposés dans le formulaire.
+  // 0 = dimanche, 1 = lundi… 6 = samedi. [] = fermé.
   horaires: {
     1: [],
     2: [["09:00", "12:30"], ["14:00", "18:30"]],
@@ -56,10 +62,12 @@ window.FREYAGE = {
    * acompte : montant en euros à régler en ligne si la cliente paie le reste sur place.
    * lien : la prestation n'est pas réservable en ligne et renvoie vers cette section.
    * note : texte affiché à la place de la liste quand une catégorie n'a pas encore de prestations.
+   * lieu : adresse de la catégorie, voir « lieux » plus haut.
    */
   prestations: [
     {
       categorie: "Maquillage",
+      lieu: "merignac",
       description: "Une prestation personnalisée selon vos envies, votre style et l'occasion : événement, soirée, cérémonie, séance photo ou autre projet.",
       items: [
         { nom: "Maquillage jour", duree: 45, prix: "55 €" },
@@ -72,6 +80,7 @@ window.FREYAGE = {
     },
     {
       categorie: "Cours & ateliers",
+      lieu: "merignac",
       description: "Apprenez à révéler votre beauté, simplement.",
       items: [
         {
@@ -86,6 +95,7 @@ window.FREYAGE = {
     },
     {
       categorie: "Soins du visage",
+      lieu: "bruges",
       description: "Des soins personnalisés pour une peau sublimée.",
       items: [
         {
@@ -102,7 +112,7 @@ window.FREYAGE = {
       categorie: "Ongles",
       description: "Des mains soignées, jusqu'au bout des ongles.",
       items: [],
-      note: "Bientôt disponible."
+      note: "Bientôt disponible. L'adresse sera indiquée à la réservation."
     }
   ],
 

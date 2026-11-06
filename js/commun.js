@@ -2,6 +2,7 @@
 (function () {
   "use strict";
   var ct = window.FREYAGE.contact;
+  var lieux = window.FREYAGE.lieux;
   var esc = function (s) {
     return String(s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -9,7 +10,9 @@
   };
 
   document.getElementById("contact").innerHTML =
-    "<li><span>Adresse</span>" + esc(ct.adresse) + "</li>" +
+    Object.keys(lieux).map(function (cle) {
+      return "<li><span>" + esc(lieux[cle].prestations) + "</span>" + esc(lieux[cle].adresse) + "</li>";
+    }).join("") +
     '<li><span>Téléphone</span><a href="tel:' + esc(ct.telephone.replace(/\s/g, "")) + '">' + esc(ct.telephone) + "</a></li>" +
     '<li><span>E-mail</span><a href="mailto:' + esc(ct.email) + '">' + esc(ct.email) + "</a></li>";
 

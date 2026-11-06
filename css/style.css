@@ -89,6 +89,7 @@ legend:focus, h3:focus { outline: none; }
 .carte-cat:last-child { border-bottom: 1px solid var(--line); }
 .carte-intro h3 { font-size: 1.5rem; margin-bottom: 8px; }
 .carte-intro p { margin: 0; color: var(--muted); }
+.carte-intro .carte-lieu { margin-bottom: 8px; font-weight: 500; color: var(--gold-text); text-underline-offset: 3px; }
 .carte-list { list-style: none; margin: 0; padding: 0; }
 .carte-list a { display: grid; grid-template-columns: 1fr auto 5.75em; gap: 16px; align-items: baseline; padding: 11px 8px; margin: 0 -8px; text-decoration: none; transition: background .15s; }
 .carte-list a:hover { background: var(--sand); }
@@ -245,8 +246,6 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 .recap dd::first-letter { text-transform: uppercase; }
 
 /* Infos */
-.infos { display: grid; grid-template-columns: 1fr 1fr; gap: 40px 56px; }
-.infos h3 { font-size: 1.3rem; margin-bottom: 14px; }
 .contact { list-style: none; padding: 0; margin: 24px 0 0; }
 .contact li { padding: 10px 0; border-top: 1px solid var(--line); }
 .contact span { display: block; font-size: .875rem; color: var(--muted); }
@@ -254,11 +253,6 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 .reseaux a { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: var(--forest); color: var(--gold); transition: background .2s, color .2s; }
 .reseaux a:hover { background: var(--gold); color: var(--forest); }
 .reseaux svg { width: 22px; height: 22px; }
-.horaires { margin: 0; }
-.horaires div { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid var(--line); }
-.horaires dt { font-weight: 500; }
-.horaires dd { margin: 0; text-align: right; }
-.closed { color: var(--muted); }
 
 .site-footer { background: var(--sage-deep); color: #fff; padding: 22px 0; font-size: .95rem; }
 .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
@@ -298,7 +292,9 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 
 /* Access page */
 .adresse { font: 400 1.4rem/1.4 var(--serif); font-style: normal; }
-.acces-titre { font-size: 1.3rem; margin: 32px 0 14px; }
+.acces-titre { font-size: 1.3rem; margin: 0 0 14px; }
+.lieu + .lieu { margin-top: 48px; }
+.lieu .acces-infos { margin: 18px 0; }
 .itineraires { display: flex; flex-wrap: wrap; gap: 10px; }
 .acces-infos { margin: 0; }
 .acces-infos div { padding: 12px 0; border-top: 1px solid var(--line); }
@@ -324,7 +320,7 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
   .hero .eyebrow { justify-content: center; }
   .hero-actions { justify-content: center; }
   .lead { margin-inline: auto; }
-  .carte-cat, .apropos, .infos, .booking, .calendar-layout, .mariee, .cours, .contact-page, .questions, .cadeau { grid-template-columns: minmax(0, 1fr); }
+  .carte-cat, .apropos, .booking, .calendar-layout, .mariee, .cours, .contact-page, .questions, .cadeau { grid-template-columns: minmax(0, 1fr); }
   .mariee-photo { position: static; max-height: 420px; object-position: 50% 15%; }
   .cours-side img { max-height: 380px; object-fit: cover; object-position: top; }
   .cours-side { order: 2; }

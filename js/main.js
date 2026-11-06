@@ -15,10 +15,6 @@
     if (!h) return m + " min";
     return h + " h" + (m ? " " + String(m).padStart(2, "0") : "");
   }
-  function fmtHeure(hhmm) { // "09:30" -> "9 h 30", "14:00" -> "14 h" (non-breaking spaces)
-    var p = hhmm.split(":");
-    return +p[0] + " h" + (p[1] === "00" ? "" : " " + p[1]);
-  }
   function toMin(hhmm) { var p = hhmm.split(":"); return +p[0] * 60 + +p[1]; }
   function toHHMM(min) { return String(Math.floor(min / 60)).padStart(2, "0") + ":" + String(min % 60).padStart(2, "0"); }
   function dateKey(d) {
@@ -33,7 +29,7 @@
 
   // ---- Static content from config
   if (C.demo) {
-    $("#demo-banner").innerHTML = '<p class="demo">Aperçu : les horaires affichés sont des exemples.</p>';
+    $("#demo-banner").innerHTML = '<p class="demo">Aperçu : les informations affichées sont des exemples.</p>';
   }
   $("#year").textContent = new Date().getFullYear();
 
@@ -44,12 +40,12 @@
       if (it.lien) {
         attrs = 'href="' + esc(it.lien) + '"';
       } else {
-        var i = services.push({ nom: it.nom, duree: it.duree, prix: it.prix, acompte: it.acompte, categorie: cat.categorie }) - 1;
+        var i = services.push({ nom: it.nom, duree: it.duree, prix: it.prix, acompte: it.acompte, categorie: cat.categorie, lieu: C.lieux[cat.lieu] }) - 1;
         attrs = 'href="#rdv" data-book="' + i + '" aria-label="Réserver : ' + esc(it.nom) + '"';
       }
       return "<li><a " + attrs + '><span class="carte-nom">' + esc(it.nom) + (it.description ? '<small>' + esc(it.description) + "</small>" : "") + '</span><span class="carte-duree">' + fmtDuree(it.duree) + '</span><span class="carte-prix">' + esc(it.prix) + "</span></a></li>";
     }).join("") + "</ul>" : '<p class="carte-note">' + esc(cat.note || "") + (cat.noteLien ? ' <a href="' + esc(cat.noteLien) + '">Me contacter</a>' : "") + "</p>";
-    return '<article class="carte-cat"><div class="carte-intro"><h3>' + esc(cat.categorie) + "</h3><p>" + esc(cat.description) + "</p></div>" + liste + "</article>";
+    return '<article class="carte-cat"><div class="carte-intro"><h3>' + esc(cat.categorie) + "</h3>" + (cat.lieu ? '<p class="carte-lieu"><a href="acces.html">À ' + esc(C.lieux[cat.lieu].ville) + "</a></p>" : "") + "<p>" + esc(cat.description) + "</p></div>" + liste + "</article>";
   }).join("");
 
   // Only services bookable online appear in the booking form.
@@ -57,20 +53,12 @@
   $("#service-options").innerHTML = C.prestations.map(function (cat) {
     var items = cat.items.filter(function (it) { return !it.lien; });
     if (!items.length) return "";
-    return '<div class="service-group"><h4>' + esc(cat.categorie) + "</h4>" + items.map(function (it) {
+    return '<div class="service-group"><h4>' + esc(cat.categorie) + " · à " + esc(C.lieux[cat.lieu].ville) + "</h4>" + items.map(function (it) {
       var i = si++;
       return '<label class="service-option"><input type="radio" name="prestation" value="' + i + '"><span class="service-name">' + esc(it.nom) + '</span><span class="service-meta">' + fmtDuree(it.duree) + " · " + esc(it.prix) + "</span></label>";
     }).join("") + "</div>";
   }).join("");
 
-
-  var JOURS = [[1, "Lundi"], [2, "Mardi"], [3, "Mercredi"], [4, "Jeudi"], [5, "Vendredi"], [6, "Samedi"], [0, "Dimanche"]];
-  $("#horaires").innerHTML = JOURS.map(function (j) {
-    var r = C.horaires[j[0]] || [];
-    var txt = r.length ? r.map(function (p) { return fmtHeure(p[0]) + " – " + fmtHeure(p[1]); }).join("<br>") : "Fermé";
-    if (j[0] === 6 && r.length) txt = "Un samedi sur deux<br>" + txt;
-    return "<div><dt>" + j[1] + "</dt><dd" + (r.length ? "" : ' class="closed"') + ">" + txt + "</dd></div>";
-  }).join("");
 
   // ---- Booking state
   var state = { step: 1, service: null, jours: [], reglement: null }; // jours : { date, moment }, 2 au maximum
@@ -125,7 +113,7 @@
       var matin = toMin(r[0]) < 12 * 60;
       return {
         cle: matin ? "matin" : "apres-midi",
-        libelle: (matin ? "Le matin" : "L'après-midi") + " (" + fmtHeure(r[0]) + " – " + fmtHeure(r[1]) + ")",
+        libelle: matin ? "Le matin" : "L'après-midi",
         court: matin ? "le matin" : "l'après-midi"
       };
     });
@@ -261,6 +249,7 @@
     var s = state.service !== null ? services[state.service] : null;
     $("#recap-service").textContent = s ? s.nom : "–";
     $("#recap-duree").textContent = s ? fmtDuree(s.duree) : "–";
+    $("#recap-lieu").textContent = s ? s.lieu.adresse : "–";
     $("#recap-prix").textContent = s ? s.prix : "–";
     var choix = s && state.reglement ? choixReglement(s)[state.reglement] : null;
     $("#recap-reglement-titre").hidden = $("#recap-reglement").hidden = !choix;
@@ -381,6 +370,7 @@
     var code = state.reglement === "cadeau" ? " (code : " + f.codeCadeau.value.trim() + ")" : "";
     var req = {
       prestation: s.nom,
+      lieu: s.lieu.adresse,
       duree: fmtDuree(s.duree),
       tarif: s.prix,
       reglement: choix.court + code,
@@ -402,7 +392,7 @@
 
   function showDone(title, text) {
     $("#done-title").textContent = title;
-    $("#done-text").textContent = text;
+    $("#done-text").textContent = text + " Adresse : " + services[state.service].lieu.adresse + ".";
     goTo(4, false);
     $("#done-title").focus({ preventScroll: true });
   }
@@ -418,6 +408,7 @@
     if (!C.rdv.endpoint) {
       var body = "Bonjour,\n\nJe souhaite demander un rendez-vous :\n\n" +
         "Prestation : " + req.prestation + " (" + req.duree + ", " + req.tarif + ")\n" +
+        "Lieu : " + req.lieu + "\n" +
         "Règlement : " + req.reglement + "\n" +
         "Souhait : " + quand + "\n\nNom : " + req.nom + "\nTéléphone : " + req.telephone + "\nE-mail : " + req.email +
         (req.message ? "\n\nMessage : " + req.message : "");
