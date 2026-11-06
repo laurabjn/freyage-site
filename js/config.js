@@ -31,12 +31,12 @@ window.FREYAGE = {
   // Plages d'ouverture, non affichées : elles déterminent les jours et les moments proposés dans le formulaire.
   // 0 = dimanche, 1 = lundi… 6 = samedi. [] = fermé.
   horaires: {
-    1: [],
+    1: [["09:00", "12:30"], ["14:00", "18:30"]],
     2: [["09:00", "12:30"], ["14:00", "18:30"]],
     3: [["09:00", "12:30"], ["14:00", "18:30"]],
     4: [["09:00", "12:30"], ["14:00", "18:30"]],
     5: [["09:00", "12:30"], ["14:00", "18:30"]],
-    6: [["14:00", "18:30"]],
+    6: [["09:00", "12:30"], ["14:00", "18:30"]],
     0: []
   },
 
@@ -53,7 +53,6 @@ window.FREYAGE = {
       cle: "AIzaSyBLkOuSARwqDIfJ9WhAiTO9m9rsdVpYNfs"
     },
     tamponMinutes: 35,   // pause minimale entre deux rendez-vous
-    samediTravaille: "2026-11-07", // un samedi travaillé : les samedis ouverts sont ensuite un sur deux à partir de cette date
     fermetures: []       // jours de fermeture, ex. ["2026-12-25", "2027-01-01"]
   },
 

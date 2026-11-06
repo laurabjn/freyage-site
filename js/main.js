@@ -70,19 +70,11 @@
   var view = new Date(now.getFullYear(), now.getMonth(), 1);
   var occupe = []; // plages occupées de l'agenda Google
 
-  // Every other Saturday, counted from the reference date (UTC so clock changes don't shift the count).
-  function samediOuvert(d) {
-    var p = C.rdv.samediTravaille.split("-");
-    var semaines = Math.round((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(+p[0], +p[1] - 1, +p[2])) / (7 * 86400000));
-    return semaines % 2 === 0;
-  }
-
   // Slots that fit the selected service within opening hours and the notice period.
   function slotsFor(d, duree) {
     var ranges = C.horaires[d.getDay()] || [];
     if (C.rdv.fermetures.indexOf(dateKey(d)) !== -1) return [];
     if (d > lastDay) return [];
-    if (d.getDay() === 6 && !samediOuvert(d)) return [];
     var out = [];
     var pause = C.rdv.tamponMinutes;
     ranges.forEach(function (r) {
