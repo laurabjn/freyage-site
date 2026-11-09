@@ -352,6 +352,8 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 .acces-infos dd { margin: 0; }
 .acces-horaires { margin: 18px 0 0; font-weight: 500; }
 .acces-lien { margin: 20px 0 0; }
+.avis-appel { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
+.avis-appel a { font-weight: 500; white-space: nowrap; }
 .footer-liens { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 
 /* Legal page */
