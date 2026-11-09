@@ -26,7 +26,11 @@ window.FREYAGE = {
   // Pour une autre période, changez simplement la date ; supprimez-la pour tout arrêter.
   carteCadeau: {
     minimum: 20,
+    // Minimum réglé sur le lien Stripe : avec une remise, le montant payé ne peut pas descendre en dessous.
+    minimumStripe: 20,
     enAvantJusquau: "2026-12-24",
+    // Remise sur le prix payé : la carte garde sa valeur. Supprimez ces lignes pour l'arrêter plus tôt.
+    remise: { pourcent: 10, jusquau: "2026-12-24" },
     // Prestations dont le prix est proposé en un clic sur la page Carte cadeau.
     suggestions: ["Maquillage jour", "Soin du visage personnalisé", "Cours d'auto-maquillage, formule 1"]
   },

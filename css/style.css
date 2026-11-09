@@ -319,6 +319,9 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 .questions .fold p { margin: 0 0 18px; }
 .cadeau-list { grid-template-columns: 1fr; margin-bottom: 24px; }
 .cadeau-en-avant { border-top: 1px solid var(--line); }
+.remise { margin: 0 0 16px; padding: 10px 14px; background: var(--forest); color: var(--ivory); font-weight: 500; }
+.section-head .remise { margin-top: 12px; display: inline-block; }
+.a-payer { margin: 0 0 8px; font-weight: 500; }
 .montants { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 16px; }
 .montants:empty { display: none; }
 .montant-choix { display: grid; gap: 2px; padding: 10px 12px; text-align: left; }

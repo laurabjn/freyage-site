@@ -59,11 +59,13 @@
           <p class="section-note">Offrez un moment de beauté, pour un anniversaire, Noël ou un mariage. Choisissez le montant, réglez en ligne, et je vous envoie votre code par e-mail.</p>
         </header>
 
+        <p class="remise" id="remise" hidden></p>
         <form id="cadeau-form" class="contact-form" novalidate>
           <div class="montants" id="montants" role="group" aria-label="Montants proposés"></div>
           <div class="fields">
-            <label class="field-wide">Montant de la carte (€) <span class="optional">20 € minimum</span><input name="montant" type="number" min="20" step="1" inputmode="numeric" required></label>
+            <label class="field-wide">Montant de la carte (€) <span class="optional" id="montant-min">20 € minimum</span><input name="montant" type="number" min="20" step="1" inputmode="numeric" required></label>
           </div>
+          <p class="a-payer" id="a-payer" aria-live="polite" hidden></p>
           <p class="error" id="cadeau-error" role="alert"></p>
           <button type="submit" class="btn">Payer ma carte cadeau</button>
           <p class="privacy">Paiement sécurisé par Stripe, où vous indiquerez votre nom et votre e-mail. Pour indiquer le prénom de la personne qui reçoit la carte, répondez simplement à l'e-mail contenant votre code. En payant, vous acceptez les <a href="cgv.html">conditions générales de vente</a>. <a href="mentions-legales.html#donnees">Données personnelles</a></p>

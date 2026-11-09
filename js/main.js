@@ -37,6 +37,13 @@
   var finAvant = C.carteCadeau && C.carteCadeau.enAvantJusquau;
   if (finAvant && dateKey(new Date()) <= finAvant) {
     $("#bandeau-cadeau").hidden = false;
+    var r = C.carteCadeau.remise;
+    if (r && dateKey(new Date()) <= r.jusquau) {
+      var finRemise = new Date(r.jusquau + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
+      $("#bandeau-cadeau a").textContent = "Jusqu'au " + finRemise + " : −" + r.pourcent + " % sur les cartes cadeaux";
+      $("#remise-accueil").textContent = "Jusqu'au " + finRemise + " : −" + r.pourcent + " % sur le prix de la carte";
+      $("#remise-accueil").hidden = false;
+    }
     var sectionCadeau = $("#carte-cadeau");
     sectionCadeau.classList.remove("section-tint");
     sectionCadeau.classList.add("cadeau-en-avant");
