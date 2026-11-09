@@ -182,6 +182,7 @@ window.FREYAGE = {
       categorie: "Press-on",
       description: "Des press-on faits main et sur mesure, à poser vous-même.",
       items: [],
+      page: "press-on.html",
       note: "Bientôt disponible.",
       noteLien: { texte: "Être prévenue de l'ouverture", href: "contact.html?objet=presson" }
     }
