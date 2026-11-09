@@ -219,7 +219,7 @@
     var ligne = { libelle: "En ligne, après ma confirmation (" + fmtEuros(prix) + ")", court: fmtEuros(prix) + " en ligne", montant: prix, lien: C.paiement.prestation };
     if (!prixFixe(s)) {
       return {
-        place: { libelle: "Sur place, par carte ou en espèces", court: "Sur place, par carte ou en espèces", montant: 0 },
+        place: { libelle: "Acompte de 30 % en ligne une fois le prix fixé, puis le reste sur place par carte ou en espèces", court: "Acompte de 30 % en ligne (prix à fixer), le reste sur place", montant: 0, lien: C.paiement.acompte, acompteVariable: true },
         cadeau: cadeau
       };
     }
@@ -392,6 +392,9 @@
     // Lien à copier dans la confirmation envoyée à la cliente.
     if (choix.montant) {
       req.lienPaiement = choix.lien + "?prefilled_amount=" + Math.round(choix.montant * 100) + "&prefilled_email=" + encodeURIComponent(req.email);
+    } else if (choix.acompteVariable) {
+      // Prix encore inconnu : Laura saisit elle-même le montant de l'acompte (30 % du prix fixé).
+      req.lienPaiement = choix.lien + "?prefilled_email=" + encodeURIComponent(req.email) + " (acompte de 30 % du prix fixé, montant à saisir)";
     }
     return req;
   }
@@ -435,6 +438,8 @@
       var choix = choixReglement(services[state.service])[state.reglement];
       if (choix.montant) {
         showDone("Votre demande est bien envoyée", souhait + ". Je vous confirme le jour et l'heure par téléphone ou par e-mail, ou je vous propose une autre date. Je vous enverrai alors le lien pour régler " + (choix.acompte ? "l'acompte de " : "") + fmtEuros(choix.montant) + " en ligne. Votre rendez-vous est définitif une fois confirmé.");
+      } else if (choix.acompteVariable) {
+        showDone("Votre demande est bien envoyée", souhait + ". Je vous confirme le jour et l'heure par téléphone ou par e-mail, ou je vous propose une autre date, avec le prix exact de la séance. Je vous enverrai alors le lien pour régler l'acompte de 30 % en ligne ; le reste se règle sur place, par carte ou en espèces. Votre rendez-vous est définitif une fois confirmé.");
       } else if (choix.cadeau) {
         showDone("Votre demande est bien envoyée", souhait + ". Je vérifie votre carte cadeau et je vous confirme le jour et l'heure par téléphone ou par e-mail, ou je vous propose une autre date. Si la carte ne couvre pas toute la prestation, le solde se règle sur place, par carte ou en espèces." + (prixFixe(services[state.service]) ? "" : " Je vous indiquerai le montant exact avant la séance."));
       } else {

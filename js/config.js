@@ -68,7 +68,7 @@ window.FREYAGE = {
 
   /*
    * duree en minutes ; prix affiché tel quel ; description facultative.
-   * Un prix qui ne commence pas par un chiffre (« de 50 € à 150 € », « Sur devis ») ne se règle pas en ligne : sur place ou par carte cadeau.
+   * Un prix qui ne commence pas par un chiffre (« de 50 € à 150 € », « Sur devis ») se règle par un acompte de 30 % en ligne (montant saisi par Laura) et le reste sur place, ou par carte cadeau.
    * acompte : montant en euros à régler en ligne si la cliente paie le reste sur place.
    * lien : la prestation n'est pas réservable en ligne et renvoie vers cette section.
    * note : texte affiché à la place de la liste quand une catégorie n'a pas encore de prestations.
