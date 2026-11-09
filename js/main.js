@@ -396,9 +396,21 @@
     state.jours.forEach(function (j, i) {
       req["souhait" + (i + 1)] = fmtDate(j.date) + " : " + j.moment.libelle;
     });
+    // Parrainage : la réduction de la filleule se déduit du prix, après vérification par Laura.
+    var marraine = f.marraine.value.trim();
+    var reduc = C.parrainage ? C.parrainage.reduction : 0;
+    if (marraine && reduc) {
+      req.parrainage = "Marraine : " + marraine + " (à vérifier : nouvelle cliente ? " + reduc + " € pour elle, et " + reduc + " € pour la marraine à son prochain rendez-vous, une fois la filleule venue)";
+    }
     // Lien à copier dans la confirmation envoyée à la cliente.
     if (choix.montant) {
-      req.lienPaiement = choix.lien + "?prefilled_amount=" + Math.round(choix.montant * 100) + "&prefilled_email=" + encodeURIComponent(req.email);
+      var montant = choix.montant;
+      // Paiement complet en ligne : le lien tient déjà compte du parrainage ; l'acompte, lui, ne change pas.
+      if (req.parrainage && !choix.acompte && montant > reduc) {
+        req.lienPaiementSansParrainage = choix.lien + "?prefilled_amount=" + Math.round(montant * 100) + "&prefilled_email=" + encodeURIComponent(req.email);
+        montant -= reduc;
+      }
+      req.lienPaiement = choix.lien + "?prefilled_amount=" + Math.round(montant * 100) + "&prefilled_email=" + encodeURIComponent(req.email);
     } else if (choix.acompteVariable) {
       // Prix encore inconnu : Laura saisit elle-même le montant de l'acompte (30 % du prix fixé).
       req.lienPaiement = choix.lien + "?prefilled_email=" + encodeURIComponent(req.email) + " (acompte de 30 % du prix fixé, montant à saisir)";

@@ -24,6 +24,9 @@ window.FREYAGE = {
 
   // Carte cadeau : montant minimum, et date jusqu'à laquelle l'accueil la met en avant (bandeau et section remontée).
   // Pour une autre période, changez simplement la date ; supprimez-la pour tout arrêter.
+  // Parrainage : réduction en euros pour la filleule (nouvelle cliente) et pour sa marraine.
+  parrainage: { reduction: 10 },
+
   carteCadeau: {
     minimum: 20,
     // Minimum réglé sur le lien Stripe : avec une remise, le montant payé ne peut pas descendre en dessous.
