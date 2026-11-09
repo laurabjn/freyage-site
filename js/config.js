@@ -76,6 +76,7 @@ window.FREYAGE = {
    * acompte : montant en euros à régler en ligne si la cliente paie le reste sur place.
    * lien : la prestation n'est pas réservable en ligne et renvoie vers cette section.
    * note : texte affiché à la place de la liste quand une catégorie n'a pas encore de prestations.
+   * noteLien : lien facultatif affiché après cette note, { texte, href }.
    * lieu : adresse de la catégorie, voir « lieux » plus haut.
    * id : ancre de la catégorie sur la page Prestations. mention : précision affichée sous sa description.
    */
@@ -175,6 +176,14 @@ window.FREYAGE = {
       description: "Des mains soignées, jusqu'au bout des ongles.",
       items: [],
       note: "Bientôt disponible. L'adresse sera indiquée à la réservation."
+    },
+    {
+      id: "press-on",
+      categorie: "Press-on",
+      description: "Des press-on faits main et sur mesure, à poser vous-même.",
+      items: [],
+      note: "Bientôt disponible.",
+      noteLien: { texte: "Être prévenue de l'ouverture", href: "contact.html?objet=presson" }
     }
   ],
 

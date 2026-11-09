@@ -28,7 +28,7 @@
         ? 'href="' + esc(it.lien) + '"'
         : 'href="index.html?prestation=' + esc(encodeURIComponent(it.nom)) + '#rdv" aria-label="Demander : ' + esc(it.nom) + '"';
       return "<li><a " + attrs + '><span class="carte-nom">' + esc(it.nom.replace(cat.categorie + " : ", "")) + (it.description ? "<small>" + esc(it.description) + "</small>" : "") + '</span><span class="carte-duree">' + fmtDuree(it.duree) + '</span><span class="carte-prix">' + esc(it.prix) + "</span></a></li>";
-    }).join("") + "</ul>" : '<p class="carte-note">' + esc(cat.note || "") + "</p>";
+    }).join("") + "</ul>" : '<p class="carte-note">' + esc(cat.note || "") + (cat.noteLien ? ' <a href="' + esc(cat.noteLien.href) + '">' + esc(cat.noteLien.texte) + "</a>" : "") + "</p>";
     return '<article class="carte-cat" id="' + esc(cat.id) + '"><div class="carte-intro"><h2 class="carte-titre">' + esc(cat.categorie) + "</h2>" +
       (cat.lieu ? '<p class="carte-lieu"><a href="acces.html">À ' + esc(C.lieux[cat.lieu].ville) + "</a></p>" : "") +
       "<p>" + esc(cat.description) + "</p>" + (cat.mention ? '<p class="carte-mention">' + esc(cat.mention) + "</p>" : "") + (cat.page && !seule ? '<p class="carte-plus"><a href="' + esc(cat.page) + '">En savoir plus</a></p>' : "") + "</div>" + liste + "</article>";

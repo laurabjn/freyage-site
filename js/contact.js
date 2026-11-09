@@ -4,7 +4,7 @@
   var form = document.getElementById("contact-form");
   var f = form.elements;
   var error = document.getElementById("contact-error");
-  var OBJETS = { mariee: "Devis pour un mariage", autre: "Autre question" };
+  var OBJETS = { mariee: "Devis pour un mariage", presson: "Être prévenue de l'ouverture des press-on", autre: "Autre question" };
 
   // Lien direct vers une demande, ex. contact.html?objet=mariee
   var demande = new URLSearchParams(window.location.search).get("objet");
@@ -13,7 +13,9 @@
   function syncObjet() {
     var mariage = f.objet.value === "mariee";
     Array.prototype.forEach.call(form.querySelectorAll(".mariage-field"), function (el) { el.hidden = !mariage; });
-    document.getElementById("message-hint").hidden = !mariage;
+    var hint = document.getElementById("message-hint");
+    hint.hidden = !mariage && f.objet.value !== "presson";
+    hint.textContent = f.objet.value === "presson" ? "(facultatif : vos envies, couleurs, occasion…)" : "(options souhaitées, heure de la cérémonie…)";
   }
   f.objet.addEventListener("change", syncObjet);
   syncObjet();
@@ -29,7 +31,7 @@
       [f.telephone, f.telephone.value.replace(/\D/g, "").length < 10, "Veuillez indiquer un numéro de téléphone valide."],
       [f.email, !f.email.value || !f.email.checkValidity(), "Veuillez indiquer une adresse e-mail valide."],
       [f.dateMariage, mariage && (!f.dateMariage.value || !f.dateMariage.checkValidity()), "Veuillez indiquer une date de mariage à venir."],
-      [f.message, !mariage && !f.message.value.trim(), "Veuillez écrire votre message."]
+      [f.message, !mariage && f.objet.value !== "presson" && !f.message.value.trim(), "Veuillez écrire votre message."]
     ];
     var bad = checks.filter(function (c) { return c[1]; })[0];
     error.textContent = bad ? bad[2] : "";
@@ -96,7 +98,7 @@
       body: JSON.stringify(req)
     }).then(function (r) {
       if (!r.ok) throw new Error("HTTP " + r.status);
-      showDone("Votre demande est bien envoyée", "Je vous réponds par téléphone ou par e-mail.");
+      showDone("Votre demande est bien envoyée", f.objet.value === "presson" ? "Merci ! Je vous préviens dès l'ouverture des press-on." : "Je vous réponds par téléphone ou par e-mail.");
     }).catch(function () {
       error.textContent = "L'envoi a échoué. Réessayez, ou contactez-moi au " + C.contact.telephone + ".";
     }).finally(function () {
