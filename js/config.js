@@ -31,9 +31,14 @@ window.FREYAGE = {
     minimum: 20,
     // Minimum réglé sur le lien Stripe : avec une remise, le montant payé ne peut pas descendre en dessous.
     minimumStripe: 20,
-    enAvantJusquau: "2026-12-24",
-    // Remise sur le prix payé : la carte garde sa valeur. Supprimez ces lignes pour l'arrêter plus tôt.
-    remise: { pourcent: 10, jusquau: "2026-12-24" },
+    // Périodes de mise en avant sur l'accueil (bandeau et section remontée), du premier au dernier jour inclus.
+    // remise : pourcentage retiré du prix payé, la carte garde sa valeur ; 0 pour une simple mise en avant.
+    // Ajoutez une ligne pour une nouvelle fête, supprimez-en une pour l'annuler.
+    periodes: [
+      { nom: "Noël", debut: "2026-11-01", fin: "2026-12-24", remise: 10 },
+      { nom: "Saint-Valentin", debut: "2027-02-01", fin: "2027-02-14", remise: 10 },
+      { nom: "Fête des mères", debut: "2027-05-10", fin: "2027-05-30", remise: 10 }
+    ],
     // Prestations dont le prix est proposé en un clic sur la page Carte cadeau.
     suggestions: ["Maquillage jour", "Soin du visage personnalisé", "Cours d'auto-maquillage, formule 1"]
   },

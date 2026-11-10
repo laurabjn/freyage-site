@@ -33,15 +33,25 @@
   }
   $("#year").textContent = new Date().getFullYear();
 
-  // Jusqu'à la date prévue : bandeau affiché et section Carte cadeau remontée après les prestations.
-  var finAvant = C.carteCadeau && C.carteCadeau.enAvantJusquau;
-  if (finAvant && dateKey(new Date()) <= finAvant) {
+  // Période de mise en avant de la carte cadeau en cours aujourd'hui, ou null.
+  function periodeCadeau() {
+    var d = new Date();
+    var jour = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+    return (C.carteCadeau.periodes || []).filter(function (p) { return p.debut <= jour && jour <= p.fin; })[0] || null;
+  }
+  function jourMois(iso) {
+    return new Date(iso + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
+  }
+
+  // Pendant une période : bandeau affiché et section Carte cadeau remontée après les prestations.
+  var periode = periodeCadeau();
+  if (periode) {
     $("#bandeau-cadeau").hidden = false;
-    var r = C.carteCadeau.remise;
-    if (r && dateKey(new Date()) <= r.jusquau) {
-      var finRemise = new Date(r.jusquau + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
-      $("#bandeau-cadeau a").textContent = "Jusqu'au " + finRemise + " : −" + r.pourcent + " % sur les cartes cadeaux";
-      $("#remise-accueil").textContent = "Jusqu'au " + finRemise + " : −" + r.pourcent + " % sur le prix de la carte";
+    $("#bandeau-cadeau a").textContent = periode.remise
+      ? periode.nom + " : −" + periode.remise + " % sur les cartes cadeaux jusqu'au " + jourMois(periode.fin)
+      : periode.nom + " approche : offrez une carte cadeau FreyAge";
+    if (periode.remise) {
+      $("#remise-accueil").textContent = periode.nom + " : −" + periode.remise + " % sur le prix de la carte, jusqu'au " + jourMois(periode.fin);
       $("#remise-accueil").hidden = false;
     }
     var sectionCadeau = $("#carte-cadeau");

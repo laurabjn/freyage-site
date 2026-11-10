@@ -14,11 +14,19 @@
     });
   };
   var euros = function (n) { return (n % 1 ? n.toFixed(2).replace(".", ",") : String(n)) + " €"; };
-  var d = new Date();
-  var aujourdhui = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+  // Période de mise en avant de la carte cadeau en cours aujourd'hui, ou null.
+  function periodeCadeau() {
+    var d = new Date();
+    var jour = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+    return (C.carteCadeau.periodes || []).filter(function (p) { return p.debut <= jour && jour <= p.fin; })[0] || null;
+  }
+  function jourMois(iso) {
+    return new Date(iso + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
+  }
 
   // Remise en cours : la carte garde sa valeur, seul le prix payé baisse.
-  var remise = K.remise && aujourdhui <= K.remise.jusquau ? K.remise.pourcent : 0;
+  var periode = periodeCadeau();
+  var remise = periode ? periode.remise || 0 : 0;
   var prixPaye = function (v) { return Math.round(v * (100 - remise)) / 100; };
   // Le montant payé ne doit pas passer sous le minimum du lien Stripe.
   var minimum = Math.max(K.minimum, Math.ceil((K.minimumStripe || 0) * 100 / (100 - remise)));
@@ -26,9 +34,8 @@
   document.getElementById("montant-min").textContent = minimum + " € minimum";
 
   if (remise) {
-    var fin = new Date(K.remise.jusquau + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
     var bloc = document.getElementById("remise");
-    bloc.textContent = "Jusqu'au " + fin + " : −" + remise + " % sur le prix de la carte. Une carte de 50 € vous coûte " + euros(prixPaye(50)) + ", et garde sa valeur de 50 €.";
+    bloc.textContent = periode.nom + " : −" + remise + " % sur le prix de la carte, jusqu'au " + jourMois(periode.fin) + ". Une carte de 50 € vous coûte " + euros(prixPaye(50)) + ", et garde sa valeur de 50 €.";
     bloc.hidden = false;
   }
 
