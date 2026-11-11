@@ -34,6 +34,14 @@ window.FREYAGE = {
     { id: "fete-des-meres", debut: "2027-05-10", fin: "2027-05-30" },
     { id: "halloween", debut: "2027-10-15", fin: "2027-10-31" }
   ],
+  // Saisons : une semaine au changement de saison, si aucun thème de fête n'est en cours.
+  // Dates « mois-jour », valables chaque année. L'hiver est décalé après Noël.
+  saisons: [
+    { id: "printemps", debut: "03-20", fin: "03-26" },
+    { id: "ete", debut: "06-21", fin: "06-27" },
+    { id: "automne", debut: "09-23", fin: "09-29" },
+    { id: "hiver", debut: "12-27", fin: "01-02" }
+  ],
 
   carteCadeau: {
     minimum: 20,

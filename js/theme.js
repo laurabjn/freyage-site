@@ -6,8 +6,14 @@
   var d = new Date();
   var jour = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
   var theme = C.themes.filter(function (t) { return t.debut <= jour && jour <= t.fin; })[0];
+  // Sans fête en cours : la saison (dates « mois-jour », l'hiver passe d'une année à l'autre).
+  var md = jour.slice(5);
+  var saisons = C.saisons || [];
+  if (!theme) theme = saisons.filter(function (s) {
+    return s.debut <= s.fin ? s.debut <= md && md <= s.fin : md >= s.debut || md <= s.fin;
+  })[0];
 
-  // Aperçu : ajouter ?theme=noel (ou saint-valentin, fete-des-meres, halloween) à l'adresse.
+  // Aperçu : ajouter ?theme=noel (ou saint-valentin, fete-des-meres, halloween, printemps, ete, automne, hiver) à l'adresse.
   // Le choix est gardé pendant la visite ; ?theme=aucun revient à la normale.
   var apercu = (location.search.match(/[?&]theme=([a-z-]+)/) || [])[1];
   try {
@@ -15,7 +21,7 @@
     else apercu = sessionStorage.getItem("freyage-theme");
   } catch (e) { /* stockage indisponible : l'aperçu vaut pour cette page seulement */ }
   if (apercu === "aucun") theme = null;
-  else if (apercu) theme = C.themes.filter(function (t) { return t.id === apercu; })[0] || theme;
+  else if (apercu) theme = C.themes.concat(saisons).filter(function (t) { return t.id === apercu; })[0] || theme;
   if (!theme) return;
   document.documentElement.setAttribute("data-theme", theme.id);
 
@@ -25,13 +31,20 @@
     fleur: '<circle cx="10" cy="4.2" r="3.6"/><circle cx="15.5" cy="8.2" r="3.6"/><circle cx="13.4" cy="14.8" r="3.6"/><circle cx="6.6" cy="14.8" r="3.6"/><circle cx="4.5" cy="8.2" r="3.6"/>',
     flocon: '<circle cx="10" cy="10" r="10"/>',
     petale: '<path d="M10 0C15 5 15 15 10 20 5 15 5 5 10 0Z"/>',
-    lune: '<path d="M13 1A9.5 9.5 0 1 0 19 15 7.5 7.5 0 1 1 13 1Z"/>'
+    lune: '<path d="M13 1A9.5 9.5 0 1 0 19 15 7.5 7.5 0 1 1 13 1Z"/>',
+    feuille: '<path d="M10 0C17 5 18 13 10.6 18.5V20H9.4V18.5C2 13 3 5 10 0Z"/>',
+    soleil: '<circle cx="10" cy="10" r="4.6"/><g><rect x="9.1" y="0" width="1.8" height="3.6" rx=".9"/><rect x="9.1" y="16.4" width="1.8" height="3.6" rx=".9"/><rect x="0" y="9.1" width="3.6" height="1.8" rx=".9"/><rect x="16.4" y="9.1" width="3.6" height="1.8" rx=".9"/></g><g transform="rotate(45 10 10)"><rect x="9.1" y="0" width="1.8" height="3.6" rx=".9"/><rect x="9.1" y="16.4" width="1.8" height="3.6" rx=".9"/><rect x="0" y="9.1" width="3.6" height="1.8" rx=".9"/><rect x="16.4" y="9.1" width="3.6" height="1.8" rx=".9"/></g>',
+    cristal: '<rect x="9.1" y="0" width="1.8" height="20" rx=".9"/><rect x="9.1" y="0" width="1.8" height="20" rx=".9" transform="rotate(60 10 10)"/><rect x="9.1" y="0" width="1.8" height="20" rx=".9" transform="rotate(120 10 10)"/><circle cx="10" cy="10" r="2.4"/>'
   };
   // Symbole fixe, et élément qui tombe (ou monte) en haut de l'accueil.
   var REGLAGES = {
     noel: { symbole: "etoile", chute: "flocon", sens: "chute" },
     "saint-valentin": { symbole: "coeur", chute: "coeur", sens: "monte" },
     "fete-des-meres": { symbole: "fleur", chute: "petale", sens: "chute" },
+    printemps: { symbole: "fleur", chute: "petale", sens: "chute", guirlande: false },
+    ete: { symbole: "soleil", chute: "etoile", sens: "monte", guirlande: false },
+    automne: { symbole: "feuille", chute: "feuille", sens: "chute", taille: 1.8, guirlande: false },
+    hiver: { symbole: "cristal", chute: "flocon", sens: "chute", nuit: "cristal", guirlande: false },
     halloween: { symbole: "lune", chute: "etoile", sens: "monte", nuit: "etoile", taille: .9, guirlande: false }
   };
   var r = REGLAGES[theme.id];
