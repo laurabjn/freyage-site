@@ -27,6 +27,14 @@ window.FREYAGE = {
   // Parrainage : réduction en euros pour la filleule (nouvelle cliente) et pour sa marraine.
   parrainage: { reduction: 10 },
 
+  // Thèmes de saison : décorations du site entre ces dates (incluses).
+  themes: [
+    { id: "noel", debut: "2026-11-01", fin: "2026-12-26" },
+    { id: "saint-valentin", debut: "2027-02-01", fin: "2027-02-14" },
+    { id: "fete-des-meres", debut: "2027-05-10", fin: "2027-05-30" },
+    { id: "halloween", debut: "2027-10-15", fin: "2027-10-31" }
+  ],
+
   carteCadeau: {
     minimum: 20,
     // Minimum réglé sur le lien Stripe : avec une remise, le montant payé ne peut pas descendre en dessous.

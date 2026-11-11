@@ -314,11 +314,15 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 .contact-done .rune-done { color: var(--gold-text); }
 
 /* Questions and gift card */
-.questions, .cadeau { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 16px clamp(28px, 5vw, 64px); align-items: start; }
-.questions .section-head, .cadeau .section-head { margin: 0; }
+.cadeau { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 16px clamp(28px, 5vw, 64px); align-items: start; }
+.cadeau .section-head { margin: 0; }
+.faq-infos { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 32px clamp(32px, 5vw, 64px); align-items: start; }
+.faq-infos .infos { position: sticky; top: 100px; padding: clamp(22px, 3vw, 32px); background: var(--sand); }
+.faq-infos .infos h2 { font-size: clamp(1.5rem, 2.6vw, 1.9rem); }
 .questions .fold p { margin: 0 0 18px; }
 .cadeau-list { grid-template-columns: 1fr; margin-bottom: 24px; }
 .cadeau-en-avant { border-top: 1px solid var(--line); }
+.cadeau-en-avant + .section:not(.section-tint) { border-top: 1px solid var(--line); }
 .remise { margin: 0 0 16px; padding: 10px 14px; background: var(--forest); color: var(--ivory); font-weight: 500; }
 .section-head .remise { margin-top: 12px; display: inline-block; }
 .a-payer { margin: 0 0 8px; font-weight: 500; }
@@ -374,7 +378,8 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
   .hero .eyebrow { justify-content: center; }
   .hero-actions { justify-content: center; }
   .lead { margin-inline: auto; }
-  .page-dediee .carte-cat, .carte-cat, .apropos, .booking, .calendar-layout, .mariee, .cours, .contact-page, .questions, .cadeau { grid-template-columns: minmax(0, 1fr); }
+  .page-dediee .carte-cat, .carte-cat, .apropos, .booking, .calendar-layout, .mariee, .cours, .contact-page, .faq-infos, .cadeau { grid-template-columns: minmax(0, 1fr); }
+  .faq-infos .infos { position: static; }
   .mariee-photo { position: static; max-height: 420px; object-position: 50% 15%; }
   .cours-side img { max-height: 380px; object-fit: cover; object-position: top; }
   .cours-side { order: 2; }
@@ -415,3 +420,38 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
   .hero-rune path { animation: none; stroke-dashoffset: 0; }
   .btn, .photo img { transition: none; }
 }
+
+/* Thèmes de saison (js/theme.js, dates dans config.js, aperçu : ?theme=noel) */
+html[data-theme="noel"] { --sage-deep: #1f4a33; --sage: #2c5e41; --forest: #173324; --gold-text: #9b2335; --accent: #a3202f; }
+html[data-theme="noel"] .site-header.guirlande::after { background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2764%27%20height%3D%2720%27%20viewBox%3D%270%200%2064%2020%27%3E%3Cpath%20d%3D%27M0%202Q16%2010%2032%202Q48%2010%2064%202%27%20fill%3D%27none%27%20stroke%3D%27%23dab06a%27%20stroke-width%3D%271.2%27%2F%3E%3Crect%20x%3D%2714.5%27%20y%3D%275%27%20width%3D%273%27%20height%3D%272.5%27%20fill%3D%27%23dab06a%27%2F%3E%3Ccircle%20cx%3D%2716%27%20cy%3D%2711%27%20r%3D%274.2%27%20fill%3D%27%23b3263a%27%2F%3E%3Ccircle%20cx%3D%2714.6%27%20cy%3D%279.6%27%20r%3D%271.2%27%20fill%3D%27%23fff%27%20opacity%3D%27.6%27%2F%3E%3Crect%20x%3D%2746.5%27%20y%3D%275%27%20width%3D%273%27%20height%3D%272.5%27%20fill%3D%27%23dab06a%27%2F%3E%3Ccircle%20cx%3D%2748%27%20cy%3D%2711%27%20r%3D%274.2%27%20fill%3D%27%23dab06a%27%2F%3E%3Ccircle%20cx%3D%2746.6%27%20cy%3D%279.6%27%20r%3D%271.2%27%20fill%3D%27%23fff%27%20opacity%3D%27.6%27%2F%3E%3C%2Fsvg%3E"); }
+html[data-theme="saint-valentin"] { --sage-deep: #5a2533; --sage: #7a3a48; --forest: #4a1f2a; --sand: #f8e9e7; --line: #ecd3cf; --gold-text: #8f3b4b; --accent: #a8304a; }
+html[data-theme="halloween"] { --sage-deep: #221d3a; --sage: #342c52; --forest: #1a1630; --sand: #f1ecf3; --line: #ddd2e2; --gold-text: #6a4a94; --accent: #6a4a94; }
+html[data-theme="fete-des-meres"] { --sage-deep: #94586a; --sage: #b07384; --sand: #f9ece9; --line: #ecd6d0; --gold-text: #8f4a5c; --accent: #a54d65; }
+html[data-theme="fete-des-meres"] .site-header.guirlande::after { background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2764%27%20height%3D%2720%27%20viewBox%3D%270%200%2064%2020%27%3E%3Cpath%20d%3D%27M0%202Q16%2010%2032%202Q48%2010%2064%202%27%20fill%3D%27none%27%20stroke%3D%27%236b8061%27%20stroke-width%3D%271.2%27%2F%3E%3Cellipse%20cx%3D%2730%27%20cy%3D%274.5%27%20rx%3D%273%27%20ry%3D%271.4%27%20fill%3D%27%236b8061%27%20transform%3D%27rotate(-20%2030%204.5)%27%2F%3E%3Ccircle%20cx%3D%2716%27%20cy%3D%277%27%20r%3D%272.2%27%20fill%3D%27%23d98aa0%27%2F%3E%3Ccircle%20cx%3D%2718.9%27%20cy%3D%279.1%27%20r%3D%272.2%27%20fill%3D%27%23d98aa0%27%2F%3E%3Ccircle%20cx%3D%2717.8%27%20cy%3D%2712.4%27%20r%3D%272.2%27%20fill%3D%27%23d98aa0%27%2F%3E%3Ccircle%20cx%3D%2714.2%27%20cy%3D%2712.4%27%20r%3D%272.2%27%20fill%3D%27%23d98aa0%27%2F%3E%3Ccircle%20cx%3D%2713.1%27%20cy%3D%279.1%27%20r%3D%272.2%27%20fill%3D%27%23d98aa0%27%2F%3E%3Ccircle%20cx%3D%2716%27%20cy%3D%2710%27%20r%3D%271.4%27%20fill%3D%27%23dab06a%27%2F%3E%3Ccircle%20cx%3D%2748%27%20cy%3D%277%27%20r%3D%272.2%27%20fill%3D%27%23e8b4c2%27%2F%3E%3Ccircle%20cx%3D%2750.9%27%20cy%3D%279.1%27%20r%3D%272.2%27%20fill%3D%27%23e8b4c2%27%2F%3E%3Ccircle%20cx%3D%2749.8%27%20cy%3D%2712.4%27%20r%3D%272.2%27%20fill%3D%27%23e8b4c2%27%2F%3E%3Ccircle%20cx%3D%2746.2%27%20cy%3D%2712.4%27%20r%3D%272.2%27%20fill%3D%27%23e8b4c2%27%2F%3E%3Ccircle%20cx%3D%2745.1%27%20cy%3D%279.1%27%20r%3D%272.2%27%20fill%3D%27%23e8b4c2%27%2F%3E%3Ccircle%20cx%3D%2748%27%20cy%3D%2710%27%20r%3D%271.4%27%20fill%3D%27%23dab06a%27%2F%3E%3C%2Fsvg%3E"); }
+html[data-theme] .bandeau, html[data-theme] .remise { background: var(--accent); }
+html[data-theme] .eyebrow .saison-icone, html[data-theme] .brand .saison-icone { fill: var(--accent); }
+html[data-theme] .hero .eyebrow .saison-icone { fill: var(--gold); }
+.site-header.guirlande::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 30px; background-size: 96px 30px; background-repeat: repeat-x; background-position: center top; pointer-events: none; }
+.site-header.guirlande.menu-ouvert::after { display: none; }
+.deco-saison { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.deco-saison svg { position: absolute; fill: var(--gold); opacity: .5; transform: translate(-50%, -50%); animation: scintille 3.4s ease-in-out infinite; }
+@keyframes scintille { 0%, 100% { opacity: .25; transform: translate(-50%, -50%) scale(.8); } 50% { opacity: .95; transform: translate(-50%, -50%) scale(1); } }
+.deco-saison.chute svg, .deco-saison.monte svg { opacity: .75; transform: none; animation-name: chute; animation-timing-function: linear; animation-iteration-count: infinite; }
+.deco-saison.chute svg { top: -30px; }
+.deco-saison.monte svg { top: auto; bottom: -30px; animation-name: monte; }
+@keyframes chute { from { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(var(--x), 50vh) rotate(180deg); } to { transform: translate(0, 105vh) rotate(360deg); } }
+@keyframes monte { from { transform: translate(0, 0); opacity: 0; } 10% { opacity: .8; } 50% { transform: translate(var(--x), -50vh); } to { transform: translate(0, -105vh); opacity: 0; } }
+html[data-theme="noel"] .deco-saison.chute svg { fill: #fff; opacity: .7; }
+html[data-theme="saint-valentin"] .deco-saison.monte svg:nth-child(3n) { fill: #e08aa0; }
+html[data-theme="fete-des-meres"] .deco-saison.chute svg { fill: #f2c3cf; }
+html[data-theme="halloween"] .deco-saison.monte svg:nth-child(3n) { fill: #c9b6ee; }
+html[data-theme="halloween"] .hero-logo { background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20200%20200%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%23dab06a%27%3E%3Ccircle%20cx%3D%27100%27%20cy%3D%27100%27%20r%3D%2792%27%20stroke-opacity%3D%27.45%27%2F%3E%3Ccircle%20cx%3D%27100%27%20cy%3D%27100%27%20r%3D%2784%27%20stroke-opacity%3D%27.35%27%20stroke-dasharray%3D%271%204%27%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%27%23dab06a%27%20fill-opacity%3D%27.6%27%3E%3Ccircle%20cx%3D%27100%27%20cy%3D%278%27%20r%3D%275%27%2F%3E%3Cpath%20d%3D%27M192%2095a5%205%200%200%201%200%2010z%27%2F%3E%3Cpath%20d%3D%27M8%2095a5%205%200%200%200%200%2010z%27%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%27100%27%20cy%3D%27192%27%20r%3D%275%27%20fill%3D%27none%27%20stroke%3D%27%23dab06a%27%20stroke-opacity%3D%27.6%27%2F%3E%3C%2Fsvg%3E") center / contain no-repeat, radial-gradient(circle, rgba(218, 176, 106, .16), transparent 62%); }
+html[data-theme="fete-des-meres"] .deco-saison.chute svg:nth-child(3n) { fill: var(--gold); }
+.avec-deco { position: relative; }
+.avec-deco > :not(.deco-saison) { position: relative; }
+.saison-icone { display: inline-flex; align-items: center; fill: var(--gold); }
+.brand .saison-icone { margin-left: -2px; align-self: flex-start; margin-top: 2px; }
+.bandeau .saison-icone { margin: 0 10px; vertical-align: -1px; fill: var(--gold); }
+@media (max-width: 700px) { .deco-saison svg:nth-child(n+11) { display: none; } }
+@media (max-width: 1240px) { .deco-saison.marges { display: none; } }
+@media (prefers-reduced-motion: reduce) { .deco-saison svg { animation: none; } .deco-saison.chute, .deco-saison.monte { display: none; } }
