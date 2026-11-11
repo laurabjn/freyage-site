@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FreyAge | Maquillage à Mérignac et soins du visage à Bruges, près de Bordeaux</title>
-  <meta name="description" content="FreyAge, près de Bordeaux : maquillage, formule mariée et cours d'auto-maquillage à Mérignac, soins du visage à Bruges. Découvrez les tarifs et demandez votre rendez-vous en ligne.">
+  <title>Maquilleuse à Mérignac, soins du visage à Bruges | FreyAge</title>
+  <meta name="description" content="Maquillage, formule mariée et cours d'auto-maquillage à Mérignac, soins du visage et plasma froid à Bruges, près de Bordeaux. Rendez-vous en ligne.">
   <link rel="canonical" href="https://freyage.fr/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="FreyAge">
   <meta property="og:locale" content="fr_FR">
-  <meta property="og:title" content="FreyAge | Maquillage à Mérignac et soins du visage à Bruges, près de Bordeaux">
-  <meta property="og:description" content="FreyAge, près de Bordeaux : maquillage, formule mariée et cours d'auto-maquillage à Mérignac, soins du visage à Bruges. Découvrez les tarifs et demandez votre rendez-vous en ligne.">
+  <meta property="og:title" content="Maquilleuse à Mérignac, soins du visage à Bruges | FreyAge">
+  <meta property="og:description" content="Maquillage, formule mariée et cours d'auto-maquillage à Mérignac, soins du visage et plasma froid à Bruges, près de Bordeaux. Rendez-vous en ligne.">
   <meta property="og:url" content="https://freyage.fr/">
   <meta property="og:image" content="https://freyage.fr/assets/portfolio/mariee-1.jpg">
   <meta property="og:image:width" content="900">
@@ -27,6 +27,7 @@
     "@graph": [
       {
         "@type": "BeautySalon",
+        "@id": "https://freyage.fr/#merignac",
         "name": "FreyAge",
         "url": "https://freyage.fr/",
         "image": "https://freyage.fr/assets/portfolio/mariee-1.jpg",
@@ -44,15 +45,112 @@
           "Mérignac",
           "Bordeaux"
         ],
+        "priceRange": "55 € – 480 €",
+        "description": "Maquillage, formule mariée et cours d'auto-maquillage à Mérignac, près de Bordeaux.",
         "sameAs": [
           "https://www.instagram.com/freyage_beauty",
           "https://www.tiktok.com/@freyage1",
           "https://www.facebook.com/profile.php?id=61594013965412"
         ],
-        "description": "Maquillage, formule mariée et cours d'auto-maquillage à Mérignac."
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Prestations à Mérignac",
+          "itemListElement": [
+            {
+              "@type": "OfferCatalog",
+              "name": "Maquillage",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Maquillage jour"
+                  },
+                  "price": 55,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Maquillage soir"
+                  },
+                  "price": 70,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Maquillage sophistiqué"
+                  },
+                  "price": 85,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Maquillage invitée"
+                  },
+                  "price": 75,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Maquillage shooting photo"
+                  },
+                  "price": 95,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Maquillage mariée + essai"
+                  },
+                  "priceSpecification": {
+                    "@type": "PriceSpecification",
+                    "minPrice": 480,
+                    "priceCurrency": "EUR"
+                  }
+                }
+              ]
+            },
+            {
+              "@type": "OfferCatalog",
+              "name": "Cours & ateliers",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Cours d'auto-maquillage, formule 1",
+                    "description": "Apprenez les gestes adaptés à votre visage pour reproduire facilement votre maquillage au quotidien."
+                  },
+                  "price": 85,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Cours d'auto-maquillage, formule 2",
+                    "description": "Une formule plus complète pour approfondir votre routine, découvrir de nouvelles techniques et pratiquer à votre rythme."
+                  },
+                  "price": 105,
+                  "priceCurrency": "EUR"
+                }
+              ]
+            }
+          ]
+        }
       },
       {
         "@type": "BeautySalon",
+        "@id": "https://freyage.fr/#bruges",
         "name": "FreyAge",
         "url": "https://freyage.fr/",
         "image": "https://freyage.fr/assets/portfolio/mariee-1.jpg",
@@ -70,12 +168,342 @@
           "Bruges",
           "Bordeaux"
         ],
+        "priceRange": "20 € – 400 €",
+        "description": "Soins du visage et plasma froid à Bruges, près de Bordeaux.",
         "sameAs": [
           "https://www.instagram.com/freyage_beauty",
           "https://www.tiktok.com/@freyage1",
           "https://www.facebook.com/profile.php?id=61594013965412"
         ],
-        "description": "Soins du visage à Bruges."
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Prestations à Bruges",
+          "itemListElement": [
+            {
+              "@type": "OfferCatalog",
+              "name": "Soins du visage",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Soin du visage personnalisé",
+                    "description": "Un soin entièrement adapté aux besoins de votre peau. Après un temps d'échange et d'observation, le protocole est personnalisé pour vous offrir un moment de soin et de détente."
+                  },
+                  "price": 65,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Rituel repulpant",
+                    "description": "Un rituel visage complet pensé pour prendre soin de la peau et lui apporter confort et éclat. Une prestation plus longue qui associe différentes étapes de soin à un véritable moment de détente."
+                  },
+                  "price": 90,
+                  "priceCurrency": "EUR"
+                }
+              ]
+            },
+            {
+              "@type": "OfferCatalog",
+              "name": "Plasma froid",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Visage entier"
+                  },
+                  "price": 200,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Contour des yeux"
+                  },
+                  "price": 400,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Front"
+                  },
+                  "price": 100,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Oreilles"
+                  },
+                  "price": 120,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Pavillon de l'oreille"
+                  },
+                  "price": 90,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Pattes-d'oie"
+                  },
+                  "price": 200,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Sillon"
+                  },
+                  "price": 100,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Nez"
+                  },
+                  "price": 110,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Lèvres"
+                  },
+                  "price": 90,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Contour de la bouche"
+                  },
+                  "price": 120,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Cou"
+                  },
+                  "price": 100,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Décolleté"
+                  },
+                  "price": 120,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Bosse de bison"
+                  },
+                  "price": 150,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Aisselles"
+                  },
+                  "price": 100,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Mains"
+                  },
+                  "price": 120,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Cheveux"
+                  },
+                  "price": 120,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Bras"
+                  },
+                  "price": 300,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Taches brunes"
+                  },
+                  "price": 50,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Excroissances"
+                  },
+                  "price": 20,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Culotte de cheval"
+                  },
+                  "price": 300,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Cuisses intérieur"
+                  },
+                  "price": 300,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Cuisses extérieur"
+                  },
+                  "price": 300,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Cuisses avant ou arrière"
+                  },
+                  "price": 200,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Dos"
+                  },
+                  "price": 300,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Fesses"
+                  },
+                  "price": 300,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Genoux"
+                  },
+                  "price": 100,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Acné"
+                  },
+                  "price": 50,
+                  "priceCurrency": "EUR"
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Acné dos"
+                  },
+                  "priceSpecification": {
+                    "@type": "PriceSpecification",
+                    "minPrice": 50,
+                    "maxPrice": 300,
+                    "priceCurrency": "EUR"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Vergetures"
+                  },
+                  "priceSpecification": {
+                    "@type": "PriceSpecification",
+                    "minPrice": 50,
+                    "maxPrice": 150,
+                    "priceCurrency": "EUR"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Amincissement ventre"
+                  },
+                  "priceSpecification": {
+                    "@type": "PriceSpecification",
+                    "minPrice": 300,
+                    "maxPrice": 400,
+                    "priceCurrency": "EUR"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Plasma froid : Coudes"
+                  },
+                  "price": 100,
+                  "priceCurrency": "EUR"
+                }
+              ]
+            }
+          ]
+        }
       }
     ]
   }
