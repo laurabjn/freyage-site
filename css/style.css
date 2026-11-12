@@ -421,6 +421,36 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
   .btn, .photo img { transition: none; }
 }
 
+/* Offres temporaires (js/offres.js) */
+.offres-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 28px; }
+.offre { display: flex; flex-direction: column; gap: 10px; padding: 24px; border: 1px solid var(--line); background: var(--ivory); }
+.offre h3 { font-size: 1.3rem; }
+.offre .btn { align-self: flex-start; margin-top: auto; }
+.offre-remise { margin: 0; font: 400 2.2rem/1 var(--serif); color: var(--gold-text); }
+.offre-quoi { margin: 0; font-weight: 500; }
+.offre-condition { margin: 0; font-size: .9rem; color: var(--muted); }
+.offre-prix { list-style: none; margin: 0; padding: 0; }
+.offre-prix li { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-top: 1px solid var(--line); font-size: .95rem; }
+.offre-prix li span:last-child { white-space: nowrap; }
+.offre-prix s, .carte-prix s, .service-meta s, .recap s { opacity: .65; margin-right: 4px; }
+.offre-semaine { background: var(--forest); color: var(--ivory); border-color: var(--forest); }
+.offre-semaine .offre-remise { color: var(--gold); }
+.offre-semaine .offre-condition { color: #d9ddd3; }
+.offre-semaine .btn { background: var(--gold); color: var(--forest); }
+.offres-note { margin: 20px 0 0; font-size: .875rem; color: var(--muted); }
+.avent-titre { margin: 8px 0 12px; font-weight: 500; }
+.avent-cases { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.avent-cases li { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border: 1px dashed var(--gold-text); font-size: .9rem; }
+.avent-num { font: 400 1.6rem/1 var(--serif); color: var(--gold-text); }
+.avent-dates { color: var(--muted); font-size: .8rem; }
+.avent-ouverte { border-style: solid !important; background: var(--sand); }
+.avent-passee { opacity: .5; }
+.offre-badge { font-family: var(--sans); display: inline-block; padding: 1px 7px; border-radius: 999px; background: var(--gold); color: var(--forest); font-size: .75rem; font-weight: 500; white-space: nowrap; }
+.carte-prix .offre-badge { display: block; width: fit-content; margin: 4px 0 0 auto; }
+.recap-offre { margin: 16px 0 0; padding: 10px 12px; background: rgba(218, 176, 106, .15); border-left: 3px solid var(--gold); font-size: .9rem; }
+.recap-offre-non { opacity: .75; border-left-color: #c9cfc3; }
+@media (max-width: 700px) { .avent-cases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
 /* Thèmes de saison (js/theme.js, dates dans config.js, aperçu : ?theme=noel) */
 html[data-theme="noel"] { --sage-deep: #1f4a33; --sage: #2c5e41; --forest: #173324; --gold-text: #9b2335; --accent: #a3202f; }
 html[data-theme="noel"] .site-header.guirlande::after { background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2764%27%20height%3D%2720%27%20viewBox%3D%270%200%2064%2020%27%3E%3Cpath%20d%3D%27M0%202Q16%2010%2032%202Q48%2010%2064%202%27%20fill%3D%27none%27%20stroke%3D%27%23dab06a%27%20stroke-width%3D%271.2%27%2F%3E%3Crect%20x%3D%2714.5%27%20y%3D%275%27%20width%3D%273%27%20height%3D%272.5%27%20fill%3D%27%23dab06a%27%2F%3E%3Ccircle%20cx%3D%2716%27%20cy%3D%2711%27%20r%3D%274.2%27%20fill%3D%27%23b3263a%27%2F%3E%3Ccircle%20cx%3D%2714.6%27%20cy%3D%279.6%27%20r%3D%271.2%27%20fill%3D%27%23fff%27%20opacity%3D%27.6%27%2F%3E%3Crect%20x%3D%2746.5%27%20y%3D%275%27%20width%3D%273%27%20height%3D%272.5%27%20fill%3D%27%23dab06a%27%2F%3E%3Ccircle%20cx%3D%2748%27%20cy%3D%2711%27%20r%3D%274.2%27%20fill%3D%27%23dab06a%27%2F%3E%3Ccircle%20cx%3D%2746.6%27%20cy%3D%279.6%27%20r%3D%271.2%27%20fill%3D%27%23fff%27%20opacity%3D%27.6%27%2F%3E%3C%2Fsvg%3E"); }

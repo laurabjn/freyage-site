@@ -18,7 +18,10 @@
   function periodeCadeau() {
     var d = new Date();
     var jour = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
-    return (C.carteCadeau.periodes || []).filter(function (p) { return p.debut <= jour && jour <= p.fin; })[0] || null;
+    var p = (C.carteCadeau.periodes || []).filter(function (p) { return p.debut <= jour && jour <= p.fin; })[0] || null;
+    if (p) p.finNom = (C.carteCadeau.periodes || []).filter(function (q) { return q.nom === p.nom && q.fin >= p.fin; })
+      .reduce(function (fin, q) { return q.fin > fin ? q.fin : fin; }, p.fin);
+    return p;
   }
   function jourMois(iso) {
     return new Date(iso + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
@@ -35,7 +38,7 @@
 
   if (remise) {
     var bloc = document.getElementById("remise");
-    bloc.textContent = periode.nom + " : −" + remise + " % sur le prix de la carte, jusqu'au " + jourMois(periode.fin) + ". Une carte de 50 € vous coûte " + euros(prixPaye(50)) + ", et garde sa valeur de 50 €.";
+    bloc.textContent = periode.nom + " : −" + remise + " % sur le prix de la carte, jusqu'au " + jourMois(periode.finNom) + ". Une carte de 50 € vous coûte " + euros(prixPaye(50)) + ", et garde sa valeur de 50 €.";
     bloc.hidden = false;
   }
 

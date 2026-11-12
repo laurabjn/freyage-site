@@ -27,7 +27,10 @@
       var attrs = it.lien
         ? 'href="' + esc(it.lien) + '"'
         : 'href="index.html?prestation=' + esc(encodeURIComponent(it.nom)) + '#rdv" aria-label="Demander : ' + esc(it.nom) + '"';
-      return "<li><a " + attrs + '><span class="carte-nom">' + esc(it.nom.replace(cat.categorie + " : ", "")) + (it.description ? "<small>" + esc(it.description) + "</small>" : "") + '</span><span class="carte-duree">' + fmtDuree(it.duree) + '</span><span class="carte-prix">' + esc(it.prix) + "</span></a></li>";
+      var o = !it.lien && window.FreyOffres ? FreyOffres.pour(it.nom, cat.id, []) : null;
+      var reduit = o ? FreyOffres.prixReduit(it.prix, o.remise) : null;
+      var prix = o ? (reduit !== null ? "<s>" + esc(it.prix) + "</s> " + reduit + " €" : esc(it.prix)) + '<small class="offre-badge" title="' + esc(o.nom + " : " + FreyOffres.condition(o)) + '">−' + o.remise + " % · " + esc(o.nom) + "</small>" : esc(it.prix);
+      return "<li><a " + attrs + '><span class="carte-nom">' + esc(it.nom.replace(cat.categorie + " : ", "")) + (it.description ? "<small>" + esc(it.description) + "</small>" : "") + '</span><span class="carte-duree">' + fmtDuree(it.duree) + '</span><span class="carte-prix">' + prix + "</span></a></li>";
     }).join("") + "</ul>" : '<p class="carte-note">' + esc(cat.note || "") + (cat.noteLien ? ' <a href="' + esc(cat.noteLien.href) + '">' + esc(cat.noteLien.texte) + "</a>" : "") + "</p>";
     return '<article class="carte-cat" id="' + esc(cat.id) + '"><div class="carte-intro"><h2 class="carte-titre">' + esc(cat.categorie) + "</h2>" +
       (cat.lieu ? '<p class="carte-lieu"><a href="acces.html">À ' + esc(C.lieux[cat.lieu].ville) + "</a></p>" : "") +

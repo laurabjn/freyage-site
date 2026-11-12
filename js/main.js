@@ -37,7 +37,10 @@
   function periodeCadeau() {
     var d = new Date();
     var jour = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
-    return (C.carteCadeau.periodes || []).filter(function (p) { return p.debut <= jour && jour <= p.fin; })[0] || null;
+    var p = (C.carteCadeau.periodes || []).filter(function (p) { return p.debut <= jour && jour <= p.fin; })[0] || null;
+    if (p) p.finNom = (C.carteCadeau.periodes || []).filter(function (q) { return q.nom === p.nom && q.fin >= p.fin; })
+      .reduce(function (fin, q) { return q.fin > fin ? q.fin : fin; }, p.fin);
+    return p;
   }
   function jourMois(iso) {
     return new Date(iso + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
@@ -48,10 +51,10 @@
   if (periode) {
     $("#bandeau-cadeau").hidden = false;
     $("#bandeau-cadeau a").textContent = periode.remise
-      ? periode.nom + " : −" + periode.remise + " % sur les cartes cadeaux jusqu'au " + jourMois(periode.fin)
+      ? periode.nom + " : −" + periode.remise + " % sur les cartes cadeaux jusqu'au " + jourMois(periode.finNom)
       : periode.nom + " approche : offrez une carte cadeau FreyAge";
     if (periode.remise) {
-      $("#remise-accueil").textContent = periode.nom + " : −" + periode.remise + " % sur le prix de la carte, jusqu'au " + jourMois(periode.fin);
+      $("#remise-accueil").textContent = periode.nom + " : −" + periode.remise + " % sur le prix de la carte, jusqu'au " + jourMois(periode.finNom);
       $("#remise-accueil").hidden = false;
     }
     var sectionCadeau = $("#carte-cadeau");
@@ -60,10 +63,68 @@
     $("#mariee").parentNode.insertBefore(sectionCadeau, $("#mariee"));
   }
 
+  // Offres temporaires (config.js) : encadré sur l'accueil, avec le calendrier de l'Avent.
+  if (window.FreyOffres && C.offres) {
+    var jourOffres = FreyOffres.aujourdhui();
+    var actives = FreyOffres.actives(jourOffres);
+    var A = C.offres.affichage;
+    if (actives.length && A.debut <= jourOffres && jourOffres <= A.fin) {
+      var trouver = function (nom) {
+        var r = null;
+        C.prestations.forEach(function (cat) { cat.items.forEach(function (it) { if (it.nom === nom) r = it; }); });
+        return r;
+      };
+      var lignesPrix = function (o) {
+        // Prestations nommées, ou celles des catégories visées (au-delà de 4, la description suffit).
+        var noms = o.prestations || [];
+        if (!noms.length && o.categories) C.prestations.forEach(function (cat) {
+          if (o.categories.indexOf(cat.id) !== -1) cat.items.forEach(function (it) { noms.push(it.nom); });
+        });
+        if (noms.length > 4) return "";
+        return noms.map(function (nom) {
+          var it = trouver(nom);
+          if (!it) return "";
+          var r = FreyOffres.prixReduit(it.prix, o.remise);
+          return "<li><span>" + esc(nom) + "</span><span><s>" + esc(it.prix) + "</s> " + (r !== null ? r + " €" : "−" + o.remise + " %") + "</span></li>";
+        }).join("");
+      };
+      var lien = function (o) {
+        if (o.carteCadeau) return '<a class="btn btn-small" href="carte-cadeau.html">Offrir une carte cadeau</a>';
+        var nom = (o.prestations || [])[0];
+        return '<a class="btn btn-small" href="' + (nom && o.prestations.length === 1 ? "?prestation=" + encodeURIComponent(nom) : "") + '#rdv">Demander un rendez-vous</a>';
+      };
+      var carte = function (o, classe, titre) {
+        return '<article class="offre ' + (classe || "") + '"><p class="offre-remise">' + (o.remise ? "−" + o.remise + " %" : "🎁") + "</p><h3>" + esc(titre || o.nom) + "</h3>" +
+          (o.quoi ? '<p class="offre-quoi">' + esc(o.quoi) + "</p>" : "") +
+          (lignesPrix(o) ? '<ul class="offre-prix">' + lignesPrix(o) + "</ul>" : "") +
+          '<p class="offre-condition">' + esc(o.carteCadeau ? "Jusqu'au " + FreyOffres.jourMois(o.demande.fin) + ", la carte garde toute sa valeur" : FreyOffres.condition(o).replace(/^./, function (c) { return c.toUpperCase(); })) + ".</p>" + lien(o) + "</article>";
+      };
+      // Calendrier de l'Avent : semaines passées, semaine en cours dévoilée, semaines à venir en surprise.
+      var semaines = C.offres.liste.filter(function (o) { return o.semaine; });
+      var enCours = semaines.filter(function (o) { return o.demande.debut <= jourOffres && jourOffres <= o.demande.fin; })[0];
+      $("#avent").innerHTML = semaines.length ? '<p class="avent-titre">Calendrier de l\'Avent : une offre différente chaque semaine</p><ol class="avent-cases">' + semaines.map(function (o) {
+        var etat = o === enCours ? "avent-ouverte" : o.demande.fin < jourOffres ? "avent-passee" : "avent-fermee";
+        var dates = FreyOffres.jourMois(o.demande.debut).replace(/ \S+$/, "") + "–" + FreyOffres.jourMois(o.demande.fin);
+        return '<li class="' + etat + '"><span class="avent-num">' + o.semaine + '</span><span class="avent-dates">' + esc(dates) + "</span><span class=\"avent-quoi\">" +
+          (etat === "avent-fermee" ? "Surprise 🎁" : esc(o.quoi)) + "</span></li>";
+      }).join("") + "</ol>" : "";
+      var cartes = [];
+      if (enCours) cartes.push(carte(enCours, "offre-semaine", "Offre de la semaine"));
+      actives.filter(function (o) { return !o.semaine; }).forEach(function (o) { cartes.push(carte(o)); });
+      if (periode && periode.remise && !(enCours && enCours.carteCadeau)) {
+        cartes.push('<article class="offre"><p class="offre-remise">−' + periode.remise + ' %</p><h3>Cartes cadeaux</h3><p class="offre-quoi">Vous payez 45 €, vous offrez 50 € de beauté</p><p class="offre-condition">Jusqu\'au ' + esc(jourMois(periode.finNom)) + '. La carte garde toute sa valeur.</p><a class="btn btn-small" href="carte-cadeau.html">Offrir une carte cadeau</a></article>');
+      }
+      $("#offres-grille").innerHTML = cartes.join("");
+      $("#offres-titre").textContent = C.offres.titre;
+      $("#offres-quand").textContent = "Jusqu'au " + FreyOffres.jourMois(A.fin);
+      $("#offres").hidden = false;
+    }
+  }
+
   var services = [];
   C.prestations.forEach(function (cat) {
     cat.items.forEach(function (it) {
-      if (!it.lien) services.push({ nom: it.nom, duree: it.duree, prix: it.prix, acompte: it.acompte, categorie: cat.categorie, lieu: C.lieux[cat.lieu] });
+      if (!it.lien) services.push({ nom: it.nom, duree: it.duree, prix: it.prix, acompte: it.acompte, categorie: cat.categorie, categorieId: cat.id, lieu: C.lieux[cat.lieu] });
     });
   });
 
@@ -74,7 +135,10 @@
     if (!items.length) return "";
     var options = items.map(function (it) {
       var i = si++;
-      return '<label class="service-option"><input type="radio" name="prestation" value="' + i + '"><span class="service-name">' + esc(it.nom.replace(cat.categorie + " : ", "")) + '</span><span class="service-meta">' + fmtDuree(it.duree) + " · " + esc(it.prix) + "</span></label>";
+      var o = window.FreyOffres && FreyOffres.pour(it.nom, cat.id, []);
+      var reduit = o && FreyOffres.prixReduit(it.prix, o.remise);
+      var prix = o ? (reduit !== null ? "<s>" + esc(it.prix) + "</s> " + reduit + " €" : esc(it.prix)) + ' <span class="offre-badge">−' + o.remise + " %</span>" : esc(it.prix);
+      return '<label class="service-option"><input type="radio" name="prestation" value="' + i + '"><span class="service-name">' + esc(it.nom.replace(cat.categorie + " : ", "")) + '</span><span class="service-meta">' + fmtDuree(it.duree) + " · " + prix + "</span></label>";
     }).join("");
     var titre = "<h4>" + esc(cat.categorie) + " · à " + esc(C.lieux[cat.lieu].ville) + "</h4>";
     return '<details class="service-group service-plie"><summary>' + titre + "</summary>" + options + "</details>";
@@ -230,8 +294,23 @@
   // Les façons de régler une prestation. « montant » = à payer en ligne (0 = rien en ligne).
   function prixFixe(s) { return /^[0-9]/.test(s.prix); }
 
+  // Offre en cours pour cette prestation (avec les dates déjà choisies), ou null.
+  function datesSouhaitees() { return state.jours.map(function (j) { return dateKey(j.date); }); }
+  function offreDe(s) {
+    return window.FreyOffres ? FreyOffres.pour(s.nom, s.categorieId, datesSouhaitees()) : null;
+  }
+  // Offre possible avant le choix des dates (pour prévenir la cliente).
+  function offrePossible(s) {
+    return window.FreyOffres ? FreyOffres.pour(s.nom, s.categorieId, []) : null;
+  }
+  function prixDe(s) {
+    var o = offreDe(s);
+    var reduit = o ? FreyOffres.prixReduit(s.prix, o.remise) : null;
+    return reduit !== null ? reduit : parseFloat(s.prix);
+  }
+
   function choixReglement(s) {
-    var prix = parseFloat(s.prix);
+    var prix = prixDe(s);
     var cadeau = { libelle: "Avec une carte cadeau", court: "Carte cadeau, solde éventuel sur place", montant: 0, cadeau: true };
     var ligne = { libelle: "En ligne, après ma confirmation (" + fmtEuros(prix) + ")", court: fmtEuros(prix) + " en ligne", montant: prix, lien: C.paiement.prestation };
     if (!prixFixe(s)) {
@@ -271,7 +350,19 @@
     $("#recap-service").textContent = s ? s.nom : "–";
     $("#recap-duree").textContent = s ? fmtDuree(s.duree) : "–";
     $("#recap-lieu").textContent = s ? s.lieu.adresse : "–";
-    $("#recap-prix").textContent = s ? s.prix : "–";
+    var o = s ? offreDe(s) : null, possible = s ? offrePossible(s) : null;
+    var reduit = o ? FreyOffres.prixReduit(s.prix, o.remise) : null;
+    $("#recap-prix").innerHTML = !s ? "–" : o
+      ? (reduit !== null ? "<s>" + esc(s.prix) + "</s> " + esc(fmtEuros(reduit)) : esc(s.prix) + " (−" + o.remise + " % sur le prix fixé)")
+      : esc(s.prix);
+    var info = $("#recap-offre");
+    info.hidden = !possible;
+    if (possible) {
+      info.textContent = o
+        ? possible.nom + " : −" + o.remise + " % " + FreyOffres.condition(o) + "."
+        : possible.nom + " : −" + possible.remise + " % " + FreyOffres.condition(possible) + ". Elle ne s'applique pas à toutes les dates choisies.";
+      info.classList.toggle("recap-offre-non", !o);
+    }
     var choix = s && state.reglement ? choixReglement(s)[state.reglement] : null;
     $("#recap-reglement-titre").hidden = $("#recap-reglement").hidden = !choix;
     $("#recap-reglement").textContent = choix ? choix.court : "";
@@ -288,7 +379,7 @@
     });
     $$(".error").forEach(function (e) { e.textContent = ""; });
     if (step === 2) { renderCalendar(); renderSlots(); renderRecap(); chargerAgenda(); }
-    if (step === 3) renderReglement();
+    if (step === 3) { renderReglement(); renderRecap(); }
     if (focus !== false) {
       var target = $('[data-step="' + step + '"] legend') || $("#done-title");
       if (target) target.focus({ preventScroll: true });
@@ -395,7 +486,7 @@
       prestation: s.nom,
       lieu: s.lieu.adresse,
       duree: fmtDuree(s.duree),
-      tarif: s.prix,
+      tarif: s.prix + (offreDe(s) ? " → " + (prixFixe(s) ? fmtEuros(prixDe(s)) : "−" + offreDe(s).remise + " % sur le prix fixé") + " (" + offreDe(s).nom + ")" : ""),
       reglement: choix.court + code,
       nom: f.nom.value.trim(),
       telephone: f.telephone.value.trim(),
@@ -409,21 +500,25 @@
     // Parrainage : la réduction de la filleule se déduit du prix, après vérification par Laura.
     var marraine = f.marraine.value.trim();
     var reduc = C.parrainage ? C.parrainage.reduction : 0;
+    var offre = offreDe(s);
     if (marraine && reduc) {
-      req.parrainage = "Marraine : " + marraine + " (à vérifier : nouvelle cliente ? " + reduc + " € pour elle, et " + reduc + " € pour la marraine à son prochain rendez-vous, une fois la filleule venue)";
+      req.parrainage = "Marraine : " + marraine + (offre
+        ? " (offre « " + offre.nom + " » déjà appliquée : pas de réduction de parrainage pour la filleule, pas de cumul. La marraine aura bien ses " + reduc + " € à son prochain rendez-vous, une fois la filleule venue)"
+        : " (à vérifier : nouvelle cliente ? " + reduc + " € pour elle, et " + reduc + " € pour la marraine à son prochain rendez-vous, une fois la filleule venue)");
     }
+    if (offre) req.offre = offre.nom + " : −" + offre.remise + " % " + FreyOffres.condition(offre) + ". Non cumulable avec la fidélité ni le parrainage.";
     // Lien à copier dans la confirmation envoyée à la cliente.
     if (choix.montant) {
       var montant = choix.montant;
       // Paiement complet en ligne : le lien tient déjà compte du parrainage ; l'acompte, lui, ne change pas.
-      if (req.parrainage && !choix.acompte && montant > reduc) {
+      if (req.parrainage && !offre && !choix.acompte && montant > reduc) {
         req.lienPaiementSansParrainage = choix.lien + "?prefilled_amount=" + Math.round(montant * 100) + "&prefilled_email=" + encodeURIComponent(req.email);
         montant -= reduc;
       }
       req.lienPaiement = choix.lien + "?prefilled_amount=" + Math.round(montant * 100) + "&prefilled_email=" + encodeURIComponent(req.email);
     } else if (choix.acompteVariable) {
       // Prix encore inconnu : Laura saisit elle-même le montant de l'acompte (30 % du prix fixé).
-      req.lienPaiement = choix.lien + "?prefilled_email=" + encodeURIComponent(req.email) + " (acompte de 30 % du prix fixé, montant à saisir)";
+      req.lienPaiement = choix.lien + "?prefilled_email=" + encodeURIComponent(req.email) + " (acompte de 30 % du prix fixé" + (offre ? " après la réduction de " + offre.remise + " %" : "") + ", montant à saisir)";
     }
     return req;
   }

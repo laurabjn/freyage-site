@@ -43,6 +43,22 @@ window.FREYAGE = {
     { id: "hiver", debut: "12-27", fin: "01-02" }
   ],
 
+  // Offres temporaires : une seule réduction par rendez-vous (pas de cumul avec la fidélité ni le parrainage).
+  // « rdv » : pour un rendez-vous entre ces dates. « demande » : pour une demande envoyée entre ces dates,
+  // rendez-vous jusqu'à « rdvFin ». Prix arrondis à l'euro inférieur. Pour arrêter une offre : retirer sa ligne.
+  offres: {
+    titre: "Offres de Noël",
+    affichage: { debut: "2026-12-01", fin: "2026-12-31" },
+    liste: [
+      { nom: "Soin de fin d'année", remise: 15, prestations: ["Soin du visage personnalisé", "Rituel repulpant"], rdv: { debut: "2026-12-01", fin: "2026-12-31" } },
+      { nom: "Maquillage de fêtes", remise: 15, prestations: ["Maquillage soir", "Maquillage sophistiqué"], rdv: { debut: "2026-12-15", fin: "2026-12-31" } },
+      { nom: "Calendrier de l'Avent", semaine: 1, quoi: "Cours d'auto-maquillage", remise: 15, categories: ["cours-ateliers"], demande: { debut: "2026-12-01", fin: "2026-12-07" }, rdvFin: "2027-01-31" },
+      { nom: "Calendrier de l'Avent", semaine: 2, quoi: "Plasma froid, toutes les zones", remise: 15, categories: ["plasma-froid"], demande: { debut: "2026-12-08", fin: "2026-12-14" }, rdvFin: "2027-01-31" },
+      { nom: "Calendrier de l'Avent", semaine: 3, quoi: "Maquillage jour, invitée et shooting photo", remise: 15, prestations: ["Maquillage jour", "Maquillage invitée", "Maquillage shooting photo"], demande: { debut: "2026-12-15", fin: "2026-12-20" }, rdvFin: "2027-01-31" },
+      { nom: "Calendrier de l'Avent", semaine: 4, quoi: "Cartes cadeaux à −15 % au lieu de −10 %", carteCadeau: true, demande: { debut: "2026-12-21", fin: "2026-12-24" } }
+    ]
+  },
+
   carteCadeau: {
     minimum: 20,
     // Minimum réglé sur le lien Stripe : avec une remise, le montant payé ne peut pas descendre en dessous.
@@ -51,7 +67,9 @@ window.FREYAGE = {
     // remise : pourcentage retiré du prix payé, la carte garde sa valeur ; 0 pour une simple mise en avant.
     // Ajoutez une ligne pour une nouvelle fête, supprimez-en une pour l'annuler.
     periodes: [
-      { nom: "Noël", debut: "2026-11-01", fin: "2026-12-24", remise: 10 },
+      { nom: "Noël", debut: "2026-11-01", fin: "2026-12-20", remise: 10 },
+      // Calendrier de l'Avent, semaine 4 : −15 % les derniers jours.
+      { nom: "Noël", debut: "2026-12-21", fin: "2026-12-24", remise: 15 },
       { nom: "Saint-Valentin", debut: "2027-02-01", fin: "2027-02-14", remise: 10 },
       { nom: "Fête des mères", debut: "2027-05-10", fin: "2027-05-30", remise: 10 }
     ],
