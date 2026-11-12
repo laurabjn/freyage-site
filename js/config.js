@@ -100,6 +100,8 @@ window.FREYAGE = {
     // Adresse du service qui reçoit les demandes de rendez-vous et de contact (ex. https://formspree.io/f/xxxxxxx).
     // Vide : la demande s'ouvre dans la messagerie du visiteur, vers contact.email.
     endpoint: "https://formspree.io/f/myeeogyb",
+    // Clé de site Cloudflare Turnstile (anti-robot). Vide : pas de vérification. La clé secrète va dans Formspree, jamais ici.
+    turnstile: "0x4AAAAAAF-qG9sLn3mLL1vT",
     delaiMinHeures: 48,  // délai minimum avant un rendez-vous
     horizonJours: 60,    // réservation possible jusqu'à X jours à l'avance
     // Agenda Google lu par le site : ses plages occupées retirent les jours et les moments où la prestation ne tient plus.

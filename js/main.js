@@ -149,6 +149,7 @@
   var state = { step: 1, service: null, jours: [], reglement: null }; // jours : { date, moment }, 2 au maximum
   var MAX_JOURS = 2;
   var form = $("#booking-form");
+  var captcha = window.FreyCaptcha && FreyCaptcha.monter($("#captcha-rdv"), "dark");
   var now = new Date();
   var earliest = new Date(now.getTime() + C.rdv.delaiMinHeures * 3600000);
   var lastDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + C.rdv.horizonJours);
@@ -550,6 +551,11 @@
       return;
     }
 
+    if (captcha) {
+      var jeton = captcha.jeton();
+      if (!jeton) { $('[data-error="3"]').textContent = "La vérification anti-robot n'est pas terminée. Patientez quelques secondes, puis réessayez."; return; }
+      req["cf-turnstile-response"] = jeton;
+    }
     var btn = $('button[type="submit"]', form);
     btn.disabled = true;
     btn.textContent = "Envoi…";
@@ -572,6 +578,7 @@
     }).catch(function () {
       $('[data-error="3"]').textContent = "L'envoi a échoué. Réessayez, ou contactez-moi au " + C.contact.telephone + ".";
     }).finally(function () {
+      if (captcha) captcha.reinit();
       btn.disabled = false;
       btn.textContent = "Envoyer ma demande";
     });

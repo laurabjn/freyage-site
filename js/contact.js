@@ -4,6 +4,7 @@
   var form = document.getElementById("contact-form");
   var f = form.elements;
   var error = document.getElementById("contact-error");
+  var captcha = window.FreyCaptcha && FreyCaptcha.monter(document.getElementById("captcha-contact"), "light");
   var OBJETS = { mariee: "Devis pour un mariage", presson: "Être prévenue de l'ouverture des press-on", autre: "Autre question" };
 
   // Lien direct vers une demande, ex. contact.html?objet=mariee
@@ -89,6 +90,11 @@
       return;
     }
 
+    if (captcha) {
+      var jeton = captcha.jeton();
+      if (!jeton) { error.textContent = "La vérification anti-robot n'est pas terminée. Patientez quelques secondes, puis réessayez."; return; }
+      req["cf-turnstile-response"] = jeton;
+    }
     var btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
     btn.textContent = "Envoi…";
@@ -102,6 +108,7 @@
     }).catch(function () {
       error.textContent = "L'envoi a échoué. Réessayez, ou contactez-moi au " + C.contact.telephone + ".";
     }).finally(function () {
+      if (captcha) captcha.reinit();
       btn.disabled = false;
       btn.textContent = "Envoyer ma demande";
     });
