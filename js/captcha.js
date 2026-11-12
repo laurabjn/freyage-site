@@ -30,7 +30,7 @@
         sitekey: cle,
         theme: theme || "light",
         language: "fr",
-        appearance: "interaction-only" // visible seulement si Cloudflare a un doute
+        appearance: "always" // cadre toujours visible, qui se coche tout seul la plupart du temps
       });
     };
     if (window.turnstile) rendre(); else { attente.push(rendre); charger(); }
