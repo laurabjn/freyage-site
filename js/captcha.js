@@ -3,7 +3,9 @@
 (function () {
   "use strict";
   var C = window.FREYAGE;
-  var cle = C && C.rdv && C.rdv.turnstile;
+  // La clé n'est valable que sur freyage.fr : pas de vérification dans un aperçu ouvert depuis l'ordinateur.
+  var surLeSite = /(^|\.)freyage\.fr$/.test(location.hostname);
+  var cle = surLeSite && C && C.rdv && C.rdv.turnstile;
   var attente = [];
   var charge = false;
 

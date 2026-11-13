@@ -428,6 +428,27 @@ legend { padding: 0; margin-bottom: 20px; font: 400 1.3rem var(--serif); }
 
 .captcha:not(:empty) { margin: 16px 0 4px; }
 
+/* Page CAHÉ */
+.cahe-banniere { width: 100%; height: auto; margin-top: clamp(24px, 4vw, 40px); border-radius: 2px; }
+.produits { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 20px; }
+.produits-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+@media (max-width: 1000px) { .produits-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .produits-4 { grid-template-columns: minmax(0, 1fr); } }
+.produit { display: flex; flex-direction: column; border: 1px solid var(--line); background: var(--ivory); }
+.produit img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.produit-texte { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 8px; }
+.produit-texte h3 { font-size: 1.3rem; }
+.produit-texte p { margin: 0; }
+.produit-prix { font: 400 1.6rem/1 var(--serif); color: var(--gold-text); }
+.produit-prix small { font: 400 .9rem var(--sans); color: var(--muted); }
+.produit-pour { font-weight: 500; color: var(--forest); }
+.produit-compo { font-size: .875rem; color: var(--muted); }
+.cahe-mention { margin-top: 24px; font-size: .8rem; color: var(--muted); }
+.cahe-accueil { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(24px, 5vw, 56px); align-items: center; }
+.cahe-accueil img { width: 100%; height: auto; border-radius: 2px; }
+.cahe-prix { margin: 14px 0 0; color: var(--muted); }
+@media (max-width: 800px) { .cahe-accueil { grid-template-columns: minmax(0, 1fr); } }
+
 /* Offres temporaires (js/offres.js) */
 .offres-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 28px; }
 .offre { display: flex; flex-direction: column; gap: 10px; padding: 24px; border: 1px solid var(--line); background: var(--ivory); }
