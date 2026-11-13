@@ -139,6 +139,11 @@ legend:focus, h3:focus { outline: none; }
 .mariee { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
 .mariee-photo { width: 100%; position: sticky; top: 90px; max-height: calc(100vh - 110px); object-fit: cover; object-position: top; }
 .formule { border: 1px solid var(--gold); padding: 24px 28px; background: var(--ivory); }
+.formules { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.formules .formule { padding: 22px 24px; }
+.formules .formule-prix { font-size: 2.3rem; }
+.formules .formule-list { grid-template-columns: 1fr; }
+.formules-note { margin: 14px 0 0; font-size: .9rem; color: var(--muted); }
 .formule-prix { margin: 0 0 14px; font: 400 2.75rem/1.1 var(--serif); color: var(--gold-text); }
 .formule-prix span { display: block; margin-bottom: 8px; font: 500 .875rem var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .formule-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; }

@@ -136,7 +136,7 @@ window.FREYAGE = {
         { nom: "Maquillage sophistiqué", duree: 90, prix: "85 €" },
         { nom: "Maquillage invitée", duree: 60, prix: "75 €" },
         { nom: "Maquillage shooting photo", duree: 90, prix: "95 €" },
-        { nom: "Maquillage mariée + essai", duree: 90, prix: "Dès 480 €", lien: "mariage.html" }
+        { nom: "Maquillage mariée + essai", duree: 90, prix: "200 € ou 480 €", lien: "mariage.html" }
       ]
     },
     {

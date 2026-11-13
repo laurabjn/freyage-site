@@ -117,7 +117,7 @@ for (const [fichier, rendus] of Object.entries(pages)) {
     "index.html": { "@context": "https://schema.org", "@graph": Object.keys(C.lieux).map(etablissement) },
     "soins-visage-bruges.html": Object.assign({ "@context": "https://schema.org" }, pageService("bruges", "Soins du visage", cat("soins").description, cat("soins").items), { url: SITE + "soins-visage-bruges.html" }),
     "plasma-froid.html": Object.assign({ "@context": "https://schema.org" }, pageService("bruges", "Plasma froid", cat("plasma-froid").description, cat("plasma-froid").items), { url: SITE + "plasma-froid.html" }),
-    "mariage.html": Object.assign({ "@context": "https://schema.org" }, pageService("merignac", "Maquillage de mariée", "Formule Mariée : maquillage de la mariée et de ses accompagnantes, essai compris.", mariee), { url: SITE + "mariage.html" })
+    "mariage.html": Object.assign({ "@context": "https://schema.org" }, pageService("merignac", "Maquillage de mariée", "Formule Mariée (mariée seule, 200 €) ou Formule Mariée & cortège (mariée et 4 accompagnantes, 480 €), essai et jour J compris.", mariee), { url: SITE + "mariage.html" })
   };
   for (const [fichier, donnees] of Object.entries(jsonld)) {
     let html = lire(fichier);
