@@ -46,7 +46,7 @@ legend:focus, h3:focus { outline: none; }
 .site-header nav a:hover { border-bottom-color: var(--gold-text); }
 .site-header nav a { white-space: nowrap; }
 .menu-bouton, .nav-rdv { display: none; }
-@media (max-width: 1140px) {
+@media (max-width: 1240px) {
   /* Avec JavaScript : un bouton Menu ouvre les liens sous l'en-tête. */
   .js .menu-bouton { display: inline-flex; align-items: center; gap: 8px; order: 3; min-height: 44px; padding: 8px 12px; background: none; border: 1px solid var(--forest); border-radius: 2px; color: var(--forest); font: 500 .95rem var(--sans); cursor: pointer; }
   .js .menu-bouton svg { width: 20px; height: 20px; }
