@@ -121,10 +121,16 @@
     }
   }
 
+  // Sans lieu fixe (ongles), l'adresse est donnée à la confirmation.
+  function lieuDe(cat) {
+    return C.lieux[cat.lieu] || { ville: "", adresse: "communiquée à la confirmation" };
+  }
+
   var services = [];
   C.prestations.forEach(function (cat) {
     cat.items.forEach(function (it) {
-      if (!it.lien) services.push({ nom: it.nom, duree: it.duree, prix: it.prix, acompte: it.acompte, categorie: cat.categorie, categorieId: cat.id, lieu: C.lieux[cat.lieu] });
+      if (!it.lien) services.push({ nom: it.nom, duree: it.duree, prix: it.prix, acompte: it.acompte, categorie: cat.categorie, categorieId: cat.id, lieu: lieuDe(cat),
+        supplements: it.sansSupplement ? [] : cat.supplements || [] });
     });
   });
 
@@ -140,13 +146,39 @@
       var prix = o ? (reduit !== null ? "<s>" + esc(it.prix) + "</s> " + reduit + " €" : esc(it.prix)) + ' <span class="offre-badge">−' + o.remise + " %</span>" : esc(it.prix);
       return '<label class="service-option"><input type="radio" name="prestation" value="' + i + '"><span class="service-name">' + esc(it.nom.replace(cat.categorie + " : ", "")) + '</span><span class="service-meta">' + fmtDuree(it.duree) + " · " + prix + "</span></label>";
     }).join("");
-    var titre = "<h4>" + esc(cat.categorie) + " · à " + esc(C.lieux[cat.lieu].ville) + "</h4>";
+    var titre = "<h4>" + esc(cat.categorie) + (lieuDe(cat).ville ? " · à " + esc(lieuDe(cat).ville) : "") + "</h4>";
     return '<details class="service-group service-plie"><summary>' + titre + "</summary>" + options + "</details>";
   }).join("");
 
 
+  // Suppléments (ongles) : cases à cocher sous la liste, pour la prestation choisie.
+  var boiteSupp = document.createElement("div");
+  boiteSupp.id = "supplements";
+  boiteSupp.className = "supplements";
+  boiteSupp.hidden = true;
+  $("#service-options").parentNode.insertBefore(boiteSupp, $("#service-options").nextSibling);
+
   // ---- Booking state
-  var state = { step: 1, service: null, jours: [], reglement: null }; // jours : { date, moment }, 2 au maximum
+  var state = { step: 1, service: null, jours: [], reglement: null, supplements: [] }; // jours : { date, moment }, 2 au maximum
+
+  // Durée de la prestation choisie, suppléments compris.
+  function dureeChoisie() {
+    if (state.service === null) return 30;
+    var s = services[state.service];
+    return s.duree + state.supplements.reduce(function (t, i) { return t + (s.supplements[i].duree || 0); }, 0);
+  }
+  function suppChoisis() {
+    var s = services[state.service];
+    return state.supplements.map(function (i) { return s.supplements[i]; });
+  }
+  function renderSupplements() {
+    var s = state.service !== null ? services[state.service] : null;
+    var liste = s ? s.supplements : [];
+    boiteSupp.hidden = !liste.length;
+    boiteSupp.innerHTML = liste.length ? '<p class="supplements-titre">Envie d\'une finition ? <small>Facultatif</small></p>' + liste.map(function (x, i) {
+      return '<label class="service-option"><input type="checkbox" name="supplement" value="' + i + '"' + (state.supplements.indexOf(i) !== -1 ? " checked" : "") + '><span class="service-name">' + esc(x.nom) + '</span><span class="service-meta">' + esc(x.prix) + (x.duree ? " · +" + fmtDuree(x.duree) : "") + "</span></label>";
+    }).join("") : "";
+  }
   var MAX_JOURS = 2;
   var form = $("#booking-form");
   var captcha = window.FreyCaptcha && FreyCaptcha.monter($("#captcha-rdv"), "dark");
@@ -239,7 +271,7 @@
 
     var offset = (new Date(y, mo, 1).getDay() + 6) % 7; // Monday first
     var total = new Date(y, mo + 1, 0).getDate();
-    var duree = state.service !== null ? services[state.service].duree : 30;
+    var duree = dureeChoisie();
     var html = "";
     for (var i = 0; i < offset; i++) html += "<span></span>";
     for (var day = 1; day <= total; day++) {
@@ -262,7 +294,7 @@
   // Retire les jours et les moments devenus indisponibles depuis leur choix (agenda mis à jour).
   function verifierJours() {
     if (state.service === null) return;
-    var duree = services[state.service].duree;
+    var duree = dureeChoisie();
     state.jours = state.jours.filter(function (j) {
       var list = momentsFor(j.date, duree);
       if (j.moment && !list.some(function (m) { return m.cle === j.moment.cle; })) j.moment = null;
@@ -280,7 +312,7 @@
       var jour = j.date.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
       jour = jour.charAt(0).toUpperCase() + jour.slice(1);
       return '<div class="jour-choix"><div class="jour-titre"><strong>' + esc(jour) + '</strong><button type="button" class="jour-retirer" data-retirer="' + i + '" aria-label="Retirer : ' + esc(jour) + '">Retirer</button></div>' +
-        momentsFor(j.date, services[state.service].duree).map(function (m) {
+        momentsFor(j.date, dureeChoisie()).map(function (m) {
           var sel = !!j.moment && m.cle === j.moment.cle;
           return '<button type="button" class="slot' + (sel ? " is-selected" : "") + '" data-jour="' + i + '" data-moment="' + m.cle + '" aria-pressed="' + sel + '">' + esc(m.libelle) + "</button>";
         }).join("") + "</div>";
@@ -348,9 +380,9 @@
 
   function renderRecap() {
     var s = state.service !== null ? services[state.service] : null;
-    $("#recap-service").textContent = s ? s.nom : "–";
-    $("#recap-duree").textContent = s ? fmtDuree(s.duree) : "–";
-    $("#recap-lieu").textContent = s ? s.lieu.adresse : "–";
+    $("#recap-duree").textContent = s ? fmtDuree(dureeChoisie()) : "–";
+    $("#recap-lieu").textContent = s ? s.lieu.adresse.charAt(0).toUpperCase() + s.lieu.adresse.slice(1) : "–";
+    $("#recap-service").textContent = s ? s.nom + suppChoisis().map(function (x) { return " + " + x.nom; }).join("") : "–";
     var o = s ? offreDe(s) : null, possible = s ? offrePossible(s) : null;
     var reduit = o ? FreyOffres.prixReduit(s.prix, o.remise) : null;
     $("#recap-prix").innerHTML = !s ? "–" : o
@@ -388,8 +420,9 @@
   }
 
   function selectService(i) {
-    if (state.service !== i) { state.jours = []; state.reglement = null; }
+    if (state.service !== i) { state.jours = []; state.reglement = null; state.supplements = []; }
     state.service = i;
+    renderSupplements();
     var radio = $('input[name="prestation"][value="' + i + '"]');
     if (radio) {
       radio.checked = true;
@@ -431,6 +464,10 @@
   // ---- Events
   $("#service-options").addEventListener("change", function (e) {
     if (e.target.name === "prestation") selectService(+e.target.value);
+  });
+  boiteSupp.addEventListener("change", function (e) {
+    state.supplements = $$('input[name="supplement"]:checked', boiteSupp).map(function (c) { return +c.value; });
+    verifierJours(); renderRecap();
   });
   $("#reglement-options").addEventListener("change", function (e) {
     state.reglement = e.target.value;
@@ -474,7 +511,7 @@
       renderCalendar();
     } else {
       var j = state.jours[+b.dataset.jour];
-      j.moment = momentsFor(j.date, services[state.service].duree).filter(function (m) { return m.cle === b.dataset.moment; })[0];
+      j.moment = momentsFor(j.date, dureeChoisie()).filter(function (m) { return m.cle === b.dataset.moment; })[0];
     }
     renderSlots(); renderRecap();
   });
@@ -486,7 +523,7 @@
     var req = {
       prestation: s.nom,
       lieu: s.lieu.adresse,
-      duree: fmtDuree(s.duree),
+      duree: fmtDuree(dureeChoisie()),
       tarif: s.prix + (offreDe(s) ? " → " + (prixFixe(s) ? fmtEuros(prixDe(s)) : "−" + offreDe(s).remise + " % sur le prix fixé") + " (" + offreDe(s).nom + ")" : ""),
       reglement: choix.court + code,
       nom: f.nom.value.trim(),
@@ -494,6 +531,7 @@
       email: f.email.value.trim(),
       message: f.message.value.trim()
     };
+    if (state.supplements.length) req.supplements = suppChoisis().map(function (x) { return x.nom + " (" + x.prix + ")"; }).join(", ");
     // Un champ par souhait dans l'e-mail reçu, ex. souhait1 : « mardi 10 novembre 2026 : Le matin (9 h – 12 h 30) ».
     state.jours.forEach(function (j, i) {
       req["souhait" + (i + 1)] = fmtDate(j.date) + " : " + j.moment.libelle;
@@ -542,6 +580,7 @@
     if (!C.rdv.endpoint) {
       var body = "Bonjour,\n\nJe souhaite demander un rendez-vous :\n\n" +
         "Prestation : " + req.prestation + " (" + req.duree + ", " + req.tarif + ")\n" +
+        (req.supplements ? "Suppléments : " + req.supplements + "\n" : "") +
         "Lieu : " + req.lieu + "\n" +
         "Règlement : " + req.reglement + "\n" +
         "Souhait : " + quand + "\n\nNom : " + req.nom + "\nTéléphone : " + req.telephone + "\nE-mail : " + req.email +
@@ -587,6 +626,7 @@
   $("#restart").addEventListener("click", function () {
     form.reset();
     state.service = state.reglement = null;
+    state.supplements = []; renderSupplements();
     state.jours = [];
     afficherCodeCadeau();
     renderRecap();
@@ -598,7 +638,7 @@
   var iDemandee = services.map(function (s) { return s.nom; }).indexOf(demandee);
   if (iDemandee !== -1) {
     selectService(iDemandee);
-    goTo(2, false);
+    goTo(services[iDemandee].supplements.length ? 1 : 2, false); // suppléments : rester sur le choix pour les proposer
   } else {
     goTo(1, false);
   }

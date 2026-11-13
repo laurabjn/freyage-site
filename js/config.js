@@ -218,8 +218,34 @@ window.FREYAGE = {
       id: "ongles",
       categorie: "Ongles",
       description: "Des mains soignées, jusqu'au bout des ongles.",
-      items: [],
-      note: "Bientôt disponible. L'adresse sera indiquée à la réservation."
+      // ouvert: false garde « Bientôt disponible » ; la carte ci-dessous est prête, visible en aperçu avec ?apercu=ongles.
+      // Pour ouvrir : supprimez la ligne « ouvert: false », puis lancez node _outils/generer-html.js.
+      ouvert: false,
+      note: "Bientôt disponible. L'adresse sera indiquée à la réservation.",
+      mention: "L'adresse vous est indiquée à la confirmation du rendez-vous.",
+      items: [
+        { nom: "Mains : manucure + vernis classique", duree: 40, prix: "35 €" },
+        { nom: "Mains : vernis semi-permanent", duree: 45, prix: "42 €" },
+        { nom: "Mains : dépose semi-permanent + manucure", duree: 45, prix: "30 €", sansSupplement: true },
+        { nom: "Mains : dépose + repose semi-permanent", duree: 75, prix: "50 €" },
+        { nom: "Mains : gainage gel sur ongle naturel", duree: 90, prix: "60 €" },
+        { nom: "Mains : remplissage gainage", duree: 90, prix: "55 €" },
+        { nom: "Mains : dépose gel + manucure", duree: 60, prix: "40 €", sansSupplement: true },
+        { nom: "Pieds : beauté des pieds + vernis classique", duree: 30, prix: "22 €" },
+        { nom: "Pieds : vernis semi-permanent", duree: 45, prix: "42 €" },
+        { nom: "Pieds : dépose + repose semi-permanent", duree: 75, prix: "50 €" },
+        { nom: "Pieds : dépose + beauté des pieds", duree: 45, prix: "30 €", sansSupplement: true }
+      ],
+      // Suppléments à cocher dans le formulaire ; leur durée s'ajoute pour trouver un créneau assez long.
+      supplements: [
+        { nom: "French classique", duree: 15, prix: "+10 €" },
+        { nom: "Babyboomer", duree: 20, prix: "+15 €" },
+        { nom: "Effet chrome", duree: 10, prix: "+10 €" },
+        { nom: "Cat eye", duree: 15, prix: "+10 €" },
+        { nom: "Nail art simple", duree: 5, prix: "+3 € par ongle" },
+        { nom: "Nail art élaboré", duree: 15, prix: "+5 € par ongle" },
+        { nom: "Nail art prestige", duree: 30, prix: "dès 8 € par ongle, selon la création" }
+      ]
     },
     {
       id: "press-on",
@@ -256,3 +282,13 @@ window.FREYAGE = {
     { nom: "naturel-4", categorie: "Naturel", alt: "Regard doré souligné de longs cils et lèvres nude, de face" }
   ]
 };
+
+// Catégories pas encore ouvertes (ouvert: false) : carte prête mais cachée, sauf en aperçu (ex. ?apercu=ongles).
+(function (C) {
+  var q = typeof location !== "undefined" ? /[?&]apercu=([\w-]+)/.exec(location.search) : null;
+  C.prestations.forEach(function (cat) {
+    if (cat.ouvert !== false) return;
+    if (q && q[1] === cat.id) { cat.apercu = true; return; }
+    cat.items = []; cat.supplements = []; cat.mention = "";
+  });
+})(window.FREYAGE);

@@ -22,16 +22,24 @@
     return '<a class="filtre" href="#' + esc(cat.id) + '">' + esc(cat.categorie) + "</a>";
   }).join("");
 
+  // Suppléments de la catégorie (ongles), à ajouter dans le formulaire de demande.
+  function supplements(cat) {
+    if (!cat.supplements || !cat.supplements.length) return "";
+    return '<h3 class="carte-sous-titre">Suppléments</h3><ul class="carte-list carte-supplements">' + cat.supplements.map(function (x) {
+      return '<li><span class="carte-nom">' + esc(x.nom) + '</span><span class="carte-duree">' + (x.duree ? "+" + fmtDuree(x.duree) : "") + '</span><span class="carte-prix">' + esc(x.prix) + "</span></li>";
+    }).join("") + "</ul>";
+  }
+
   carte.innerHTML = categories.map(function (cat) {
     var liste = cat.items.length ? '<ul class="carte-list">' + cat.items.map(function (it) {
       var attrs = it.lien
         ? 'href="' + esc(it.lien) + '"'
-        : 'href="index.html?prestation=' + esc(encodeURIComponent(it.nom)) + '#rdv" aria-label="Demander : ' + esc(it.nom) + '"';
+        : 'href="index.html?prestation=' + esc(encodeURIComponent(it.nom)) + (cat.apercu ? "&amp;apercu=" + esc(cat.id) : "") + '#rdv" aria-label="Demander : ' + esc(it.nom) + '"';
       var o = !it.lien && window.FreyOffres ? FreyOffres.pour(it.nom, cat.id, []) : null;
       var reduit = o ? FreyOffres.prixReduit(it.prix, o.remise) : null;
       var prix = o ? (reduit !== null ? "<s>" + esc(it.prix) + "</s> " + reduit + " €" : esc(it.prix)) + '<small class="offre-badge" title="' + esc(o.nom + " : " + FreyOffres.condition(o)) + '">−' + o.remise + " % · " + esc(o.nom) + "</small>" : esc(it.prix);
       return "<li><a " + attrs + '><span class="carte-nom">' + esc(it.nom.replace(cat.categorie + " : ", "")) + (it.description ? "<small>" + esc(it.description) + "</small>" : "") + '</span><span class="carte-duree">' + fmtDuree(it.duree) + '</span><span class="carte-prix">' + prix + "</span></a></li>";
-    }).join("") + "</ul>" : '<p class="carte-note">' + esc(cat.note || "") + (cat.noteLien ? ' <a href="' + esc(cat.noteLien.href) + '">' + esc(cat.noteLien.texte) + "</a>" : "") + "</p>";
+    }).join("") + "</ul>" + supplements(cat) : '<p class="carte-note">' + esc(cat.note || "") + (cat.noteLien ? ' <a href="' + esc(cat.noteLien.href) + '">' + esc(cat.noteLien.texte) + "</a>" : "") + "</p>";
     return '<article class="carte-cat" id="' + esc(cat.id) + '"><div class="carte-intro"><h2 class="carte-titre">' + esc(cat.categorie) + "</h2>" +
       (cat.lieu ? '<p class="carte-lieu"><a href="acces.html">À ' + esc(C.lieux[cat.lieu].ville) + "</a></p>" : "") +
       "<p>" + esc(cat.description) + "</p>" + (cat.mention ? '<p class="carte-mention">' + esc(cat.mention) + "</p>" : "") + (cat.page && !seule ? '<p class="carte-plus"><a href="' + esc(cat.page) + '">En savoir plus</a></p>' : "") + "</div>" + liste + "</article>";
