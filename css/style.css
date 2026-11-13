@@ -198,6 +198,9 @@ legend:focus, h3:focus { outline: none; }
 .portfolio-cta { margin: 36px 0 0; text-align: center; }
 .portfolio-lien { margin: 24px 0 0; font-weight: 500; text-underline-offset: 4px; }
 .filtres { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.filtres[hidden] { display: none; }
+#filtres:not([hidden]) + .filtres-styles { margin-top: -12px; }
+.filtres-styles .filtre { padding: 6px 13px; font-size: .875rem; }
 .filtre { padding: 8px 16px; background: none; border: 1px solid var(--muted); border-radius: 2px; color: var(--ink); font: 500 .95rem var(--sans); cursor: pointer; }
 .filtre:hover { border-color: var(--forest); background: var(--sand); }
 .filtre[aria-pressed="true"] { background: var(--forest); border-color: var(--forest); color: var(--ivory); }

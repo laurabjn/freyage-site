@@ -259,6 +259,8 @@ window.FREYAGE = {
   ],
 
   // Portfolio : fichiers dans assets/portfolio (nom.jpg et nom-mini.jpg).
+  // domaine : « Maquillage » si absent ; sinon par exemple « Ongles », « Press-on » ou « Plasma froid ».
+  // categorie : le style à l'intérieur du domaine (Mariée, Soirée, Avant / Après…).
   realisations: [
     { nom: "mariee-1", categorie: "Mariée", alt: "Maquillage de mariée lumineux avec trait d'eye-liner, diadème et collier en cristal" },
     { nom: "soiree-1", categorie: "Soirée", alt: "Smoky eyes marron et lèvres nude, de trois quarts" },

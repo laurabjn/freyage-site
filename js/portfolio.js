@@ -1,4 +1,4 @@
-// Portfolio : filtres par style et affichage en grand.
+// Portfolio : filtres par domaine (maquillage, ongles…) puis par style, et affichage en grand.
 (function () {
   "use strict";
   var photos = window.FREYAGE.realisations || [];
@@ -10,10 +10,24 @@
     });
   };
 
-  var cats = photos.map(function (p) { return p.categorie; }).filter(function (c, i, a) { return a.indexOf(c) === i; });
-  $("#filtres").innerHTML = ["Tout"].concat(cats).map(function (c, i) {
-    return '<button type="button" class="filtre" data-cat="' + esc(c) + '" aria-pressed="' + (i === 0) + '">' + esc(c) + "</button>";
-  }).join("");
+  var uniques = function (a) { return a.filter(function (c, i) { return a.indexOf(c) === i; }); };
+  var domaineDe = function (p) { return p.domaine || "Maquillage"; };
+  var domaines = uniques(photos.map(domaineDe));
+  var boutons = function (liste, attr) {
+    return ["Tout"].concat(liste).map(function (c, i) {
+      return '<button type="button" class="filtre" ' + attr + '="' + esc(c) + '" aria-pressed="' + (i === 0) + '">' + esc(c) + "</button>";
+    }).join("");
+  };
+  // Un seul domaine : les styles suffisent, sur une seule ligne comme avant.
+  var plusieurs = domaines.length > 1;
+  if (plusieurs) $("#filtres").innerHTML = boutons(domaines, "data-domaine");
+  else $("#filtres").hidden = true;
+  function afficherStyles() {
+    var styles = uniques(photos.filter(function (p) { return domaine === "Tout" || domaineDe(p) === domaine; }).map(function (p) { return p.categorie; }));
+    var box = $("#styles");
+    box.hidden = domaine === "Tout" && plusieurs || styles.length < 2;
+    box.innerHTML = box.hidden ? "" : boutons(styles, "data-cat");
+  }
 
   // Les miniatures font 600 px de large ; les originaux carrés (largeur 1200) font 600 px de haut, les autres 800.
   $("#galerie").innerHTML = photos.map(function (p, i) {
@@ -27,13 +41,14 @@
   var pagination = $("#pagination");
   var PAR_PAGE = 9;
   var courant = 0;
+  var domaine = "Tout";
   var filtre = "Tout";
   var page = 0;
 
   // Toutes les photos du filtre choisi, quelle que soit la page.
   function selection() {
     return photos.map(function (p, i) { return i; }).filter(function (i) {
-      return filtre === "Tout" || photos[i].categorie === filtre;
+      return (domaine === "Tout" || domaineDe(photos[i]) === domaine) && (filtre === "Tout" || photos[i].categorie === filtre);
     });
   }
   function afficherPage(n) {
@@ -64,6 +79,15 @@
   }
 
   $("#filtres").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-domaine]");
+    if (!b) return;
+    $$("[data-domaine]").forEach(function (f) { f.setAttribute("aria-pressed", String(f === b)); });
+    domaine = b.dataset.domaine;
+    filtre = "Tout";
+    afficherStyles();
+    afficherPage(0);
+  });
+  $("#styles").addEventListener("click", function (e) {
     var b = e.target.closest("[data-cat]");
     if (!b) return;
     $$("[data-cat]").forEach(function (f) { f.setAttribute("aria-pressed", String(f === b)); });
@@ -74,7 +98,7 @@
     var b = e.target.closest("[data-page]");
     if (!b || b.disabled) return;
     afficherPage(+b.dataset.page);
-    $("#filtres").scrollIntoView();
+    ($("#filtres").hidden ? $("#styles") : $("#filtres")).scrollIntoView();
     var numero = pagination.querySelector('[aria-current="page"]');
     if (numero) numero.focus({ preventScroll: true });
   });
@@ -98,5 +122,6 @@
     if (e.key === "ArrowRight") decaler(1);
   });
 
+  afficherStyles();
   afficherPage(0);
 })();
