@@ -46,7 +46,7 @@ legend:focus, h3:focus { outline: none; }
 .site-header nav a:hover { border-bottom-color: var(--gold-text); }
 .site-header nav a { white-space: nowrap; }
 .menu-bouton, .nav-rdv { display: none; }
-@media (max-width: 1240px) {
+@media (max-width: 1080px) {
   /* Avec JavaScript : un bouton Menu ouvre les liens sous l'en-tête. */
   .js .menu-bouton { display: inline-flex; align-items: center; gap: 8px; order: 3; min-height: 44px; padding: 8px 12px; background: none; border: 1px solid var(--forest); border-radius: 2px; color: var(--forest); font: 500 .95rem var(--sans); cursor: pointer; }
   .js .menu-bouton svg { width: 20px; height: 20px; }
@@ -524,5 +524,5 @@ html[data-theme="fete-des-meres"] .deco-saison.chute svg:nth-child(3n) { fill: v
 .brand .saison-icone { margin-left: -2px; align-self: flex-start; margin-top: 2px; }
 .bandeau .saison-icone { margin: 0 10px; vertical-align: -1px; fill: var(--gold); }
 @media (max-width: 700px) { .deco-saison svg:nth-child(n+11) { display: none; } }
-@media (max-width: 1240px) { .deco-saison.marges { display: none; } }
+@media (max-width: 1080px) { .deco-saison.marges { display: none; } }
 @media (prefers-reduced-motion: reduce) { .deco-saison svg { animation: none; } .deco-saison.chute, .deco-saison.monte { display: none; } }
