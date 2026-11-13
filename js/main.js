@@ -159,25 +159,37 @@
   $("#service-options").parentNode.insertBefore(boiteSupp, $("#service-options").nextSibling);
 
   // ---- Booking state
-  var state = { step: 1, service: null, jours: [], reglement: null, supplements: [] }; // jours : { date, moment }, 2 au maximum
+  var state = { step: 1, service: null, jours: [], reglement: null, supplements: [], ongles: 2 }; // jours : { date, moment }, 2 au maximum
 
   // Durée de la prestation choisie, suppléments compris.
   function dureeChoisie() {
     if (state.service === null) return 30;
     var s = services[state.service];
-    return s.duree + state.supplements.reduce(function (t, i) { return t + (s.supplements[i].duree || 0); }, 0);
+    return s.duree + state.supplements.reduce(function (t, i) { var x = s.supplements[i]; return t + (x.duree || 0) * (x.parOngle ? state.ongles : 1); }, 0);
   }
   function suppChoisis() {
     var s = services[state.service];
     return state.supplements.map(function (i) { return s.supplements[i]; });
+  }
+  // Libellé d'un supplément choisi, ex. « Nail art simple sur 4 ongles ».
+  function nomSupp(x) {
+    return x.nom + (x.parOngle ? " sur " + state.ongles + " ongle" + (state.ongles > 1 ? "s" : "") : "");
+  }
+  function afficherNbOngles() {
+    var box = $("#nb-ongles", boiteSupp);
+    if (box) box.hidden = !suppChoisis().some(function (x) { return x.parOngle; });
   }
   function renderSupplements() {
     var s = state.service !== null ? services[state.service] : null;
     var liste = s ? s.supplements : [];
     boiteSupp.hidden = !liste.length;
     boiteSupp.innerHTML = liste.length ? '<p class="supplements-titre">Envie d\'une finition ? <small>Facultatif</small></p>' + liste.map(function (x, i) {
-      return '<label class="service-option"><input type="checkbox" name="supplement" value="' + i + '"' + (state.supplements.indexOf(i) !== -1 ? " checked" : "") + '><span class="service-name">' + esc(x.nom) + '</span><span class="service-meta">' + esc(x.prix) + (x.duree ? " · +" + fmtDuree(x.duree) : "") + "</span></label>";
-    }).join("") : "";
+      return '<label class="service-option"><input type="checkbox" name="supplement" value="' + i + '"' + (state.supplements.indexOf(i) !== -1 ? " checked" : "") + '><span class="service-name">' + esc(x.nom) + '</span><span class="service-meta">' + esc(x.prix) + (x.duree ? " · +" + fmtDuree(x.duree) + (x.parOngle ? " par ongle" : "") : "") + "</span></label>";
+    }).join("") + (liste.some(function (x) { return x.parOngle; })
+      ? '<label id="nb-ongles" class="nb-ongles" hidden>Nail art sur <select name="nbOngles">' + [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(function (n) {
+          return '<option value="' + n + '"' + (n === state.ongles ? " selected" : "") + ">" + n + " ongle" + (n > 1 ? "s" : "") + "</option>";
+        }).join("") + "</select></label>" : "") : "";
+    afficherNbOngles();
   }
   var MAX_JOURS = 2;
   var form = $("#booking-form");
@@ -382,7 +394,7 @@
     var s = state.service !== null ? services[state.service] : null;
     $("#recap-duree").textContent = s ? fmtDuree(dureeChoisie()) : "–";
     $("#recap-lieu").textContent = s ? s.lieu.adresse.charAt(0).toUpperCase() + s.lieu.adresse.slice(1) : "–";
-    $("#recap-service").textContent = s ? s.nom + suppChoisis().map(function (x) { return " + " + x.nom; }).join("") : "–";
+    $("#recap-service").textContent = s ? s.nom + suppChoisis().map(function (x) { return " + " + nomSupp(x); }).join("") : "–";
     var o = s ? offreDe(s) : null, possible = s ? offrePossible(s) : null;
     var reduit = o ? FreyOffres.prixReduit(s.prix, o.remise) : null;
     $("#recap-prix").innerHTML = !s ? "–" : o
@@ -420,7 +432,7 @@
   }
 
   function selectService(i) {
-    if (state.service !== i) { state.jours = []; state.reglement = null; state.supplements = []; }
+    if (state.service !== i) { state.jours = []; state.reglement = null; state.supplements = []; state.ongles = 2; }
     state.service = i;
     renderSupplements();
     var radio = $('input[name="prestation"][value="' + i + '"]');
@@ -467,7 +479,8 @@
   });
   boiteSupp.addEventListener("change", function (e) {
     state.supplements = $$('input[name="supplement"]:checked', boiteSupp).map(function (c) { return +c.value; });
-    verifierJours(); renderRecap();
+    if (e.target.name === "nbOngles") state.ongles = +e.target.value;
+    afficherNbOngles(); verifierJours(); renderRecap();
   });
   $("#reglement-options").addEventListener("change", function (e) {
     state.reglement = e.target.value;
@@ -531,7 +544,7 @@
       email: f.email.value.trim(),
       message: f.message.value.trim()
     };
-    if (state.supplements.length) req.supplements = suppChoisis().map(function (x) { return x.nom + " (" + x.prix + ")"; }).join(", ");
+    if (state.supplements.length) req.supplements = suppChoisis().map(function (x) { return nomSupp(x) + " (" + x.prix + ")"; }).join(", ");
     // Un champ par souhait dans l'e-mail reçu, ex. souhait1 : « mardi 10 novembre 2026 : Le matin (9 h – 12 h 30) ».
     state.jours.forEach(function (j, i) {
       req["souhait" + (i + 1)] = fmtDate(j.date) + " : " + j.moment.libelle;

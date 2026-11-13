@@ -26,7 +26,7 @@
   function supplements(cat) {
     if (!cat.supplements || !cat.supplements.length) return "";
     return '<h3 class="carte-sous-titre">Suppléments</h3><ul class="carte-list carte-supplements">' + cat.supplements.map(function (x) {
-      return '<li><span class="carte-nom">' + esc(x.nom) + '</span><span class="carte-duree">' + (x.duree ? "+" + fmtDuree(x.duree) : "") + '</span><span class="carte-prix">' + esc(x.prix) + "</span></li>";
+      return '<li><span class="carte-nom">' + esc(x.nom) + '</span><span class="carte-duree">' + (x.duree ? "+" + fmtDuree(x.duree) + (x.parOngle ? " / ongle" : "") : "") + '</span><span class="carte-prix">' + esc(x.prix) + "</span></li>";
     }).join("") + "</ul>";
   }
 

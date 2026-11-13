@@ -237,14 +237,15 @@ window.FREYAGE = {
         { nom: "Pieds : dépose + beauté des pieds", duree: 45, prix: "30 €", sansSupplement: true }
       ],
       // Suppléments à cocher dans le formulaire ; leur durée s'ajoute pour trouver un créneau assez long.
+      // parOngle : durée par ongle, multipliée par le nombre d'ongles choisi (le prestige est estimé à 15 min par ongle).
       supplements: [
         { nom: "French classique", duree: 15, prix: "+10 €" },
         { nom: "Babyboomer", duree: 20, prix: "+15 €" },
         { nom: "Effet chrome", duree: 10, prix: "+10 €" },
         { nom: "Cat eye", duree: 15, prix: "+10 €" },
-        { nom: "Nail art simple", duree: 5, prix: "+3 € par ongle" },
-        { nom: "Nail art élaboré", duree: 15, prix: "+5 € par ongle" },
-        { nom: "Nail art prestige", duree: 30, prix: "dès 8 € par ongle, selon la création" }
+        { nom: "Nail art simple", duree: 5, parOngle: true, prix: "+3 € par ongle" },
+        { nom: "Nail art élaboré", duree: 15, parOngle: true, prix: "+5 € par ongle" },
+        { nom: "Nail art prestige", duree: 15, parOngle: true, prix: "dès 8 € par ongle, selon la création" }
       ]
     },
     {
