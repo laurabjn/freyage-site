@@ -534,6 +534,7 @@
     var choix = choixReglement(s)[state.reglement];
     var code = state.reglement === "cadeau" ? " (code : " + f.codeCadeau.value.trim() + ")" : "";
     var req = {
+      _subject: "FreyAge : rendez-vous, " + s.nom, // objet de l'e-mail reçu
       prestation: s.nom,
       lieu: s.lieu.adresse,
       duree: fmtDuree(dureeChoisie()),
