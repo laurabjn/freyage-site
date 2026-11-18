@@ -152,6 +152,10 @@ window.FREYAGE = {
         {
           nom: "Cours d'auto-maquillage, formule 2", duree: 150, prix: "105 €", acompte: 31.5,
           description: "Une formule plus complète pour approfondir votre routine, découvrir de nouvelles techniques et pratiquer à votre rythme."
+        },
+        {
+          nom: "Atelier maquillage EVJF", duree: 120, prix: "45 € par personne", lien: "contact.html?objet=evjf",
+          description: "Pour un enterrement de vie de jeune fille, chez vous ou dans votre location autour de Bordeaux : de 4 à 8 participantes, la future mariée offerte dès 6. Chacune apprend à se maquiller et repart prête pour la soirée."
         }
       ]
     },

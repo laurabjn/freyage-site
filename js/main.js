@@ -78,7 +78,7 @@
         // Prestations nommées, ou celles des catégories visées (au-delà de 4, la description suffit).
         var noms = o.prestations || [];
         if (!noms.length && o.categories) C.prestations.forEach(function (cat) {
-          if (o.categories.indexOf(cat.id) !== -1) cat.items.forEach(function (it) { noms.push(it.nom); });
+          if (o.categories.indexOf(cat.id) !== -1) cat.items.forEach(function (it) { if (!it.lien) noms.push(it.nom); });
         });
         if (noms.length > 4) return "";
         return noms.map(function (nom) {
