@@ -5,7 +5,7 @@
   var f = form.elements;
   var error = document.getElementById("contact-error");
   var captcha = window.FreyCaptcha && FreyCaptcha.monter(document.getElementById("captcha-contact"), "light");
-  var OBJETS = { mariee: "Devis pour un mariage", presson: "Être prévenue de l'ouverture des press-on", evjf: "Atelier maquillage EVJF", cahe: "Commander des produits CAHÉ", autre: "Autre question" };
+  var OBJETS = { mariee: "Devis pour un mariage", presson: "Commander des press-on", evjf: "Atelier maquillage EVJF", cahe: "Commander des produits CAHÉ", autre: "Autre question" };
 
   // Lien direct vers une demande, ex. contact.html?objet=mariee
   var demande = new URLSearchParams(window.location.search).get("objet");
@@ -17,7 +17,7 @@
     var hint = document.getElementById("message-hint");
     var cahe = f.objet.value === "cahe", evjf = f.objet.value === "evjf";
     hint.hidden = !mariage && f.objet.value !== "presson" && !cahe && !evjf;
-    hint.textContent = evjf ? "(date souhaitée, nombre de participantes, ville du lieu de l'atelier)" : cahe ? "(produits souhaités et lieu de retrait : Mérignac ou Bruges)" : f.objet.value === "presson" ? "(facultatif : vos envies, couleurs, occasion…)" : "(options souhaitées, heure de la cérémonie…)";
+    hint.textContent = evjf ? "(date souhaitée, nombre de participantes, ville du lieu de l'atelier)" : cahe ? "(produits souhaités et lieu de retrait : Mérignac ou Bruges)" : f.objet.value === "presson" ? "(couleurs, forme et longueur, décors, occasion, retrait à Mérignac ou Bruges ou envoi)" : "(options souhaitées, heure de la cérémonie…)";
   }
   f.objet.addEventListener("change", syncObjet);
   syncObjet();
@@ -33,7 +33,7 @@
       [f.telephone, f.telephone.value.replace(/\D/g, "").length < 10, "Veuillez indiquer un numéro de téléphone valide."],
       [f.email, !f.email.value || !f.email.checkValidity(), "Veuillez indiquer une adresse e-mail valide."],
       [f.dateMariage, mariage && (!f.dateMariage.value || !f.dateMariage.checkValidity()), "Veuillez indiquer une date de mariage à venir."],
-      [f.message, !mariage && f.objet.value !== "presson" && !f.message.value.trim(), "Veuillez écrire votre message."]
+      [f.message, !mariage && !f.message.value.trim(), f.objet.value === "presson" ? "Veuillez décrire votre projet de press-on." : "Veuillez écrire votre message."]
     ];
     var bad = checks.filter(function (c) { return c[1]; })[0];
     error.textContent = bad ? bad[2] : "";
@@ -105,7 +105,7 @@
       body: JSON.stringify(req)
     }).then(function (r) {
       if (!r.ok) throw new Error("HTTP " + r.status);
-      showDone("Votre demande est bien envoyée", f.objet.value === "presson" ? "Merci ! Je vous préviens dès l'ouverture des press-on." : f.objet.value === "cahe" ? "Merci ! Je prépare vos produits et je vous préviens dès qu'ils sont prêts. Vous réglerez sur place, au retrait." : f.objet.value === "evjf" ? "Merci ! Je vous réponds rapidement pour confirmer la date et vous envoyer le devis de l'atelier." : "Je vous réponds par téléphone ou par e-mail.");
+      showDone("Votre demande est bien envoyée", f.objet.value === "presson" ? "Merci ! Je vous réponds rapidement avec le niveau, le prix et le délai de vos press-on. Vous pourrez m'envoyer vos photos d'inspiration en réponse à mon e-mail." : f.objet.value === "cahe" ? "Merci ! Je prépare vos produits et je vous préviens dès qu'ils sont prêts. Vous réglerez sur place, au retrait." : f.objet.value === "evjf" ? "Merci ! Je vous réponds rapidement pour confirmer la date et vous envoyer le devis de l'atelier." : "Je vous réponds par téléphone ou par e-mail.");
     }).catch(function () {
       error.textContent = "L'envoi a échoué. Réessayez, ou contactez-moi au " + C.contact.telephone + ".";
     }).finally(function () {

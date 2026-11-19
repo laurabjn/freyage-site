@@ -258,8 +258,8 @@ window.FREYAGE = {
       description: "Des press-on faits main et sur mesure, à poser vous-même.",
       items: [],
       page: "press-on.html",
-      note: "Bientôt disponible.",
-      noteLien: { texte: "Être prévenue de l'ouverture", href: "contact.html?objet=presson" }
+      note: "Sur mesure, de 45 € à 95 €, kit de pose inclus.",
+      noteLien: { texte: "Décrire mon projet", href: "contact.html?objet=presson" }
     }
   ],
 
