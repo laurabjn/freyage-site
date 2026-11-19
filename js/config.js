@@ -129,7 +129,7 @@ window.FREYAGE = {
       id: "maquillage",
       categorie: "Maquillage",
       lieu: "merignac",
-      description: "Une prestation personnalisée selon vos envies, votre style et l'occasion : événement, soirée, cérémonie, séance photo ou autre projet.",
+      description: "Une prestation personnalisée selon vos envies, votre style et l'occasion : événement, soirée, cérémonie, séance photo ou autre projet. Pour toutes les carnations, des peaux claires aux peaux noires.",
       items: [
         { nom: "Maquillage jour", duree: 45, prix: "55 €" },
         { nom: "Maquillage soir", duree: 60, prix: "70 €" },

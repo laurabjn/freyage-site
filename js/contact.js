@@ -17,7 +17,7 @@
     var hint = document.getElementById("message-hint");
     var cahe = f.objet.value === "cahe", evjf = f.objet.value === "evjf";
     hint.hidden = !mariage && f.objet.value !== "presson" && !cahe && !evjf;
-    hint.textContent = evjf ? "(date souhaitée, nombre de participantes, ville du lieu de l'atelier)" : cahe ? "(produits souhaités et lieu de retrait : Mérignac ou Bruges)" : f.objet.value === "presson" ? "(couleurs, forme et longueur, décors, occasion, retrait à Mérignac ou Bruges ou envoi)" : "(options souhaitées, heure de la cérémonie…)";
+    hint.textContent = evjf ? "(date souhaitée, nombre de participantes, ville du lieu de l'atelier)" : cahe ? "(produits souhaités et lieu de retrait : Mérignac ou Bruges)" : f.objet.value === "presson" ? "(couleurs, forme et longueur, décors, occasion, retrait à Mérignac ou Bruges ou envoi)" : "(options souhaitées, heure de la cérémonie, nombre de tenues pour un mariage oriental…)";
   }
   f.objet.addEventListener("change", syncObjet);
   syncObjet();
