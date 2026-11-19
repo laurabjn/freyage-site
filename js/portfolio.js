@@ -45,6 +45,36 @@
   var filtre = "Tout";
   var page = 0;
 
+  // Galerie en colonnes remplies ligne par ligne : chaque photo visible va dans la colonne
+  // la moins haute, de gauche à droite. Les colonnes restent équilibrées, sans trou à droite.
+  var galerie = $("#galerie");
+  var nbActuel = 0;
+  function nbColonnes() {
+    if (window.matchMedia("(max-width: 640px)").matches) return 2;
+    return Math.max(1, Math.min(3, Math.floor((galerie.clientWidth + 12) / 272)));
+  }
+  function ranger() {
+    var actif = document.activeElement;
+    var cols = [], hauteurs = [];
+    nbActuel = nbColonnes();
+    for (var c = 0; c < nbActuel; c++) {
+      var col = document.createElement("div");
+      col.className = "galerie-col";
+      cols.push(col);
+      hauteurs.push(0);
+    }
+    boxes.forEach(function (b) {
+      if (b.hidden) { cols[0].appendChild(b); return; }
+      var k = hauteurs.indexOf(Math.min.apply(null, hauteurs));
+      cols[k].appendChild(b);
+      hauteurs[k] += photos[+b.dataset.i].largeur === 1200 ? 1 : 4 / 3;
+    });
+    galerie.innerHTML = "";
+    cols.forEach(function (col) { galerie.appendChild(col); });
+    if (actif && boxes.indexOf(actif) !== -1 && !actif.hidden) actif.focus({ preventScroll: true });
+  }
+  window.addEventListener("resize", function () { if (nbColonnes() !== nbActuel) ranger(); });
+
   // Toutes les photos du filtre choisi, quelle que soit la page.
   function selection() {
     return photos.map(function (p, i) { return i; }).filter(function (i) {
@@ -57,6 +87,7 @@
     page = n;
     var surPage = s.slice(page * PAR_PAGE, (page + 1) * PAR_PAGE);
     boxes.forEach(function (b) { b.hidden = surPage.indexOf(+b.dataset.i) === -1; });
+    ranger();
 
     if (total < 2) { pagination.innerHTML = ""; return; }
     var html = '<button type="button" class="filtre" data-page="' + (page - 1) + '"' + (page === 0 ? " disabled" : "") + ">Précédent</button>";
