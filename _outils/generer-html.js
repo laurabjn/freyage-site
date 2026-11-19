@@ -33,7 +33,8 @@ const pages = {
   "acces.html": [COORDONNEES],
   "prestations.html": [["js/prestations.js", ["categories", "carte"]]],
   "plasma-froid.html": [["js/prestations.js", ["carte"], { categorie: "plasma-froid" }]],
-  "soins-visage-bruges.html": [["js/prestations.js", ["carte"], { categorie: "soins" }]]
+  "soins-visage-bruges.html": [["js/prestations.js", ["carte"], { categorie: "soins" }]],
+  "maquillage-toutes-carnations.html": [["js/prestations.js", ["carte"], { categorie: "maquillage" }]]
 };
 
 for (const [fichier, rendus] of Object.entries(pages)) {
@@ -117,7 +118,9 @@ for (const [fichier, rendus] of Object.entries(pages)) {
     "index.html": { "@context": "https://schema.org", "@graph": Object.keys(C.lieux).map(etablissement) },
     "soins-visage-bruges.html": Object.assign({ "@context": "https://schema.org" }, pageService("bruges", "Soins du visage", cat("soins").description, cat("soins").items), { url: SITE + "soins-visage-bruges.html" }),
     "plasma-froid.html": Object.assign({ "@context": "https://schema.org" }, pageService("bruges", "Plasma froid", cat("plasma-froid").description, cat("plasma-froid").items), { url: SITE + "plasma-froid.html" }),
-    "mariage.html": Object.assign({ "@context": "https://schema.org" }, pageService("merignac", "Maquillage de mariée", "Formule Mariée (mariée seule, 200 €) ou Formule Mariée & cortège (mariée et 4 accompagnantes, 480 €), essai et jour J compris.", mariee), { url: SITE + "mariage.html" })
+    "mariage.html": Object.assign({ "@context": "https://schema.org" }, pageService("merignac", "Maquillage de mariée", "Formule Mariée (mariée seule, 200 €) ou Formule Mariée & cortège (mariée et 4 accompagnantes, 480 €), essai et jour J compris.", mariee), { url: SITE + "mariage.html" }),
+    "maquillage-toutes-carnations.html": Object.assign({ "@context": "https://schema.org" }, pageService("merignac", "Maquillage pour toutes les carnations", "Maquillage pour peaux noires, métissées, mates et asiatiques à Mérignac, près de Bordeaux : fond de teint adapté à la teinte et au sous-ton, technique adaptée à la forme des yeux.", cat("maquillage").items), { url: SITE + "maquillage-toutes-carnations.html" }),
+    "mariage-oriental.html": Object.assign({ "@context": "https://schema.org" }, pageService("merignac", "Maquillage de mariage oriental", "Maquillage de mariée orientale à Mérignac et autour de Bordeaux : soirée du henné, mariage marocain, algérien, tunisien ou mixte, un maquillage pour chaque tenue, sur devis.", mariee), { url: SITE + "mariage-oriental.html" })
   };
   for (const [fichier, donnees] of Object.entries(jsonld)) {
     let html = lire(fichier);
